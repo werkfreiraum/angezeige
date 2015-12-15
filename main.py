@@ -21,11 +21,26 @@ sign["7"] = [0,1,2]
 sign["8"] = range(7)
 sign["9"] = [0,1,2,3,5,6]
 # ELSE
-sign["U"] = [1,2,3,4,5,6]
+sign["A"] = [0,1,2,4,5,6]
+sign["b"] = [2,3,4,5,6]
+sign["C"] = [0,3,4,5]
+sign["c"] = [3,4,6]
+sign["d"] = [1,2,3,4,6]
 sign["E"] = [0,3,4,5,6]
+sign["F"] = [0,4,5,6]
+sign["G"] = [0,2,3,4,5]
+sign["U"] = [1,2,3,4,5,6]
+
 sign["o"] = [2,3,4,6]
 sign["h"] = [2,4,5,6]
 sign["S"] = sign["5"]
+sign["L"] = [3,4,5]
+sign["_"] = [3]
+sign["-"] = [6]
+sign["H"] = [1,2,4,5,6]
+
+
+
 
 points = {}
 points[0] = []
@@ -67,7 +82,7 @@ def write(string, delimiter=0, color = "white"):
 
     if isinstance(color, basestring):
         a = name_to_rgb(color)
-        color = "".join(["/x%02x" % c for c in a])
+        color = bytearray(chr(a[2]) + chr(a[1]) + chr(a[0]))
 
     off = bytearray(b'\x00\x00\x00')
     writeString = ''
