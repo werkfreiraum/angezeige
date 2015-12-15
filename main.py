@@ -57,9 +57,9 @@ def write(string):
     writeString = ''
     for i in range(30):
         if i in temp:
-            writeArray += color
+            writeString += color
         else:
-            writeArray += off
+            writeString += off
     spidev.write(writeString)
     spidev.flush()
 
