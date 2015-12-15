@@ -65,7 +65,7 @@ def write(string, delimiter=0, color = "white"):
     for i in points[delimiter]:
         temp += point[i]
 
-    if color isinstance(o, basestring):
+    if isinstance(color, basestring):
         a = name_to_rgb(color)
         color = "".join(["/x%02x" % c for c in a])
 
