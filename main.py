@@ -54,13 +54,13 @@ def write(string):
         temp += get_leds(c, i)
     color = bytearray(b'\xff\xff\xff')
     off = bytearray(b'\x00\x00\x00')
-    writeArray = []
+    writeString = ''
     for i in range(30):
         if i in temp:
-            writeArray.append(color)
+            writeArray += color
         else:
-            writeArray.append(off)
-    spidev.write(writeArray)
+            writeArray += off
+    spidev.write(writeString)
     spidev.flush()
 
 
