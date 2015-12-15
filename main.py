@@ -1,4 +1,6 @@
 #!/bin/python2
+import webcolors as wc
+
 spidevBuffer = "/dev/spidev0.0"
 
 #  00
@@ -25,6 +27,12 @@ sign["o"] = [2,3,4,6]
 sign["h"] = [2,4,5,6]
 sign["S"] = sign["5"]
 
+points = {}
+points[0] = []
+points[1] = [0]
+points[2] = [1]
+points[3] = [0,1]
+
 spidev = open(spidevBuffer,"wb")
 
 digit = {} 
@@ -33,6 +41,8 @@ digit[1] = [ 7, 8, 9,10,11,12,13]
 point    = [14,15]
 digit[2] = [16,17,18,19,20,21,22]
 digit[3] = [23,24,25,26,27,28,29]
+
+
 
 
 
@@ -48,11 +58,17 @@ def get_leds(ascii, position):
     else:
         raise Exception("Sign not implemented")
 
-def write(string):
+def write(string, delimiter=0, color = "white"):
     temp = []
     for i, c in enumerate(string):
         temp += get_leds(c, i)
-    color = bytearray(b'\xff\xff\xff')
+    for i in points[delimiter]:
+        temp += point[i]
+
+    if color isinstance(o, basestring):
+        a = name_to_rgb(color)
+        color = "".join(["/x%02x" % c for c in a])
+
     off = bytearray(b'\x00\x00\x00')
     writeString = ''
     for i in range(30):
