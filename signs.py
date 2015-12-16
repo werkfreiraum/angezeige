@@ -13,6 +13,7 @@
 ##################
 
 digit_signs = {}
+digit_signs[" "] = []
 ##################
 # DIGITS
 ##################
@@ -22,7 +23,7 @@ digit_signs["2"] = [0,1,3,4,6]
 digit_signs["3"] = [0,1,2,3,6]
 digit_signs["4"] = [1,2,5,6]
 digit_signs["5"] = [0,2,3,5,6]
-digit_signs["6"] = [2,3,4,5,6]
+digit_signs["6"] = [0, 2,3,4,5,6]
 digit_signs["7"] = [0,1,2]
 digit_signs["8"] = range(7)
 digit_signs["9"] = [0,1,2,3,5,6]

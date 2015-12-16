@@ -4,11 +4,9 @@ from signs import digit_signs, separator_types
 from settings import digit_leds, separator_leds
 import time
 
-simulate = True
-
 spidev = None
-#spidev_file = "/dev/spidev0.0"
-spidev_file = "/tmp/spidev0.0"
+spidev_file = "/dev/spidev0.0"
+#spidev_file = "/tmp/spidev0.0"
 
 
 
@@ -58,22 +56,21 @@ def get_message(string, separator="NONE", color="white", off_color="black", outp
 
 
 
-def write_time(time, color):
-    pass
-
-
 def write_spidev(message):
     spidev.write(message)
     spidev.flush()
 
-
+# STARTING POINT
 def run(write, output_format="byte"):
     i = 0
     separators = ["BOTH", "NONE"]
-    messages = ["8888", ""]
+    # = ["8888", "", "1", "2", " 3"]
+    messages = ["8888", "", "1", "2", " 3"]
     while True:
-        print(i)
-        message = get_message(messages[i%2], separator=separators[i%2], output_format=output_format)
+
+        #print(str(i) + " "  + messages[i%len(messages)] + " " + separators[i%len(separators)])
+        temp = "%4d" % (1000 - i -1)
+        message = get_message(temp, separator=separators[i%len(separators)], color="blue", output_format=output_format)
         write(message)
         time.sleep(1)
         i += 1

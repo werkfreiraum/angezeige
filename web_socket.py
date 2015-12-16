@@ -6,20 +6,27 @@ import threading, time
 
 class DataServer(WebSocket):
     def handleConnected(self):
+        print(" - Connection established!")
+        print(" - Start Thread!")
+        self.stopThread = False
         self.t = threading.Thread(target=lambda: run(self.write_socket, output_format="hex"))
         self.t.daemon = True
         self.t.start()
     
     def handleClose(self):
-        self.t._stop()
+        print(" - Connection Closed!")
+        self.stopThread = True
 
     def write_socket(self, message):
+        if self.stopThread:
+            print(" - Stop Thread!")
+            sys.exit()
         self.sendMessage(unicode(message))
 
 def main():
     print("Starting WebSocket ...")
     server = SimpleWebSocketServer('localhost', 8000, DataServer)
-    print("Ready!")
+    print("WebSocket Ready!")
 
     def close_sig_handler(signal, frame):
         print("\nClosing WebSocket ...")
