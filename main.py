@@ -63,16 +63,15 @@ def write_spidev(message):
 # STARTING POINT
 def run(write, output_format="byte"):
     i = 0
-    separators = ["BOTH", "NONE"]
+    separators = ["NONE"]
     # = ["8888", "", "1", "2", " 3"]
     messages = ["8888", "", "1", "2", " 3"]
     while True:
-
         #print(str(i) + " "  + messages[i%len(messages)] + " " + separators[i%len(separators)])
-        temp = "%4d" % (1000 - i -1)
+        temp = "%1d" % (i%10)
         message = get_message(temp, separator=separators[i%len(separators)], color="blue", output_format=output_format)
         write(message)
-        time.sleep(1)
+        time.sleep(2)
         i += 1
 
 def main():
