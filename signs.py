@@ -73,7 +73,7 @@ digit_signs["-"] = [6]
 # POINTS (all combinations)
 ##################
 separator_types = {}
-separator_types['OFF']    = []
+separator_types['NONE']    = []
 separator_types['LOWER']  = [0]
 separator_types['UPPER']  = [1]
 separator_types['BOTH']   = [0,1]

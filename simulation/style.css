@@ -1,7 +1,7 @@
 html, body {
     margin:0;
     padding:0;
-    background:#000;
+    background:#111;
     width:100%;
     height:100%;
     position:absolute;
@@ -28,10 +28,9 @@ html, body {
 }
 
 .digit .segment {
-    background:#c00;
+    opacity:1;
     border-radius:5px;
     position:absolute;
-    opacity:0.15;
     transition:opacity 0.2s;
     -webkit-transition:opacity 0.2s;
     -ms-transition:opacity 0.2s;
@@ -39,24 +38,28 @@ html, body {
     -o-transition:opacity 0.2s;
 }
 
-.digit .segment.on, .separator {
-    opacity:1;
-    box-shadow:0 0 50px rgba(255,0,0,0.7);
-    transition:opacity 0s;
-    -webkit-transition:opacity 0s;
-    -ms-transition:opacity 0s;
-    -moz-transition:opacity 0s;
-    -o-transition:opacity 0s;
-}
-
-.separator {
-    width:20px;
-    height:20px;
-    background:#c00;
-    border-radius:50%;
+.separators {
+    width:60px;
+    height:75px;
     display:inline-block;
     position:relative;
-    top:-90px;
+}
+.separator {
+    width:10px;
+    height:40px;
+    border-radius:5px;
+    display:inline-block;
+    position:absolute;
+}
+
+.separator1 {
+    top: -65px;
+    left: 25px;
+}
+
+.separator2 {
+    left: 25px;
+    top: -15px;
 }
 
 .digit .segment:nth-child(1) {
