@@ -1,11 +1,10 @@
 function doColoring(data) {
-    var a = data.match(/.{1,7}/g);
-    console.log(a.length)
-    for (i = 0; i < a.length; ++i) {
+    var a = new Uint8Array(data)
+    for (i = 0; i < a.length/3; ++i) {
         var id = "#n" + i
-        //console.log(id)
-        $(id).css({ boxShadow: '1px 3px 6px ' + a[i],
-                    background: a[i] })
+        var color = 'rgb(' + a.slice(i*3, i*3 + 3).reverse().join() + ')'
+        $(id).css({ boxShadow: '1px 3px 6px ' + color,
+                    background: color })
     }
 }
 
@@ -32,8 +31,13 @@ function send() {
 $(document).ready(function() {
     console.log("Connecting ...")
     websocket = new WebSocket("ws://localhost:8000/")
+    websocket.binaryType = 'arraybuffer';
     websocket.onopen = onOpen
     websocket.onclose = onClose
     websocket.onmessage = onMessage
 });
 
+
+
+
+G0 X50 Y90 Z20

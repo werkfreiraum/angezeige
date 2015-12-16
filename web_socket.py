@@ -9,7 +9,7 @@ class DataServer(WebSocket):
         print(" - Connection established!")
         print(" - Start Thread!")
         self.stopThread = False
-        self.t = threading.Thread(target=lambda: run(self.write_socket, output_format="hex"))
+        self.t = threading.Thread(target=lambda: run(self.write_socket))
         self.t.daemon = True
         self.t.start()
     
@@ -21,7 +21,7 @@ class DataServer(WebSocket):
         if self.stopThread:
             print(" - Stop Thread!")
             sys.exit()
-        self.sendMessage(unicode(message))
+        self.sendMessage(message)
 
 def main():
     print("Starting WebSocket ...")

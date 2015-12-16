@@ -1,4 +1,4 @@
-#!/bin/python2
+#!/usr/bin/env python2
 import webcolors as wc
 from signs import digit_signs, separator_types
 from settings import digit_leds, separator_leds
@@ -7,8 +7,6 @@ import time
 spidev = None
 spidev_file = "/dev/spidev0.0"
 #spidev_file = "/tmp/spidev0.0"
-
-
 
 
 def _get_color(color, output_format="byte"):
@@ -38,12 +36,12 @@ def _get_leds(ascii, position):
         raise Exception("Sign " + str(ascii) + " not implemented")
 
 
-def get_message(string, separator="NONE", color="white", off_color="black", output_format="byte"):
+def get_message(string, separator="NONE", color="white", off_color="black"):
     leds = [t for i, c in enumerate(string) for t in _get_leds(c, i)]
     leds += [separator_leds[i] for i in separator_types[separator]]
 
-    color_bytes = _get_color(color, output_format=output_format)
-    off_color_bytes = _get_color(off_color, output_format=output_format)
+    color_bytes = _get_color(color)
+    off_color_bytes = _get_color(off_color)
 
     message = ''
     for i in range(30):
@@ -55,13 +53,13 @@ def get_message(string, separator="NONE", color="white", off_color="black", outp
     return message
 
 
-
 def write_spidev(message):
     spidev.write(message)
     spidev.flush()
 
+
 # STARTING POINT
-def run(write, output_format="byte"):
+def run(write):
     i = 0
     separators = ["NONE"]
     # = ["8888", "", "1", "2", " 3"]
@@ -69,7 +67,7 @@ def run(write, output_format="byte"):
     while True:
         #print(str(i) + " "  + messages[i%len(messages)] + " " + separators[i%len(separators)])
         temp = "%1d" % (i%10)
-        message = get_message(temp, separator=separators[i%len(separators)], color="blue", output_format=output_format)
+        message = get_message(temp, separator=separators[i%len(separators)], color="blue")
         write(message)
         time.sleep(2)
         i += 1
