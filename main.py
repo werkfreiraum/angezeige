@@ -6,8 +6,10 @@ from programs import *
 def start(writer = spi_dev.write):
     ### Different programs are defined in programs.py
 
-    p = FirstDigitCounter(writer)
+    ### CHOOSE ONE
+    #p = FirstDigitCounter(writer)
     #p = ShowTime(writer, color = "red")
+    p = BlinkAll(writer, color = "red")
     
     p.run()
 
@@ -22,10 +24,6 @@ def main():
 
     spi_dev.init()
     start()
-
-
-
-
 
 if __name__ == "__main__":
     main()

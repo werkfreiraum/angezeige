@@ -29,7 +29,7 @@ def _get_leds(ascii, position):
         raise Exception("Sign " + str(ascii) + " not implemented")
 
 
-def get_message(string, separator="NONE", color="white", off_color="black"):
+def get_message(string = "", separator="NONE", color="white", off_color="black"):
     leds = [t for i, c in enumerate(string) for t in _get_leds(c, i)]
     leds += [separator_leds[i] for i in separator_types[separator]]
 

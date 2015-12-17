@@ -38,6 +38,7 @@ class ShowTime(Program):
             sleep(1)
             i += 1
 
+
 ################################################################
 # Iterates the first digit
 ################################################################
@@ -54,3 +55,26 @@ class FirstDigitCounter(Program):
             i += 1
 
 
+################################################################
+# Blink all leds
+################################################################
+class BlinkAll(Program):
+    def __init__(self, writer, color = None):
+        Program.__init__(self, writer, color=color)
+
+    def run(self):
+        i = 0
+        messages = [
+            {
+                "string": "8888",
+                "separator": "BOTH"
+            }, {
+                "string": "",
+                "separator": "NONE"
+            }
+        ]
+
+        while True:
+            self.write(**messages[i%len(messages)])
+            sleep(1)
+            i += 1
