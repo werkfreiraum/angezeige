@@ -36,8 +36,3 @@ $(document).ready(function() {
     websocket.onclose = onClose
     websocket.onmessage = onMessage
 });
-
-
-
-
-G0 X50 Y90 Z20

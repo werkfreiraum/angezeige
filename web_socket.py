@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 import signal, sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
-from main import run
+from main import start
 import threading, time
 
 class DataServer(WebSocket):
@@ -9,7 +9,7 @@ class DataServer(WebSocket):
         print(" - Connection established!")
         print(" - Start Thread!")
         self.stopThread = False
-        self.t = threading.Thread(target=lambda: run(self.write_socket))
+        self.t = threading.Thread(target=lambda: start(self.write))
         self.t.daemon = True
         self.t.start()
     
@@ -17,7 +17,7 @@ class DataServer(WebSocket):
         print(" - Connection Closed!")
         self.stopThread = True
 
-    def write_socket(self, message):
+    def write(self, message):
         if self.stopThread:
             print(" - Stop Thread!")
             sys.exit()
