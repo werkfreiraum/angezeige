@@ -46,20 +46,27 @@ html, body {
 }
 .separator {
     width:10px;
-    height:40px;
+    height:35px;
     border-radius:5px;
     display:inline-block;
     position:absolute;
+    left: 25px;
 }
 
 .separator1 {
-    top: -65px;
-    left: 25px;
+    top: -105px;
 }
 
 .separator2 {
-    left: 25px;
-    top: -15px;
+    top: -65px;
+}
+
+.separator3 {
+    top: -20px;
+}
+
+.separator4 {
+    top:  20px;
 }
 
 .digit .segment:nth-child(1) {

@@ -19,7 +19,9 @@ digit_leds = {}
 
 digit_leds[0] = [ 1, 0, 5, 4, 3, 2, 6]
 digit_leds[1] = [ 7, 8, 9,10,11,12,13]
-digit_leds[2] = [16,17,18,19,20,21,22]
-digit_leds[3] = [23,24,25,26,27,28,29]
+digit_leds[2] = [18,19,20,21,22,23,24]
+digit_leds[3] = [25,26,27,28,29,30,31]
 
-separator_leds = [14,15]
+separator_leds = [14,15,16,17]
+
+led_count = 32

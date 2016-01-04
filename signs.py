@@ -75,9 +75,9 @@ digit_signs["-"] = [6]
 ##################
 separator_types = {}
 separator_types['NONE']    = []
-separator_types['LOWER']  = [0]
-separator_types['UPPER']  = [1]
-separator_types['BOTH']   = [0,1]
+separator_types['LOWER']  = [0,1]
+separator_types['UPPER']  = [2,3]
+separator_types['BOTH']   = [0,1,2,3]
 
 
 

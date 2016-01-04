@@ -1,6 +1,6 @@
 import webcolors as wc
 from signs import digit_signs, separator_types
-from settings import digit_leds, separator_leds
+from settings import digit_leds, separator_leds, led_count
 
 def _get_color(color, output_format="byte"):
     if isinstance(color, basestring):
@@ -37,7 +37,7 @@ def get_message(string = "", separator="NONE", color="white", off_color="black")
     off_color_bytes = _get_color(off_color)
 
     message = ''
-    for i in range(30):
+    for i in range(led_count):
         if i in leds:
             message += color_bytes
         else:
