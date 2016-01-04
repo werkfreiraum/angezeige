@@ -3,13 +3,14 @@ import signal, sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
 from main import start
 import threading, time
+from chooser import choose
 
 class DataServer(WebSocket):
     def handleConnected(self):
         print(" - Connection established!")
         print(" - Start Thread!")
         self.stopThread = False
-        self.t = threading.Thread(target=lambda: start(self.write))
+        self.t = threading.Thread(target=lambda: start(self.write, program = DataServer.program))
         self.t.daemon = True
         self.t.start()
     
@@ -24,6 +25,8 @@ class DataServer(WebSocket):
         self.sendMessage(message)
 
 def main():
+    DataServer.program = choose()
+
     print("Starting WebSocket ...")
     server = SimpleWebSocketServer('localhost', 8000, DataServer)
     print("WebSocket Ready!")

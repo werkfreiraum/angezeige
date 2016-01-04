@@ -1,2 +1,9 @@
-pip install git+https://github.com/dpallot/simple-websocket-server.git
-pip install webcolors
+PIP PACKAGES
+============
+
+webcolors
+urwid
+
+For Websockets:
+
+git+https://github.com/dpallot/simple-websocket-server.git

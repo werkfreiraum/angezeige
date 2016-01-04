@@ -2,6 +2,7 @@ from time import gmtime, strftime, sleep
 from base import *
 
 class Program(object):
+    promotedPrograms = {}
     writer = None
     color = None
     def __init__(self, writer, color = None):
@@ -21,14 +22,21 @@ class Program(object):
     def get_program_name(cls):
         return cls.__name__
 
+    @staticmethod
+    def getPromotedPrograms():
+        return Program.promotedPrograms
+
+
+def promoteProgram(programClass):
+    Program.promotedPrograms[programClass.__name__] = programClass
+    return programClass
+
 
 ################################################################
 # Shows current time
 ################################################################
+@promoteProgram
 class ShowTime(Program):
-    def __init__(self, writer, color = None):
-        Program.__init__(self, writer, color=color)
-
     def run(self):
         i = 0
         separator = ["BOTH", "NONE"]
@@ -42,10 +50,8 @@ class ShowTime(Program):
 ################################################################
 # Iterates the first digit
 ################################################################
+@promoteProgram
 class FirstDigitCounter(Program):
-    def __init__(self, writer, color = None):
-        Program.__init__(self, writer, color=color)
-
     def run(self):
         i = 0
         while True:
@@ -58,10 +64,8 @@ class FirstDigitCounter(Program):
 ################################################################
 # Blink all leds
 ################################################################
+@promoteProgram
 class BlinkAll(Program):
-    def __init__(self, writer, color = None):
-        Program.__init__(self, writer, color=color)
-
     def run(self):
         i = 0
         messages = [
