@@ -4,8 +4,8 @@ from spi_dev import SpiDevWriter
 from programs import *
 from chooser import choose
 
-spidev_file = "/tmp/spidev0.0"
-#spidev_file = "/dev/spidev0.0"
+#spidev_file = "/tmp/spidev0.0"
+spidev_file = "/dev/spidev0.0"
 writer = None
 
 def start(writer = None, program = None):
