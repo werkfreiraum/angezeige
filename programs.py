@@ -1,14 +1,13 @@
 from time import gmtime, strftime, sleep
 from base import *
 
+
 class Program(object):
     promotedPrograms = {}
-    writer = None
-    color = None
     def __init__(self, writer, color = None):
         print(" - Program: " + self.get_program_name())
         self.writer = writer
-        self.color = color
+        self.color = self.getParams["color"] if color is None else color
 
     def run(self):
         pass
@@ -16,7 +15,13 @@ class Program(object):
     def write(self, *args, **kwargs):
         if "color" not in kwargs and self.color is not None:
             kwargs["color"] = self.color
-        self.writer(get_message(*args, **kwargs))
+        self.writer.write(get_message(*args, **kwargs))
+
+    @staticmethod
+    def getParams():
+        params = {}
+        params['color'] = "white"
+        return params
 
     @classmethod
     def get_program_name(cls):
@@ -66,6 +71,10 @@ class FirstDigitCounter(Program):
 ################################################################
 @promoteProgram
 class BlinkAll(Program):
+    def __init__(self, writer, color=None, duration=None):
+        Program.__init__(self, writer, color=color)
+        self.duration = float(self.getParams["duration"] if duration is None else duration)
+
     def run(self):
         i = 0
         messages = [
@@ -80,5 +89,29 @@ class BlinkAll(Program):
 
         while True:
             self.write(**messages[i%len(messages)])
-            sleep(1)
+            sleep(self.duration)
             i += 1
+
+    @staticmethod
+    def getParams():
+        params = Program.getParams()
+        params['duration'] = "1"
+        return params
+
+
+@promoteProgram
+class ShowSigns(Program):
+    def __init__(self, writer, color=None, signs=None):
+        Program.__init__(self, writer, color=color)
+        self.signs = self.getParams["signs"] if signs is None else signs
+
+    def run(self):
+        while True:
+            self.write(self.signs)
+            sleep(10)
+
+    @staticmethod
+    def getParams():
+        params = Program.getParams()
+        params['signs'] = "1234"
+        return params

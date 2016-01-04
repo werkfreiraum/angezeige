@@ -1,10 +1,10 @@
-#spidev_file = "/dev/spidev0.0"
-spidev_file = "/tmp/spidev0.0"
+class SpiDevWriter:
+    def __init__(self, spidev_file):
+        self.f = open(spidev_file, "wb")
 
-def init():
-    global spidev
-    spidev = open(spidev_file,"wb")
+    def write(self, message):
+        self.f.write(message)
+        self.f.flush()
 
-def write(message):
-    spidev.write(message)
-    spidev.flush()
+    def close(self):
+        self.f.close()

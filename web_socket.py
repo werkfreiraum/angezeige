@@ -10,7 +10,7 @@ class DataServer(WebSocket):
         print(" - Connection established!")
         print(" - Start Thread!")
         self.stopThread = False
-        self.t = threading.Thread(target=lambda: start(self.write, program = DataServer.program))
+        self.t = threading.Thread(target=lambda: start(self, program = DataServer.program))
         self.t.daemon = True
         self.t.start()
     

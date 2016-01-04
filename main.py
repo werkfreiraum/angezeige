@@ -1,10 +1,14 @@
 #!/usr/bin/env python2
 import time, signal, sys
-import spi_dev
+from spi_dev import SpiDevWriter
 from programs import *
 from chooser import choose
 
-def start(writer = spi_dev.write, program = None):
+spidev_file = "/tmp/spidev0.0"
+#spidev_file = "/dev/spidev0.0"
+writer = None
+
+def start(writer = None, program = None):
     ### Different programs are defined in programs.py
     if program is None:
         ### CHOOSE ONE
@@ -12,21 +16,22 @@ def start(writer = spi_dev.write, program = None):
         p = ShowTime(writer, color = "red")
         #p = BlinkAll(writer, color = "blue")
     else:
-        p = Program.getPromotedPrograms()[program](writer)
-
+        p = Program.getPromotedPrograms()[program[0]](writer, **program[1])
     p.run()
 
+
+def cleanup_exit(*kwargs):
+    print("\nBye!")
+    if writer:
+        writer.close()
+    sys.exit()
+
 def main():
-    def close_sig_handler(signal, frame):
-        print("\nBye!")
-        sys.exit()
-
-    signal.signal(signal.SIGINT, close_sig_handler)
-
-    spi_dev.init()
-
-    p = choose()
-    start(program = p)
+    global writer
+    signal.signal(signal.SIGINT, cleanup_exit)
+    writer = SpiDevWriter(spidev_file)
+    start(writer = writer, program = choose())
+    cleanup_exit()
 
 if __name__ == "__main__":
     main()

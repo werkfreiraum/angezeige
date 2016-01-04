@@ -1,9 +1,23 @@
 PIP PACKAGES
 ============
 
-webcolors
-urwid
+#########
+# BASE
+#########
+# without this dependencies nothing will run
 
-For Websockets:
+webcolors
+# converting color names to hex
+
+urwid
+# used for simple terminal chooser (menu)
+
+
+
+#########
+# SIM
+#########
+# without this dependencies the simulation will not run
 
 git+https://github.com/dpallot/simple-websocket-server.git
+# websocket server
