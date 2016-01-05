@@ -1,4 +1,4 @@
-import urwid
+import urwid, sys
 from programs import Program
 
 program = None
@@ -41,15 +41,25 @@ def start_program(choice, params, button):
     cParams = {}
     for p in params:
         cParams[p] = params[p].get_edit_text()
-    program = (choice, cParams)
-    raise urwid.ExitMainLoop()
+
+    #sys.stderr.write(choice)
+    #sys.stderr.write(str(cParams))
+    #program = (choice, cParams)
+    if Program.running:
+        Program.running.stop()
+        Program.running.join()
+
+    p = Program.getPromotedPrograms()[choice](**cParams)
+    p.start()
+    show_menu()
+    #raise urwid.ExitMainLoop()
 
 def exit_application(button):
     global program
     program = None
     raise urwid.ExitMainLoop()
 
-def show_menu(button):
+def show_menu(button = None):
     mainMenu.original_widget = menu(u'Programs', Program.promotedPrograms.keys())
  
 def choose():

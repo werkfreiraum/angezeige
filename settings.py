@@ -25,3 +25,6 @@ digit_leds[0] = [26,25,30,29,28,27,31]
 separator_leds = [14,15,16,17]
 
 led_count = 32
+
+spidev_file = "/tmp/spidev0.0"
+#spidev_file = "/dev/spidev0.0"

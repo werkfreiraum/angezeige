@@ -1,32 +1,29 @@
 #!/usr/bin/env python2
 import signal, sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
-from main import start
 import threading, time
+import programs
 from chooser import choose
 
 class DataServer(WebSocket):
     def handleConnected(self):
         print(" - Connection established!")
         print(" - Start Thread!")
-        self.stopThread = False
-        self.t = threading.Thread(target=lambda: start(self, program = DataServer.program))
-        self.t.daemon = True
+        self.t = programs.ShowTime(writer = self, color = "white")
         self.t.start()
     
     def handleClose(self):
         print(" - Connection Closed!")
-        self.stopThread = True
+        self.t.stop()
+        self.t.join()
 
     def write(self, message):
-        if self.stopThread:
-            print(" - Stop Thread!")
-            sys.exit()
         self.sendMessage(message)
 
-def main():
-    DataServer.program = choose()
+    def close(self):
+        pass
 
+def main():
     print("Starting WebSocket ...")
     server = SimpleWebSocketServer('localhost', 8000, DataServer)
     print("WebSocket Ready!")
