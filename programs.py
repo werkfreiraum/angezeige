@@ -1,14 +1,12 @@
-from time import gmtime, strftime, sleep
+from time import sleep
 from base import *
 from spi_dev import SpiDevWriter
 from settings import spidev_file
 from threading import Thread
 import sys
 
-
-
 class Program(Thread):
-    checkInterval = 0.05
+    checkInterval = 0.1
     promotedPrograms = {}
     running = None
 
@@ -18,8 +16,7 @@ class Program(Thread):
         self._stop = False
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
-
-        self.color = self.getParams["color"] if color is None else color
+        self.color  = self.getParams()["color"] if color is None else color
 
     def run(self):
         pass
@@ -74,80 +71,4 @@ def promoteProgram(programClass):
     return programClass
 
 
-################################################################
-# Shows current time
-################################################################
-@promoteProgram
-class ShowTime(Program):
-    def run(self):
-        separator = ["INNER", "NONE"]
-        while True:
-            signs = strftime("%H%M", gmtime())
-            sec = int(strftime("%S", gmtime()))
-            self.write(signs, separator = separator[sec%len(separator)])
-            self.wait(0.1)
-
-
-################################################################
-# Iterates the first digit
-################################################################
-@promoteProgram
-class FirstDigitCounter(Program):
-    def run(self):
-        i = 0
-        while True:
-            signs = "%1d" % (i%10)
-            self.write(signs)
-            self.wait(1)
-            i += 1
-
-
-################################################################
-# Blink all leds
-################################################################
-@promoteProgram
-class BlinkAll(Program):
-    def __init__(self, writer=None, color=None, duration=None):
-        Program.__init__(self, writer, color=color)
-        self.duration = float(self.getParams["duration"] if duration is None else duration)
-
-    def run(self):
-        i = 0
-        messages = [
-            {
-                "string": "8888",
-                "separator": "BOTH"
-            }, {
-                "string": "",
-                "separator": "NONE"
-            }
-        ]
-
-        while True:
-            self.write(**messages[i%len(messages)])
-            self.wait(self.duration)
-            i += 1
-
-    @staticmethod
-    def getParams():
-        params = Program.getParams()
-        params['duration'] = "1"
-        return params
-
-
-@promoteProgram
-class ShowSigns(Program):
-    def __init__(self, writer=None, color=None, signs=None):
-        Program.__init__(self, writer, color=color)
-        self.signs = self.getParams["signs"] if signs is None else signs
-
-    def run(self):
-        while True:
-            self.write(self.signs)
-            self.wait(10)
-
-    @staticmethod
-    def getParams():
-        params = Program.getParams()
-        params['signs'] = "1234"
-        return params
+from plugins import *

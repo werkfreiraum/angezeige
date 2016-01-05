@@ -2,14 +2,15 @@
 import signal, sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
 import threading, time
-import programs
+from programs import Program
 from chooser import choose
 
 class DataServer(WebSocket):
     def handleConnected(self):
         print(" - Connection established!")
         print(" - Start Thread!")
-        self.t = programs.ShowTime(writer = self, color = "white")
+        self.t = Program.getPromotedPrograms()["UrlReader"](writer = self)
+
         self.t.start()
     
     def handleClose(self):

@@ -42,9 +42,6 @@ def start_program(choice, params, button):
     for p in params:
         cParams[p] = params[p].get_edit_text()
 
-    #sys.stderr.write(choice)
-    #sys.stderr.write(str(cParams))
-    #program = (choice, cParams)
     if Program.running:
         Program.running.stop()
         Program.running.join()
