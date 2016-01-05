@@ -18,7 +18,7 @@ class UrlReader(Program):
         params['duration'] = "2"
         return params
 
-    def run(self):
+    def do(self):
         separator = ["INNER", "NONE"]
         while True:
             f = urllib.urlopen(self.url)

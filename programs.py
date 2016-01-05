@@ -14,15 +14,23 @@ class Program(Thread):
         Thread.__init__(self)
         self.daemon = True
         self._stop = False
+        self._error = None
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
         self.color  = self.getParams()["color"] if color is None else color
 
     def run(self):
-        pass
+        try:
+            self.do()
+        except Exception as e:
+            self._error = e
+        self.exit()
 
     def stop(self):
         self._stop = True
+
+    def error(self):
+        return self._error
 
     def start(self):
         #sys.stderr.write(self.get_program_name() + " started\n")

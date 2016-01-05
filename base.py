@@ -26,10 +26,13 @@ def _get_leds(ascii, position):
     if ascii in digit_signs:
         return [digit_leds[position][l] for l in digit_signs[ascii]]
     else:
-        raise Exception("Sign " + str(ascii) + " not implemented")
+        raise Exception("Sign '" + str(ascii) + "' is not implemented")
 
 
 def get_message(string = "", separator="NONE", color="white", off_color="black"):
+    if len(string) > 4:
+        raise Exception("Only 4 signs allowed, got '" + string[:8] + "' (max 8 signs shown)")
+
     leds = [t for i, c in enumerate(string) for t in _get_leds(c, i)]
     leds += [separator_leds[i] for i in separator_types[separator]]
 

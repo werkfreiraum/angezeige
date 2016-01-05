@@ -6,7 +6,7 @@ from time import gmtime, strftime
 ################################################################
 @promoteProgram
 class ShowTime(Program):
-    def run(self):
+    def do(self):
         separator = ["INNER", "NONE"]
         while True:
             signs = strftime("%H%M", gmtime())

@@ -5,7 +5,7 @@ from programs import Program, promoteProgram
 ################################################################
 @promoteProgram
 class Counter(Program):
-    def run(self):
+    def do(self):
         i = 0
         while True:
             signs = "%4d" % (i%10000)
@@ -23,7 +23,7 @@ class BlinkAll(Program):
         Program.__init__(self, writer, color=color)
         self.duration = float(self.getParams()["duration"] if duration is None else duration)
 
-    def run(self):
+    def do(self):
         i = 0
         messages = [
             {
@@ -55,7 +55,7 @@ class ShowSigns(Program):
         Program.__init__(self, writer, color=color)
         self.signs = self.getParams()["signs"] if signs is None else signs
 
-    def run(self):
+    def do(self):
         while True:
             self.write(self.signs)
             self.wait(10)
