@@ -9,7 +9,7 @@ class DataServer(WebSocket):
     def handleConnected(self):
         print(" - Connection established!")
         print(" - Start Thread!")
-        self.t = Program.getPromotedPrograms()["UrlReader"](writer = self)
+        self.t = Program.getPromotedPrograms()["ScrollText"](writer = self)
 
         self.t.start()
     
