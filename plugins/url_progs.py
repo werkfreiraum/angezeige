@@ -2,7 +2,7 @@
 from programs import Program, promoteProgram
 import urllib
 import json
-
+from private import api_keys
 ################################################################
 # Shows text from URL
 ################################################################
@@ -40,10 +40,12 @@ class ViennaTemp(Program):
         return params
 
     def do(self):
-        api_key = ''
-        url = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
-        if api_key == '':
+        try:
+            api_key = api_keys["OpenWeatherMap"]
+        except Exception as e:
             raise Exception("No openweathermap API key provided!")
+
+        url = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
 
         while True:
             f = urllib.urlopen(url)
