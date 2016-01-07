@@ -52,13 +52,18 @@ class ViennaTemp(Program):
             
             temp = int(round(float(j["main"]["temp"])))
 
-            if temp > 0:
-                color = "orange"
-            else:
+            if temp <= 0:
                 color = "blue"
+            elif temp > 0 and temp < 15:
+                color = "orange"
+            elif temp >= 15:
+                color = "red"
 
             if temp >= 0 and temp < 10:
                 temp = " " + str(temp)
+
+            if temp < -9:
+                temp = temp*-1
 
             self.write(unicode(temp) + u"°C", color=color)
             self.wait(180)
