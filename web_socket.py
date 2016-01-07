@@ -9,8 +9,8 @@ class DataServer(WebSocket):
     def handleConnected(self):
         print(" - Connection established!")
         print(" - Start Thread!")
-        self.t = Program.getPromotedPrograms()["ScrollText"](writer = self)
-
+        Program.raiseException = True
+        self.t = Program.getPromotedPrograms()["ViennaTemp"](writer = self)
         self.t.start()
     
     def handleClose(self):

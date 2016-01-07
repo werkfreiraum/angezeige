@@ -26,7 +26,7 @@ def _get_leds(ascii, position):
     if ascii in digit_signs:
         return [digit_leds[position][l] for l in digit_signs[ascii]]
     else:
-        raise Exception("Sign '" + str(ascii) + "' is not implemented")
+        raise Exception("Sign '" + unicode(ascii) + "' is not implemented")
 
 
 def get_message(string = "", separator="NONE", color="white", off_color="black"):

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ####################################
 # LED NUMERATION | SEVEN SEGMENT
 ####################################
@@ -71,6 +72,7 @@ digit_signs["Z"] = digit_signs["2"]
 ##################
 digit_signs["_"] = [3]
 digit_signs["-"] = [6]
+digit_signs[u"°"] = [5,0,1,6]
 
 
 

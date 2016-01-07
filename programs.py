@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from time import sleep
 from base import *
 from spi_dev import SpiDevWriter
@@ -6,9 +7,10 @@ from threading import Thread
 import sys
 
 class Program(Thread):
-    checkInterval = 0.1
+    checkInterval = 0.2
     promotedPrograms = {}
     running = None
+    raiseException = False
 
     def __init__(self, writer = None, color = None):
         Thread.__init__(self)
@@ -17,13 +19,16 @@ class Program(Thread):
         self._error = None
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
-        self.color  = self.getParams()["color"] if color is None else color
+        if "color" in self.getParams():
+            self.color  = self.getParams()["color"] if color is None else color
 
     def run(self):
         try:
             self.do()
         except Exception as e:
             self._error = e
+            if Program.raiseException:
+                raise
         self.exit()
 
     def stop(self):

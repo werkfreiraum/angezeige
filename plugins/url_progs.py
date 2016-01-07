@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from programs import Program, promoteProgram
 import urllib
+import json
 
 ################################################################
 # Shows text from URL
@@ -25,3 +27,38 @@ class UrlReader(Program):
             self.write(f.read(4))
             f.close()
             self.wait(self.duration)
+
+
+
+
+
+@promoteProgram
+class ViennaTemp(Program):
+    @staticmethod
+    def getParams():
+        params = {}
+        return params
+
+    def do(self):
+        api_key = ''
+        url = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
+        if api_key == '':
+            raise Exception("No openweathermap API key provided!")
+
+        while True:
+            f = urllib.urlopen(url)
+            j = json.loads(f.read())
+            f.close()
+            
+            temp = int(round(float(j["main"]["temp"])))
+
+            if temp > 0:
+                color = "orange"
+            else:
+                color = "blue"
+
+            if temp >= 0 and temp < 10:
+                temp = " " + str(temp)
+
+            self.write(unicode(temp) + u"°C", color=color)
+            self.wait(180)

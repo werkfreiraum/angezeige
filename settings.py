@@ -26,5 +26,5 @@ separator_leds = [14,15,16,17]
 
 led_count = 32
 
-#spidev_file = "/tmp/spidev0.0"
-spidev_file = "/dev/spidev0.0"
+spidev_file = "/tmp/spidev0.0"
+#spidev_file = "/dev/spidev0.0"
