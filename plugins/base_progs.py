@@ -109,7 +109,8 @@ class ScrollText(Program):
 class FadeMe(Program):
     def __init__(self, writer=None, j=None):
         Program.__init__(self, writer, color=None)
-        self.j = float(self.getParams()["j"] if j is None else j)    
+        self.j = float(self.getParams()["j"] if j is None else j)
+        self.i = float(self.getParams()["i"] if i is None else i)    
     def do(self):
         j = self.j
         d = False
@@ -134,4 +135,5 @@ class FadeMe(Program):
     def getParams():
         params = {}
         params['j'] = "1"
+        params['i'] = "1"
         return params
