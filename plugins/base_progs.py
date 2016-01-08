@@ -101,3 +101,30 @@ class ScrollText(Program):
         params['text'] = "Ich bin ScrollbAr"
         params['duration'] = "0.5"
         return params
+
+################################################################
+# Fade
+################################################################
+@promoteProgram
+class FadeMe(Program):
+
+    def do(self):
+        j = 0
+        d = False
+        while True:
+
+            if d:
+                j-=1;
+            else:
+                j+=1;
+
+            if j >= 100:
+                d = True
+            if j <= 0:
+                d = False
+
+            self.wait(j/1000)
+            self.write('8888',separator="BOTH")
+
+            self.wait((100-j)/1000)
+            self.write('   ')
