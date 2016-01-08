@@ -113,6 +113,7 @@ class FadeMe(Program):
         self.i = float(self.getParams()["i"] if i is None else i)    
     def do(self):
         j = self.j
+        i = self.i
         d = False
         while True:
 
