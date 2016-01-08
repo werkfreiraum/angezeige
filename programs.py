@@ -2,7 +2,7 @@
 from time import sleep
 from base import *
 from spi_dev import SpiDevWriter
-from settings import spidev_file
+from private import spidev_file
 from threading import Thread
 import sys
 
