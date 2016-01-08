@@ -123,8 +123,8 @@ class FadeMe(Program):
             if j <= 0:
                 d = False
 
-            self.wait(j/1000)
+            self.wait(j/100)
             self.write('8888',separator="BOTH")
 
-            self.wait((100-j)/1000)
+            self.wait((100-j)/100)
             self.write('   ')
