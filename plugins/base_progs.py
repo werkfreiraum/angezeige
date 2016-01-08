@@ -126,10 +126,10 @@ class FadeMe(Program):
             # if j <= 0:
             #     d = False
 
-            self.wait(j)
+            self.wait(j*i)
             self.write('8888',separator="BOTH")
 
-            self.wait((1-j))
+            self.wait((1-j)*i)
             self.write('   ')
     @staticmethod
     def getParams():
