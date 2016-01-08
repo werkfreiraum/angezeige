@@ -17,8 +17,10 @@ class Program(Thread):
         self.daemon = True
         self._stop = False
         self._error = None
+        self.color = None
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
+        
         if "color" in self.getParams():
             self.color  = self.getParams()["color"] if color is None else color
 
