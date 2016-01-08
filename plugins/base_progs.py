@@ -107,24 +107,31 @@ class ScrollText(Program):
 ################################################################
 @promoteProgram
 class FadeMe(Program):
-
+    def __init__(self, writer=None, j=None):
+        Program.__init__(self, writer, color=None)
+        self.j = float(self.getParams()["j"] if j is None else j)    
     def do(self):
-        j = 0
+        j = self.j
         d = False
         while True:
 
-            if d:
-                j-=1;
-            else:
-                j+=1;
+            # if d:
+            #     j-=1;
+            # else:
+            #     j+=1;
 
-            if j >= 100:
-                d = True
-            if j <= 0:
-                d = False
+            # if j >= 100:
+            #     d = True
+            # if j <= 0:
+            #     d = False
 
-            self.wait(j/100)
+            self.wait(j)
             self.write('8888',separator="BOTH")
 
-            self.wait((100-j)/100)
+            self.wait((1-j))
             self.write('   ')
+    @staticmethod
+    def getParams():
+        params = {}
+        params['j'] = "1"
+        return params
