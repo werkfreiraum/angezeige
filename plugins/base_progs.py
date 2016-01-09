@@ -33,20 +33,22 @@ class BlinkAll(Program):
         self.duration = float(self.getParams()["duration"] if duration is None else duration)
 
     def do(self):
-        i = 0
-        messages = [
-            {
-                "string": "8888",
-                "separator": "BOTH"
-            }, {
-                "string": "",
-                "separator": "NONE"
-            }
-        ]
+        show = True
+        message_show = {
+            "string": "8888",
+            "separator": "BOTH"
+        }
+        message_hide = {
+            "string": "",
+            "separator": "NONE"
+        }
         while True:
-            self.write(**messages[i%len(messages)])
+            if show:
+                self.write(**message_show)
+            else:
+                self.write(**message_hide)
+            show = not show
             self.wait(self.duration)
-            i += 1
 
     @staticmethod
     def getParams():
