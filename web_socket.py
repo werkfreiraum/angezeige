@@ -12,7 +12,7 @@ class DataServer(WebSocket):
         Program.raiseException = True
         self.t = Program.getPromotedPrograms()["FadeMe"](writer = self)
         self.t.start()
-    
+
     def handleClose(self):
         print(" - Connection Closed!")
         self.t.stop()
@@ -24,6 +24,7 @@ class DataServer(WebSocket):
     def close(self):
         pass
 
+
 def main():
     print("Starting WebSocket ...")
     server = SimpleWebSocketServer('localhost', 8000, DataServer)
@@ -34,7 +35,7 @@ def main():
         server.close()
         print("Bye!")
         sys.exit()
-    
+
     signal.signal(signal.SIGINT, close_sig_handler)
     server.serveforever()
 

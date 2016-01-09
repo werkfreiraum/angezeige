@@ -112,7 +112,7 @@ class FadeMe(Program):
     def __init__(self, writer=None, i=None, j=None):
         Program.__init__(self, writer, color=None)
         self.j = float(self.getParams()["j"] if j is None else j)
-        self.i = float(self.getParams()["i"] if i is None else i)    
+        self.i = float(self.getParams()["i"] if i is None else i)
     def do(self):
         j = self.j
         i = self.i
