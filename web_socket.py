@@ -1,9 +1,7 @@
 #!/usr/bin/env python2
 import signal, sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
-import threading, time
 from programs import Program
-from chooser import choose
 
 class DataServer(WebSocket):
     def handleConnected(self):
