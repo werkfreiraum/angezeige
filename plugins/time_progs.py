@@ -12,4 +12,5 @@ class ShowTime(Program):
             signs = strftime("%H%M", gmtime())
             sec = int(strftime("%S", gmtime()))
             self.write(signs, separator = separator[sec%len(separator)])
+            # FIXME displayed clock will be wrong by design (up to 100ms)
             self.wait(0.1)

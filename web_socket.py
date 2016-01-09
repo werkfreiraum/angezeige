@@ -1,9 +1,7 @@
 #!/usr/bin/env python2
 import signal, sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
-import threading, time
 from programs import Program
-from chooser import choose
 
 class DataServer(WebSocket):
     def handleConnected(self):
@@ -12,7 +10,7 @@ class DataServer(WebSocket):
         Program.raiseException = True
         self.t = Program.getPromotedPrograms()["FadeMe"](writer = self)
         self.t.start()
-    
+
     def handleClose(self):
         print(" - Connection Closed!")
         self.t.stop()
@@ -24,6 +22,7 @@ class DataServer(WebSocket):
     def close(self):
         pass
 
+
 def main():
     print("Starting WebSocket ...")
     server = SimpleWebSocketServer('localhost', 8000, DataServer)
@@ -34,7 +33,7 @@ def main():
         server.close()
         print("Bye!")
         sys.exit()
-    
+
     signal.signal(signal.SIGINT, close_sig_handler)
     server.serveforever()
 
