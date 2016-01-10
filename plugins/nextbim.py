@@ -22,9 +22,34 @@ api_key = api_keys['wienerlinien_ogd_realtime']
 
 # TODO I guess this needs refactoring, dict was used for other project that way
 STATION_IDS = {
-    'K': '4210',   # U2 Rathaus, Richtung Karlsplatz
-    'A': '4205'    # U2 Rathaus, Richtung Aspern
+    'K': '4210',    # U2 Rathaus, Richtung Karlsplatz
+    'A': '4205',    # U2 Rathaus, Richtung Aspern
+
+    # Westbahnhof:
+    'U3-H':   4921,
+    'U3-R':   4920,
+    'U6-H':   4619,
+    'U6-R':   4610,
+    '5':      370,
+    '6-H':    464,  # Mariahilfer Guertel ist viell. naher
+    '6-R':    483,
+    '6-H':    464,  # ?!?
+    '6-R':    483,  # ?!?
+    '9':      484,
+    '52':     36,   # Gerstnerstrasse ist naeher
+    '58':     1531,
+    'N64-H':  5772,
+    'N64-R':  5658,
+
+    # Gerstnerstrasse/Westbhf.
+    '52-H':    1548,
+    '52-R':    1549,
+
+    # Mariahilfer Guertel
+    '6-H':     482,
+    '6-R':     481,
 }
+
 JSON_PATH = 'data.monitors[0].lines[0].departures.departure[0].departureTime.countdown'
 CYCLE_PERIOD_S = 2
 FAILURE_RETRY_PERIOD_S = 10
