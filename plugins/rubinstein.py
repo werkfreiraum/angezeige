@@ -12,7 +12,7 @@ from programs import promoteProgram
 URL = "http://rubinstein.local/api/"
 PARAMTERS = {
     'job': [
-        'job.progress.completion',
+        'progress.completion',
         #'job.estimatedPrintTime',  # TODO should convert to hh:mm
     ]
 }
@@ -36,7 +36,7 @@ class Rubinstein(Program):
         while True:
             for key, param_paths in PARAMTERS.iteritems():
                 for param_path in param_paths:
-                    api_uri = "{}/{}?apikey={}".format(URL, key, api_key)
+                    api_uri = "{}{}?apikey={}".format(URL, key, api_key)
                     try:
                         # need contextlib because no Python 3... :(
                         with closing(urllib2.urlopen(api_uri)) as params_json:
@@ -46,6 +46,6 @@ class Rubinstein(Program):
                                           "data.")
                         self.write('')
                     else:
-                        param = _get_val_by_path(params, param_path)
+                        param = int(round(_get_val_by_path(params, param_path)))
                         self.write(str(param))
                     self.wait(CYCLE_PERIOD_S)
