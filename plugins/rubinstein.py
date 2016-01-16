@@ -1,6 +1,8 @@
+import json
 import urllib2
 import re
 import logging
+from contextlib import closing
 
 from private import api_keys
 from programs import Program
@@ -36,14 +38,14 @@ class Rubinstein(Program):
                 for param_path in param_paths:
                     api_uri = "{}/{}?apikey={}".format(URL, key, api_key)
                     try:
-                        response = urllib2.urlopen(api_uri)
-                        parameters = response.read()
-                        response.close()
+                        # need contextlib because no Python 3... :(
+                        with closing(urllib2.urlopen(api_uri)) as params_json:
+                            params = json.load(params_json)
                     except urllib2.URLError:
                         logging.exception("Failed to retrieve rubinstein"
                                           "data.")
                         self.write('')
                     else:
-                        param = _get_val_by_path(parameters, param_path)
+                        param = _get_val_by_path(params, param_path)
                         self.write(str(param))
                     self.wait(CYCLE_PERIOD_S)
