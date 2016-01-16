@@ -33,8 +33,6 @@ STATION_IDS = {
     '5':      370,
     '6-H':    464,  # Mariahilfer Guertel ist viell. naher
     '6-R':    483,
-    '6-H':    464,  # ?!?
-    '6-R':    483,  # ?!?
     '9':      484,
     '52':     36,   # Gerstnerstrasse ist naeher
     '58':     1531,
