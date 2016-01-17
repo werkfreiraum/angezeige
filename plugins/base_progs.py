@@ -1,9 +1,8 @@
-from programs import Program, promoteProgram
+from programs import Program
 
 ################################################################
 # Iterates the first digit
 ################################################################
-@promoteProgram
 class Counter(Program):
     def __init__(self, writer=None, color=None, duration=None):
         Program.__init__(self, writer, color=color)
@@ -26,7 +25,6 @@ class Counter(Program):
 ################################################################
 # Blink all leds
 ################################################################
-@promoteProgram
 class BlinkAll(Program):
     def __init__(self, writer=None, color=None, duration=None):
         Program.__init__(self, writer, color=color)
@@ -60,7 +58,6 @@ class BlinkAll(Program):
 ################################################################
 # Show Signs
 ################################################################
-@promoteProgram
 class ShowSigns(Program):
     def __init__(self, writer=None, color=None, signs=None):
         Program.__init__(self, writer, color=color)
@@ -81,7 +78,6 @@ class ShowSigns(Program):
 ################################################################
 # Show Signs
 ################################################################
-@promoteProgram
 class ScrollText(Program):
     def __init__(self, writer=None, color=None, text=None, duration=None):
         Program.__init__(self, writer, color=color)
@@ -107,7 +103,6 @@ class ScrollText(Program):
 ################################################################
 # Fade
 ################################################################
-@promoteProgram
 class FadeMe(Program):
     def __init__(self, writer=None, i=None, j=None):
         Program.__init__(self, writer, color=None)

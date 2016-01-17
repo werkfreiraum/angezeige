@@ -94,5 +94,5 @@ def choose():
     mainLoop.run()
 
 
-listMenu = menu(Program.promotedPrograms.keys())
+listMenu = menu(Program.Program.getPromotedPrograms().keys())
 mainWidget = urwid.Padding(None, left=1, right=1)

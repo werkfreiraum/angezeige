@@ -1,10 +1,10 @@
-from programs import Program, promoteProgram
-from time import localtime, strftime
+from time import localtime
+from time import strftime
+from programs import Program
 
 ################################################################
 # Shows current time
 ################################################################
-@promoteProgram
 class ShowTime(Program):
     def do(self):
         separator = ["INNER", "NONE"]

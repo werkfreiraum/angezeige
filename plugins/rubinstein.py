@@ -6,7 +6,6 @@ from contextlib import closing
 
 from private import api_keys
 from programs import Program
-from programs import promoteProgram
 
 
 URL = "http://rubinstein.local/api/"
@@ -30,7 +29,6 @@ def _get_val_by_path(dct, path):
 ################################################################
 # Show when printer rubinstein ready
 ################################################################
-@promoteProgram
 class Rubinstein(Program):
     def do(self):
         while True:

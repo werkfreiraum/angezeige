@@ -6,7 +6,6 @@ from contextlib import closing
 
 from private import api_keys
 from programs import Program
-from programs import promoteProgram
 
 
 # TODO:
@@ -63,7 +62,6 @@ def _get_val_by_path(dct, path):
 ################################################################
 # Show when next bim comes
 ################################################################
-@promoteProgram
 class NextBim(Program):
     def do(self):
         while True:

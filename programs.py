@@ -8,31 +8,20 @@ from threading import Thread
 import sys
 
 
-def promoteProgram(programClass):
-    """This is a decorator. This method is depreacted, works now automatically
-    using the MetaProgram meta class."""
-    Program.promotedPrograms[programClass.__name__] = programClass
-    return programClass
+program_registry = {}
 
 
 class MetaProgram(type):
     """Used for auto registering programs. No need for decorator anymore."""
     def __new__(mcs, name, bases, dict):
-        # TODO I think it would be nicer to have program_registry (global name
-        # in module programs, not as member of class Program).
         new_program = type.__new__(mcs, name, bases, dict)
-        if name == 'Program':
-            program_dict = dict
-        else:
-            program_dict = Program.promotedPrograms
-        if name not in program_dict:
-            program_dict[name] = new_program
+        if name not in program_registry:
+            program_registry[name] = new_program
         return new_program
 
 
 class Program(Thread):
     checkInterval = 0.2
-    promotedPrograms = {}
     running = None
     raiseException = False
 
@@ -105,7 +94,8 @@ class Program(Thread):
 
     @staticmethod
     def getPromotedPrograms():
-        return Program.promotedPrograms
+        return program_registry
 
 
+# import will register all Programs
 from plugins import *

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from programs import Program, promoteProgram
-import urllib
 import json
+import urllib
+import logging
+from programs import Program
 from private import api_keys
 ################################################################
 # Shows text from URL
 ################################################################
-@promoteProgram
 class UrlReader(Program):
     def __init__(self, writer=None, color=None, url=None, duration=None):
         Program.__init__(self, writer, color=color)
@@ -29,10 +29,6 @@ class UrlReader(Program):
             self.wait(self.duration)
 
 
-
-
-
-@promoteProgram
 class ViennaTemp(Program):
     @staticmethod
     def getParams():
