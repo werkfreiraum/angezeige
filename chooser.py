@@ -31,7 +31,7 @@ def menu(choices):
     button = urwid.Button("EXIT")
     urwid.connect_signal(button, 'click', exit_application)
     body.append(urwid.AttrMap(button, None, focus_map='reversed'))
-    
+
     return urwid.ListBox(urwid.SimpleFocusListWalker(body))
 
 def item_chosen(choice, button):
@@ -49,12 +49,12 @@ def item_chosen(choice, button):
 
     ok = urwid.Button(u'Ok')
     back = urwid.Button(u'Back')
-    
+
     urwid.connect_signal(ok, 'click', start_program, user_args = [choice, params])
     urwid.connect_signal(back, 'click', show_menu)
-    
+
     tOk = urwid.AttrMap(ok, None, focus_map='reversed')
-    
+
     body.append(tOk)
     body.append(urwid.AttrMap(back, None, focus_map='reversed'))
 
@@ -78,7 +78,7 @@ def exit_application(button):
 
 def show_menu(button = None):
     mainWidget.original_widget = listMenu
- 
+
 def get_info(mainLoop, data):
     status.set_text(get_status())
     mainLoop.set_alarm_in(1, get_info)

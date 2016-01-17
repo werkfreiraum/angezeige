@@ -47,7 +47,7 @@ class ViennaTemp(Program):
             f = urllib.urlopen(url)
             j = json.loads(f.read())
             f.close()
-            
+
             temp = int(round(float(j["main"]["temp"])))
 
             if temp <= 0:

@@ -27,7 +27,7 @@ class Program(Thread):
 
     __metaclass__ = MetaProgram
 
-    def __init__(self, writer = None, color = None):
+    def __init__(self, writer=None, color=None):
         Thread.__init__(self)
         self.daemon = True
         self._stop = False
@@ -35,9 +35,9 @@ class Program(Thread):
         self.color = None
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
-        
+
         if "color" in self.getParams():
-            self.color  = self.getParams()["color"] if color is None else color
+            self.color = self.getParams()["color"] if color is None else color
 
     def run(self):
         try:
