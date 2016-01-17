@@ -7,11 +7,36 @@ from private import spidev_file
 from threading import Thread
 import sys
 
+
+def promoteProgram(programClass):
+    """This is a decorator. This method is depreacted, works now automatically
+    using the MetaProgram meta class."""
+    Program.promotedPrograms[programClass.__name__] = programClass
+    return programClass
+
+
+class MetaProgram(type):
+    """Used for auto registering programs. No need for decorator anymore."""
+    def __new__(mcs, name, bases, dict):
+        # TODO I think it would be nicer to have program_registry (global name
+        # in module programs, not as member of class Program).
+        new_program = type.__new__(mcs, name, bases, dict)
+        if name == 'Program':
+            program_dict = dict
+        else:
+            program_dict = Program.promotedPrograms
+        if name not in program_dict:
+            program_dict[name] = new_program
+        return new_program
+
+
 class Program(Thread):
     checkInterval = 0.2
     promotedPrograms = {}
     running = None
     raiseException = False
+
+    __metaclass__ = MetaProgram
 
     def __init__(self, writer = None, color = None):
         Thread.__init__(self)
@@ -81,11 +106,6 @@ class Program(Thread):
     @staticmethod
     def getPromotedPrograms():
         return Program.promotedPrograms
-
-
-def promoteProgram(programClass):
-    Program.promotedPrograms[programClass.__name__] = programClass
-    return programClass
 
 
 from plugins import *
