@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 from time import sleep
 from base import *
 from spi_dev import SpiDevWriter
@@ -28,6 +29,7 @@ class Program(Thread):
         try:
             self.do()
         except Exception as e:
+            logging.exception("Exception in plugin {}".format(self.__class__))
             self._error = e
             if Program.raiseException:
                 raise

@@ -1,8 +1,13 @@
 #!/usr/bin/env python2
-import time, signal, sys
-from spi_dev import SpiDevWriter
+import sys
+import signal
+import logging
 from programs import Program
 from chooser import choose
+
+LOG_FORMAT = '%(asctime)s - %(levelname)-8s %(message)s'
+logging.basicConfig(format=LOG_FORMAT, level='DEBUG', filename="angezeige.log")
+
 
 def cleanup_exit(*kwargs):
     print("\nBye!")
@@ -10,6 +15,7 @@ def cleanup_exit(*kwargs):
         Program.running.stop()
         Program.running.join()
     sys.exit()
+
 
 def main():
     signal.signal(signal.SIGINT, cleanup_exit)

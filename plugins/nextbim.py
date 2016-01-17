@@ -14,7 +14,6 @@ from programs import promoteProgram
 #   - need better display values for NaN, inf, and zero (asterisk!)
 #   - fair use? how many connections allowed by api?
 #   - hardcoded constants ---> params
-#   - move logger setup to main module
 #   - find nice way to store secrets
 
 URL = "http://www.wienerlinien.at/ogd_realtime/monitor?rbl={}&sender={}"
@@ -52,10 +51,6 @@ JSON_PATH = 'data.monitors[0].lines[0].departures.departure[0].departureTime.cou
 CYCLE_PERIOD_S = 2
 FAILURE_RETRY_PERIOD_S = 10
 
-# TODO this should not be part of the plugin, but part of the base
-LOG_FORMAT = '%(asctime)s - %(levelname)-8s %(message)s'
-logging.basicConfig(format=LOG_FORMAT, level='DEBUG')
-logger = logging.getLogger('nextbim')
 
 
 def _get_val_by_path(dct, path):
@@ -73,7 +68,7 @@ class NextBim(Program):
     def do(self):
         while True:
             for cmd, station_id in STATION_IDS.iteritems():
-                logger.debug('Retrieving countdown for station={}'.format(
+                logging.debug('Retrieving countdown for station={}'.format(
                     station_id))
                 api_uri = URL.format(station_id, api_key)
                 try:
@@ -81,11 +76,11 @@ class NextBim(Program):
                     with closing(urllib2.urlopen(api_uri)) as nextbims_json:
                         nextbim = json.load(nextbims_json)
                 except urllib2.URLError:
-                    logger.exception("Failed to retrieve nextbim data.")
+                    logging.exception("Failed to retrieve nextbim data.")
                     self.write('')
                 else:
                     countdown = _get_val_by_path(nextbim, JSON_PATH)
-                    logger.info('Countdown={} for station={}'.format(
+                    logging.info('Countdown={} for station={}'.format(
                         countdown, station_id))
                     self.write(str(countdown))
                 self.wait(CYCLE_PERIOD_S)
