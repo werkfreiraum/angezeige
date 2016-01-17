@@ -38,8 +38,9 @@ class ViennaTemp(Program):
     def do(self):
         try:
             api_key = api_keys["OpenWeatherMap"]
-        except Exception as e:
-            raise Exception("No openweathermap API key provided!")
+        except KeyError:
+            logging.exception("Failed to start OpenWeatherMap.")
+            raise ValueError("No openweathermap API key provided!")
 
         url = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
 
