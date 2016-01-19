@@ -35,12 +35,15 @@ def menu(choices):
     return urwid.ListBox(urwid.SimpleFocusListWalker(body))
 
 def item_chosen(choice, button):
-    body = [urwid.Divider("-"), urwid.Text(choice, align='center'), urwid.Divider("-"), urwid.Text("Parameters:")]
+    body = [urwid.Divider("-"), urwid.Text(choice, align='center')]
+
+    if len(program_registry[choice].getParams()) > 0:
+        body.extend([urwid.Divider("-"), urwid.Text("Parameters:")])
 
     params = {}
     for p, v in program_registry[choice].getParams().items():
         #body.append(urwid.Text())
-        edit = urwid.Edit(caption = u"▸ " + p.title() + ": ", edit_text = v)
+        edit = urwid.Edit(caption = u"▸ " + p.replace('_', ' ').title() + ": ", edit_text = v)
         body.append(urwid.AttrMap(edit, None, focus_map='reversed'))
         #body.append(urwid.Divider())
         params[p] = edit
