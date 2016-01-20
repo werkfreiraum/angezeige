@@ -4,7 +4,10 @@ from programs import Program
 ################################################################
 # Iterates the first digit
 ################################################################
+
+
 class Counter(Program):
+
     def __init__(self, writer=None, color=None, duration=None):
         Program.__init__(self, writer, color=color)
         self.duration = float(self.getParams()["duration"] if duration is None else duration)
@@ -12,7 +15,7 @@ class Counter(Program):
     def do(self):
         i = 0
         while True:
-            signs = "%4d" % (i%10000)
+            signs = "%4d" % (i % 10000)
             self.write(signs)
             self.wait(self.duration)
             i += 1
@@ -26,7 +29,10 @@ class Counter(Program):
 ################################################################
 # Blink all leds
 ################################################################
+
+
 class BlinkAll(Program):
+
     def __init__(self, writer=None, color=None, duration=None):
         Program.__init__(self, writer, color=color)
         self.duration = float(self.getParams()["duration"] if duration is None else duration)
@@ -60,6 +66,7 @@ class BlinkAll(Program):
 # Show Signs
 ################################################################
 class ShowSigns(Program):
+
     def __init__(self, writer=None, color=None, signs=None):
         Program.__init__(self, writer, color=color)
         self.signs = self.getParams()["signs"] if signs is None else signs
@@ -80,6 +87,7 @@ class ShowSigns(Program):
 # Show Signs
 ################################################################
 class SlideText(Program):
+
     def __init__(self, writer=None, color=None, text=None, slide_speed=None):
         Program.__init__(self, writer, color=color)
         self.text = self.getParams()["text"] if text is None else unicode(text)
@@ -93,7 +101,7 @@ class SlideText(Program):
     @staticmethod
     def getParams():
         params = Program.getParams()
-        params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!"
+        params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!.,-\'\""
         params['slide_speed'] = "0.4"
         return params
 
@@ -101,10 +109,12 @@ class SlideText(Program):
 # Fade
 ################################################################
 class FadeMe(Program):
+
     def __init__(self, writer=None, i=None, j=None):
         Program.__init__(self, writer, color=None)
         self.j = float(self.getParams()["j"] if j is None else j)
         self.i = float(self.getParams()["i"] if i is None else i)
+
     def do(self):
         j = self.j
         i = self.i
@@ -121,11 +131,12 @@ class FadeMe(Program):
             # if j <= 0:
             #     d = False
 
-            self.wait(j*i)
-            self.write('8888',separator="BOTH")
+            self.wait(j * i)
+            self.write('8888', separator="BOTH")
 
-            self.wait((1-j)*i)
+            self.wait((1 - j) * i)
             self.write('   ')
+
     @staticmethod
     def getParams():
         params = {}

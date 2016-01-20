@@ -1,8 +1,9 @@
 import webcolors as wc
 from signs import digit_signs, separator_types, pref_char_rep
 from settings import digit_leds, separator_leds, led_count
+import colorsys
 
-def _get_color(color, output_format="byte"):
+def _get_color(color, output_format="byte", lightness=1):
     if isinstance(color, basestring):
         if color.startswith("#"):
             if len(color) == 4:
@@ -13,6 +14,12 @@ def _get_color(color, output_format="byte"):
                 raise Exception("Format not implemented")
         else:
             a = wc.name_to_rgb(color)
+
+    if lightness != 1:
+        b = colorsys.rgb_to_hls(*map(lambda x: float(x)/255, a))
+        b = (b[0], min(1, b[1] * lightness), b[2])
+        a = map(lambda x: int(round(x*255)), colorsys.hls_to_rgb(*b)) 
+
 
     if output_format == "byte":
         return bytearray(chr(a[2]) + chr(a[1]) + chr(a[0]))
@@ -54,10 +61,10 @@ def get_message(string = "", separator="NONE", color="white", off_color="black",
     return message
 
 
-def modify_separator(oldMessage, separator="NONE", color="white", off_color="black"):
+def modify_separator(oldMessage, separator="NONE", color="white", off_color="black", lightness=0.2):
     leds = [separator_leds[i] for i in separator_types[separator]]
 
-    color_bytes = _get_color(color)
+    color_bytes = _get_color(color, lightness=lightness)
     off_color_bytes = _get_color(off_color)
 
     for i in separator_leds:

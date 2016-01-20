@@ -12,11 +12,15 @@ from contextlib import closing
 ################################################################
 # Shows text from URL
 ################################################################
+
+
 class UrlReader(Program):
+
     def __init__(self, writer=None, color=None, uri=None, refresh_duration=None):
         Program.__init__(self, writer, color=color)
         self.uri = self.getParams()["uri"] if uri is None else uri
-        self.refresh_duration = float(self.getParams()["refresh_duration"] if refresh_duration is None else refresh_duration)
+        self.refresh_duration = float(self.getParams()["refresh_duration"]
+                                      if refresh_duration is None else refresh_duration)
 
     @staticmethod
     def getParams():
@@ -32,7 +36,7 @@ class UrlReader(Program):
                 self.slide(message, slide_speed=0.3)
             else:
                 self.write(message)
-            self.wait(self.refresh_duration, show_progress = True)
+            self.wait(self.refresh_duration, show_progress=True)
 
     def getMessage(self):
         return self.readUri().rstrip()
@@ -46,7 +50,7 @@ class UrlReader(Program):
             logging.exception("Failed to retrieve rubinstein"
                               "data.")
             self.write('Error')
-            raise 
+            raise
 
 
 def _get_val_by_path(dct, path):
@@ -57,6 +61,7 @@ def _get_val_by_path(dct, path):
 
 
 class JsonReader(UrlReader):
+
     def __init__(self, writer=None, color=None, uri=None, refresh_duration=None, path=None):
         UrlReader.__init__(self, writer, color=color, uri=uri, refresh_duration=refresh_duration)
         self.path = self.getParams()["path"] if path is None else path
@@ -70,15 +75,15 @@ class JsonReader(UrlReader):
     def getMessage(self):
         return self.readJsonPathContent()
 
-    def readJsonPathContent(self, path = None):
+    def readJsonPathContent(self, path=None):
         if path is None:
             path = self.path
         dct = json.loads(self.readUri())
         return _get_val_by_path(dct, path)
 
 
-
 class ViennaTemp(JsonReader):
+
     @staticmethod
     def getParams():
         params = {}
@@ -108,7 +113,7 @@ class ViennaTemp(JsonReader):
                 color = "red"
 
             if temperature < -9:
-                temperature = temperature*-1
+                temperature = temperature * -1
 
             temperature_str = str(temperature)
             if temperature >= 0 and temperature < 10:
@@ -116,5 +121,5 @@ class ViennaTemp(JsonReader):
 
             self.color = color
 
-            self.write(unicode(temperature_str) + u"°C")
-            self.wait(self.refresh_duration, show_progress = True)
+            self.write(unicode(temperature_str) + u"°C", prefered_signs=False)
+            self.wait(self.refresh_duration, show_progress=True)

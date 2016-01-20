@@ -81,8 +81,12 @@ digit_signs["_"] = [3]
 digit_signs["-"] = [6]
 digit_signs[u"°"] = [5, 0, 1, 6]
 digit_signs["\n"] = []
-digit_signs["?"] = [0,1,4,6]
-#digit_signs["!"] = []
+digit_signs["?"] = [0, 1, 4, 6]
+digit_signs["!"] = []
+digit_signs["."] = [3]
+digit_signs[","] = [4]
+digit_signs["'"] = [1]
+digit_signs["\""] = [1, 5]
 
 
 pref_char_rep = {}
@@ -117,8 +121,6 @@ pref_char_rep[u'ä'] = u'ö'
 pref_char_rep[u'ö'] = u'ö'
 pref_char_rep[u'ü'] = u'ü'
 pref_char_rep[u'ß'] = u'ß'
-
-
 
 
 ##################
