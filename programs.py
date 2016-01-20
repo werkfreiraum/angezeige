@@ -67,11 +67,11 @@ class Program(Thread):
         self._last_message = get_message(*args, **kwargs)
         self.writer.write(self._last_message)
 
-    def slide(self, message, duration = 0.4, color = None):
+    def slide(self, message, slide_speed = 0.4, color = None):
         with_spaces = ' '*4 + message + ' '*4
         for i in range(len(with_spaces) - 3):
             self.write(with_spaces[i:(i+4)])
-            self.wait(duration)
+            self.wait(slide_speed)
 
     def wait(self, interval, show_progress = False):
         still_to_wait = interval

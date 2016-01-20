@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from programs import Program
 
 ################################################################
@@ -79,20 +80,21 @@ class ShowSigns(Program):
 # Show Signs
 ################################################################
 class SlideText(Program):
-    def __init__(self, writer=None, color=None, text=None, duration=None):
+    def __init__(self, writer=None, color=None, text=None, slide_speed=None):
         Program.__init__(self, writer, color=color)
-        self.text = self.getParams()["text"] if text is None else text
-        self.duration = float(self.getParams()["duration"] if duration is None else duration)
+        self.text = self.getParams()["text"] if text is None else unicode(text)
+        self.slide_speed = float(self.getParams()["slide_speed"] if slide_speed is None else slide_speed)
 
     def do(self):
+
         while True:
-            self.slide(self.text, self.duration)
+            self.slide(self.text, self.slide_speed)
 
     @staticmethod
     def getParams():
         params = Program.getParams()
-        params['text'] = "Ich bin ScrollbAr"
-        params['duration'] = "0.5"
+        params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!"
+        params['slide_speed'] = "0.4"
         return params
 
 ################################################################

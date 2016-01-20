@@ -1,5 +1,5 @@
 import webcolors as wc
-from signs import digit_signs, separator_types
+from signs import digit_signs, separator_types, pref_char_rep
 from settings import digit_leds, separator_leds, led_count
 
 def _get_color(color, output_format="byte"):
@@ -22,18 +22,23 @@ def _get_color(color, output_format="byte"):
         raise Exception("Format " + str(output_format) + " not implemented")
 
 
-def _get_leds(ascii, position):
+def _get_leds(ascii, position, prefered_signs = True, strict = False):
+    if prefered_signs and ascii in pref_char_rep:
+        ascii = pref_char_rep[ascii]
     if ascii in digit_signs:
         return [digit_leds[position][l] for l in digit_signs[ascii]]
     else:
-        raise Exception("Sign '" + unicode(ascii) + "' is not implemented")
+        if strict:
+            raise Exception("Sign '" + unicode(ascii) + "' is not implemented")
+        else:
+            return [digit_leds[position][l] for l in digit_signs["_"]]
 
 
-def get_message(string = "", separator="NONE", color="white", off_color="black"):
+def get_message(string = "", separator="NONE", color="white", off_color="black", prefered_signs = True, strict = False):
     if len(string) > 4:
         raise Exception("Only 4 signs allowed, got '" + string[:8] + "' (max 8 signs shown)")
 
-    leds = [t for i, c in enumerate(string) for t in _get_leds(c, i)]
+    leds = [t for i, c in enumerate(string) for t in _get_leds(c, i, prefered_signs = prefered_signs, strict = strict)]
     leds += [separator_leds[i] for i in separator_types[separator]]
 
     color_bytes = _get_color(color)

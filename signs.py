@@ -45,36 +45,80 @@ digit_signs["H"] = [1, 2, 4, 5, 6]
 digit_signs["h"] = [2, 4, 5, 6]
 digit_signs["I"] = [5, 4]
 digit_signs["i"] = [2]
-digit_signs["J"] = [0, 1, 2, 3, 4]
-# digit_signs["K"]
+digit_signs["j"] = [2, 3]
+digit_signs["J"] = [1, 2, 3, 4]
+digit_signs["K"] = [1, 2, 4, 5, 6]
 digit_signs["L"] = [3, 4, 5]
-digit_signs["l"] = digit_signs["1"]
+digit_signs["l"] = [1, 2]
 # digit_signs["M"]
 # digit_signs["N"]
 digit_signs["n"] = [4, 6, 2]
-digit_signs["O"] = digit_signs["0"]
+digit_signs["O"] = [0, 1, 2, 3, 4, 5]
 digit_signs["o"] = [2, 3, 4, 6]
 digit_signs["P"] = [0, 1, 4, 5, 6]
 # digit_signs["Q"]
-# digit_signs["R"]
+digit_signs["q"] = [0, 1, 2, 5, 6]
+digit_signs["R"] = [0, 1, 2, 4, 5, 6]
 digit_signs["r"] = [4, 6]
-digit_signs["S"] = digit_signs["5"]
+digit_signs["S"] = [0, 2, 3, 5, 6]
 # digit_signs["T"]
 digit_signs["t"] = [3, 4, 5, 6]
 digit_signs["U"] = [1, 2, 3, 4, 5, 6]
-# digit_signs["V"]
+digit_signs["u"] = [2, 3, 4]
+digit_signs["V"] = [5, 6, 1, 4]
 # digit_signs["W"]
-# digit_signs["X"]
+digit_signs["X"] = [1, 2, 4, 5, 6]
 digit_signs["Y"] = [1, 2, 3, 5, 6]
-digit_signs["Z"] = digit_signs["2"]
+digit_signs["Z"] = [0, 1, 3, 4, 6]
 
 ##################
 # SPECIAL CHARS
 ##################
+digit_signs[u'ö'] = [0, 2, 3, 4, 6]
+digit_signs[u'ü'] = [0, 2, 3, 4]
+digit_signs[u'ß'] = [0, 1, 2, 4, 5]
 digit_signs["_"] = [3]
 digit_signs["-"] = [6]
 digit_signs[u"°"] = [5, 0, 1, 6]
 digit_signs["\n"] = []
+digit_signs["?"] = [0,1,4,6]
+#digit_signs["!"] = []
+
+
+pref_char_rep = {}
+pref_char_rep['a'] = 'A'
+pref_char_rep['b'] = 'b'
+pref_char_rep['c'] = 'c'
+pref_char_rep['d'] = 'd'
+pref_char_rep['e'] = 'E'
+pref_char_rep['f'] = 'F'
+pref_char_rep['g'] = 'G'
+pref_char_rep['h'] = 'h'
+pref_char_rep['i'] = 'i'
+pref_char_rep['j'] = 'J'
+pref_char_rep['k'] = 'K'
+pref_char_rep['l'] = 'L'
+pref_char_rep['m'] = '-'
+pref_char_rep['n'] = 'n'
+pref_char_rep['o'] = 'o'
+pref_char_rep['p'] = 'P'
+pref_char_rep['q'] = 'q'
+pref_char_rep['r'] = 'r'
+pref_char_rep['s'] = 'S'
+pref_char_rep['t'] = 't'
+pref_char_rep['u'] = 'u'
+pref_char_rep['v'] = 'V'
+pref_char_rep['w'] = '-'
+pref_char_rep['x'] = 'X'
+pref_char_rep['y'] = 'Y'
+pref_char_rep['z'] = 'Z'
+
+pref_char_rep[u'ä'] = u'ö'
+pref_char_rep[u'ö'] = u'ö'
+pref_char_rep[u'ü'] = u'ü'
+pref_char_rep[u'ß'] = u'ß'
+
+
 
 
 ##################
