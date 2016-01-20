@@ -28,10 +28,10 @@ class RubinsteinProgress(JsonReader):
 
 
     def getMessage(self): 
-        #message = int(round(JsonReader.getMessage(self)))
-        message = 100
+        message = int(round(JsonReader.getMessage(self)))
+        #message = 100
         if message == 100:
-            return "FiniShEd"
+            return "finished!"
         else:
             return str(message).ljust(2) + u"°o"
 

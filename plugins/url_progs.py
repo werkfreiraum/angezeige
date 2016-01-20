@@ -21,7 +21,7 @@ class UrlReader(Program):
     @staticmethod
     def getParams():
         params = Program.getParams()
-        params['uri'] = "http://angezeige.abteil.org/nr.html"
+        params['uri'] = "http://spartan.ac.brocku.ca/~tmulligan/3p82inv_hand.html"
         params['refresh_duration'] = "20"
         return params
 
@@ -29,7 +29,7 @@ class UrlReader(Program):
         while True:
             message = self.getMessage()
             if len(message) > 4:
-                self.slide(message)
+                self.slide(message, slide_speed=0.3)
             else:
                 self.write(message)
             self.wait(self.refresh_duration, show_progress = True)

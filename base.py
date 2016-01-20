@@ -23,8 +23,8 @@ def _get_color(color, output_format="byte"):
 
 
 def _get_leds(ascii, position, prefered_signs = True, strict = False):
-    if prefered_signs and ascii in pref_char_rep:
-        ascii = pref_char_rep[ascii]
+    if prefered_signs and ascii.lower() in pref_char_rep:
+        ascii = pref_char_rep[ascii.lower()]
     if ascii in digit_signs:
         return [digit_leds[position][l] for l in digit_signs[ascii]]
     else:
