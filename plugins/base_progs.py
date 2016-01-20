@@ -78,20 +78,15 @@ class ShowSigns(Program):
 ################################################################
 # Show Signs
 ################################################################
-class ScrollText(Program):
+class SlideText(Program):
     def __init__(self, writer=None, color=None, text=None, duration=None):
         Program.__init__(self, writer, color=color)
         self.text = self.getParams()["text"] if text is None else text
         self.duration = float(self.getParams()["duration"] if duration is None else duration)
 
     def do(self):
-        i = 0
         while True:
-            self.write(('    ' + self.text + '    ')[i:(i+4)])
-            self.wait(self.duration)
-            i += 1
-            if i >= len(self.text) + 4:
-                i = 0
+            self.slide(self.text, self.duration)
 
     @staticmethod
     def getParams():

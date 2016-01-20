@@ -65,6 +65,12 @@ class Program(Thread):
             kwargs["color"] = self.color
         self.writer.write(get_message(*args, **kwargs))
 
+    def slide(self, message, duration = 0.4, color = None):
+        with_spaces = ' '*4 + self.text + ' '*4
+        for i in range(len(with_spaces) - 4):
+            self.write(with_spaces[i:(i+4)])
+            self.wait(duration)
+
     def wait(self, interval):
         while True:
             if self._stop:
