@@ -25,6 +25,7 @@ class Program(Thread):
     running = None
     raiseException = False
     color = "white"
+    prefered_signs = True
 
     __metaclass__ = MetaProgram
 
@@ -37,8 +38,9 @@ class Program(Thread):
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
 
-        if "color" in self.getParams():
+        if "color" in self.getParams() or color is not None:
             self.color = self.getParams()["color"] if color is None else color
+
 
     def run(self):
         try:
@@ -64,6 +66,8 @@ class Program(Thread):
     def write(self, *args, **kwargs):
         if "color" not in kwargs and self.color is not None:
             kwargs["color"] = self.color
+        if "prefered_signs" not in kwargs and self.prefered_signs is not None:
+            kwargs["prefered_signs"] = self.prefered_signs
         self._last_message = get_message(*args, **kwargs)
         self.writer.write(self._last_message)
 
