@@ -47,3 +47,18 @@ def get_message(string = "", separator="NONE", color="white", off_color="black")
             message += off_color_bytes
 
     return message
+
+
+def modify_separator(oldMessage, separator="NONE", color="white", off_color="black"):
+    leds = [separator_leds[i] for i in separator_types[separator]]
+
+    color_bytes = _get_color(color)
+    off_color_bytes = _get_color(off_color)
+
+    for i in separator_leds:
+        if i in leds:
+            oldMessage = oldMessage[:i*3] + color_bytes + oldMessage[(i+1)*3:]
+        else:
+            oldMessage = oldMessage[:i*3] + off_color_bytes + oldMessage[(i+1)*3:]
+
+    return oldMessage

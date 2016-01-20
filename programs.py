@@ -24,6 +24,7 @@ class Program(Thread):
     checkInterval = 0.2
     running = None
     raiseException = False
+    color = "white"
 
     __metaclass__ = MetaProgram
 
@@ -32,7 +33,7 @@ class Program(Thread):
         self.daemon = True
         self._stop = False
         self._error = None
-        self.color = None
+        self._last_message = ""
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
 
@@ -63,25 +64,32 @@ class Program(Thread):
     def write(self, *args, **kwargs):
         if "color" not in kwargs and self.color is not None:
             kwargs["color"] = self.color
-        self.writer.write(get_message(*args, **kwargs))
+        self._last_message = get_message(*args, **kwargs)
+        self.writer.write(self._last_message)
 
     def slide(self, message, duration = 0.4, color = None):
-        with_spaces = ' '*4 + self.text + ' '*4
-        for i in range(len(with_spaces) - 4):
+        with_spaces = ' '*4 + message + ' '*4
+        for i in range(len(with_spaces) - 3):
             self.write(with_spaces[i:(i+4)])
             self.wait(duration)
 
-    def wait(self, interval):
+    def wait(self, interval, show_progress = False):
+        still_to_wait = interval
         while True:
             if self._stop:
                 self.exit()
-            if interval <= Program.checkInterval:
+            if still_to_wait <= Program.checkInterval:
                 break
             else:
                 sleep(Program.checkInterval)
-                interval -= Program.checkInterval
+                still_to_wait -= Program.checkInterval
+                if show_progress:
+                    p = int(round(float(still_to_wait)/interval*4))
+                    self._last_message = modify_separator(self._last_message, separator = ("P", p), color = self.color)
+                    self.writer.write(self._last_message)
 
-        sleep(interval)
+
+        sleep(still_to_wait)
 
     def exit(self):
         self.writer.close()
