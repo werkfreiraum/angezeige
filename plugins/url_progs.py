@@ -33,7 +33,7 @@ class UrlReader(Program):
         while True:
             message = self.getMessage()
             if len(message) > 4:
-                self.slide(message, slide_speed=0.3)
+                self.slide(message, speed=0.3)
             else:
                 self.write(message)
             self.wait(self.refresh_duration, show_progress=True)
@@ -75,11 +75,13 @@ class JsonReader(UrlReader):
     def getMessage(self):
         return self.readJsonPathContent()
 
-    def readJsonPathContent(self, path=None):
+    def readJsonPathContent(self, dct=None, path=None):
         if path is None:
             path = self.path
-        dct = json.loads(self.readUri())
-        return _get_val_by_path(dct, path)
+        if dct is None:
+            dct = self.readUri()
+        j_dct = json.loads(dct)
+        return _get_val_by_path(j_dct, path)
 
 
 class ViennaTemp(JsonReader):

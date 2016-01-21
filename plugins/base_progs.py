@@ -96,7 +96,7 @@ class SlideText(Program):
     def do(self):
 
         while True:
-            self.slide(self.text, self.slide_speed)
+            self.slide(self.text, speed=self.slide_speed)
 
     @staticmethod
     def getParams():

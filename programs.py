@@ -34,7 +34,8 @@ class Program(Thread):
         self.daemon = True
         self._stop = False
         self._error = None
-        self._last_message = ""
+        self._last_message = None
+        self._last_string = None
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
 
@@ -63,19 +64,25 @@ class Program(Thread):
         Program.running = self
         Thread.start(self)
 
-    def write(self, *args, **kwargs):
+    def write(self, string, *args, **kwargs):
         if "color" not in kwargs and self.color is not None:
             kwargs["color"] = self.color
         if "prefered_signs" not in kwargs and self.prefered_signs is not None:
             kwargs["prefered_signs"] = self.prefered_signs
-        self._last_message = get_message(*args, **kwargs)
+        self._last_string = string
+        self._last_message = get_message(string, *args, **kwargs)
         self.writer.write(self._last_message)
 
-    def slide(self, message, slide_speed=0.4, color=None):
+    def slide(self, message, speed=0.4, color=None):
         with_spaces = ' ' * 4 + message + ' ' * 4
         for i in range(len(with_spaces) - 3):
             self.write(with_spaces[i:(i + 4)])
-            self.wait(slide_speed)
+            self.wait(speed)
+
+    def transition(self, message, speed=0.3):
+        for i in range(3):
+            pass
+
 
     def wait(self, interval, show_progress=False):
         still_to_wait = interval

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import urwid, sys
-from programs import Program, program_registry
+from programs import Program
 
 
 def get_status():
@@ -37,11 +37,11 @@ def menu(choices):
 def item_chosen(choice, button):
     body = [urwid.Divider("-"), urwid.Text(choice, align='center')]
 
-    if len(program_registry[choice].getParams()) > 0:
+    if len(Program.getPromotedPrograms()[choice].getParams()) > 0:
         body.extend([urwid.Divider("-"), urwid.Text("Parameters:")])
 
     params = {}
-    for p, v in program_registry[choice].getParams().items():
+    for p, v in Program.getPromotedPrograms()[choice].getParams().items():
         #body.append(urwid.Text())
         edit = urwid.Edit(caption = u"▸ " + p.replace('_', ' ').title() + ": ", edit_text = v)
         body.append(urwid.AttrMap(edit, None, focus_map='reversed'))
@@ -72,7 +72,7 @@ def start_program(choice, params, button):
         Program.running.stop()
         Program.running.join()
 
-    p = program_registry[choice](**cParams)
+    p = Program.getPromotedPrograms()[choice](**cParams)
     p.start()
     show_menu()
 
@@ -97,5 +97,5 @@ def choose():
     mainLoop.run()
 
 
-listMenu = menu(program_registry.keys())
+listMenu = menu(Program.getPromotedPrograms().keys())
 mainWidget = urwid.Padding(None, left=1, right=1)
