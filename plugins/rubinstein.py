@@ -35,6 +35,10 @@ class RubinsteinProgress(JsonReader):
         else:
             return str(message).ljust(2) + u"°o"
 
+    @staticmethod
+    def getParams():
+        return {}
+
 
 ################################################################
 # Show when printer rubinstein ready
