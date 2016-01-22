@@ -33,7 +33,7 @@ class RubinsteinProgress(JsonReader):
         if message == 100:
             return "finished!"
         else:
-            return str(message).ljust(2) + u"°o"
+            return str(message).rjust(2) + u"°o"
 
     @staticmethod
     def getParams():
