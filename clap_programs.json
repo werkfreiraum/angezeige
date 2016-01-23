@@ -4,13 +4,13 @@
     },
     {
         "name": "ShowTime",
-        "parms": {
+        "params": {
             "color": "red"
         }
     },
     {
         "name": "RubinsteinProgress",
-        "parms": {
+        "params": {
             "color": "blue"
         }
     },
