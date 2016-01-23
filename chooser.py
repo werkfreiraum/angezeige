@@ -107,7 +107,7 @@ def get_info(mainLoop, data):
         prog = clap_programs[next_clap_program_idx]
         name = prog["name"]
         params = prog["params"] if "params" in prog else {}
-        start_program(name, params)
+        start_program(name, params, None, False)
         next_clap_program_idx = (next_clap_program_idx + 1)%len(clap_programs)
         clap.detected = False
         #exit_application()
