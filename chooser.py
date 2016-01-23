@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import urwid, sys
 from programs import Program
-
+import clap
+import json
 
 def get_status():
     status = "Status: "
@@ -17,6 +18,13 @@ def get_status():
     else:
         status += "OFF"
 
+    status += "\nClap: "
+
+    if clap.detected:
+        status += "YES"
+    else:
+        status += "NO"
+    
     return status
 
 status = urwid.Text(get_status())
@@ -63,10 +71,13 @@ def item_chosen(choice, button):
 
     mainWidget.original_widget = urwid.Filler(urwid.Pile(body, focus_item=tOk))
 
-def start_program(choice, params, button):
+
+
+def start_program(choice, params, button = None, params_from_edit = True):
     cParams = {}
-    for p in params:
-        cParams[p] = params[p].get_edit_text()
+    if params_from_edit:
+        for p in params:
+            cParams[p] = params[p].get_edit_text()
 
     if Program.running:
         Program.running.stop()
@@ -76,15 +87,32 @@ def start_program(choice, params, button):
     p.start()
     show_menu()
 
-def exit_application(button):
+def exit_application(button = None):
     raise urwid.ExitMainLoop()
 
 def show_menu(button = None):
     mainWidget.original_widget = listMenu
 
+
+next_clap_program_idx = 0
+
+with open('./clap_programs.json') as data_file:    
+    clap_programs = json.load(data_file)
+
 def get_info(mainLoop, data):
+    global next_clap_program_idx
+
     status.set_text(get_status())
-    mainLoop.set_alarm_in(1, get_info)
+    if clap.detected:
+        prog = clap_programs[next_clap_program_idx]
+        name = prog["name"]
+        params = prog["params"] if "params" in prog else {}
+        start_program(name, params)
+        next_clap_program_idx = (next_clap_program_idx + 1)%len(clap_programs)
+        clap.detected = False
+        #exit_application()
+    mainLoop.set_alarm_in(0.2, get_info)
+
 
 def choose():
     top = urwid.Overlay(mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),
@@ -99,3 +127,4 @@ def choose():
 
 listMenu = menu(Program.getPromotedPrograms().keys())
 mainWidget = urwid.Padding(None, left=1, right=1)
+

@@ -1,0 +1,23 @@
+[
+    { 
+        "name": "BlinkAll"
+    },
+    {
+        "name": "ShowTime",
+        "parms": {
+            "color": "red"
+        }
+    },
+    {
+        "name": "RubinsteinProgress",
+        "parms": {
+            "color": "blue"
+        }
+    },
+    {
+        "name": "ViennaTemp"
+    },
+    {
+        "name": "NextU6Wbhf"
+    }
+]
