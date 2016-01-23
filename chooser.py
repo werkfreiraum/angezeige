@@ -78,6 +78,8 @@ def start_program(choice, params, button = None, params_from_edit = True):
     if params_from_edit:
         for p in params:
             cParams[p] = params[p].get_edit_text()
+    else:
+        cParams = params
 
     if Program.running:
         Program.running.stop()
