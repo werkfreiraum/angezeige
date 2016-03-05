@@ -14,6 +14,20 @@ Main program for real display:
 
     ./main.py
 
+It makes sense to ‘aptitude install screen’ and place this line in
+/etc/rc.local:
+
+    sudo -iu pi /usr/bin/screen -dmS angezeige bash -c 'cd /home/pi/angezeige/; python main.py'
+
+Run something like this to attach to the screen session if your hands are
+already in pain of clapping:
+
+    ssh pi@angezeige.local
+    screen -x angezeige
+
+Exit screen (aka detach) without closing angezeige and the screen session:
+
+    CTRL + A,  D
 
 Simulation:
 
