@@ -129,6 +129,8 @@ def choose():
                         valign='middle', height=('relative', 60),
                         min_width=20, min_height=9)
     show_menu()
+    # start with first program
+    clap.detected = True
     mainLoop = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
     mainLoop.set_alarm_in(0, get_info)
     mainLoop.run()
