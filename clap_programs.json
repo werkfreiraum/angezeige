@@ -1,7 +1,4 @@
 [
-    { 
-        "name": "BlinkAll"
-    },
     {
         "name": "ShowTime",
         "params": {
