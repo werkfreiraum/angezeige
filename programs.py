@@ -42,7 +42,6 @@ class Program(Thread):
         if "color" in self.getParams() or color is not None:
             self.color = self.getParams()["color"] if color is None else color
 
-
     def run(self):
         try:
             self.do()
@@ -82,7 +81,6 @@ class Program(Thread):
     def transition(self, message, speed=0.3):
         for i in range(3):
             pass
-
 
     def wait(self, interval, show_progress=False):
         still_to_wait = interval

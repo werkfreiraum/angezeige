@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import urwid, sys
+import urwid
+import sys
 from programs import Program
 import clap
 import json
+
 
 def get_status():
     status = "Status: "
@@ -24,16 +26,18 @@ def get_status():
         status += "YES"
     else:
         status += "NO"
-    
+
     return status
 
 status = urwid.Text(get_status())
 
+
 def menu(choices):
-    body = [urwid.Divider("-"), urwid.Text("ANGEZEIGE", align='center'), urwid.Divider("-"), status, urwid.Divider("-"), urwid.Text("Choose Program:")]
+    body = [urwid.Divider("-"), urwid.Text("ANGEZEIGE", align='center'), urwid.Divider("-"),
+            status, urwid.Divider("-"), urwid.Text("Choose Program:")]
     for choice in choices:
         button = urwid.Button(choice)
-        urwid.connect_signal(button, 'click', item_chosen, user_args = [choice])
+        urwid.connect_signal(button, 'click', item_chosen, user_args=[choice])
         body.append(urwid.AttrMap(button, None, focus_map='reversed'))
     body.append(urwid.Divider("-"))
     button = urwid.Button("EXIT")
@@ -41,6 +45,7 @@ def menu(choices):
     body.append(urwid.AttrMap(button, None, focus_map='reversed'))
 
     return urwid.ListBox(urwid.SimpleFocusListWalker(body))
+
 
 def item_chosen(choice, button):
     body = [urwid.Divider("-"), urwid.Text(choice, align='center')]
@@ -50,10 +55,10 @@ def item_chosen(choice, button):
 
     params = {}
     for p, v in Program.getPromotedPrograms()[choice].getParams().items():
-        #body.append(urwid.Text())
-        edit = urwid.Edit(caption = u"▸ " + p.replace('_', ' ').title() + ": ", edit_text = v)
+        # body.append(urwid.Text())
+        edit = urwid.Edit(caption=u"▸ " + p.replace('_', ' ').title() + ": ", edit_text=v)
         body.append(urwid.AttrMap(edit, None, focus_map='reversed'))
-        #body.append(urwid.Divider())
+        # body.append(urwid.Divider())
         params[p] = edit
 
     body.append(urwid.Divider("-"))
@@ -61,7 +66,7 @@ def item_chosen(choice, button):
     ok = urwid.Button(u'Ok')
     back = urwid.Button(u'Back')
 
-    urwid.connect_signal(ok, 'click', start_program, user_args = [choice, params])
+    urwid.connect_signal(ok, 'click', start_program, user_args=[choice, params])
     urwid.connect_signal(back, 'click', show_menu)
 
     tOk = urwid.AttrMap(ok, None, focus_map='reversed')
@@ -72,8 +77,7 @@ def item_chosen(choice, button):
     mainWidget.original_widget = urwid.Filler(urwid.Pile(body, focus_item=tOk))
 
 
-
-def start_program(choice, params, button = None, params_from_edit = True):
+def start_program(choice, params, button=None, params_from_edit=True):
     cParams = {}
     if params_from_edit:
         for p in params:
@@ -89,17 +93,20 @@ def start_program(choice, params, button = None, params_from_edit = True):
     p.start()
     show_menu()
 
-def exit_application(button = None):
+
+def exit_application(button=None):
     raise urwid.ExitMainLoop()
 
-def show_menu(button = None):
+
+def show_menu(button=None):
     mainWidget.original_widget = listMenu
 
 
 next_clap_program_idx = 0
 
-with open('./clap_programs.json') as data_file:    
+with open('./clap_programs.json') as data_file:
     clap_programs = json.load(data_file)
+
 
 def get_info(mainLoop, data):
     global next_clap_program_idx
@@ -110,17 +117,17 @@ def get_info(mainLoop, data):
         name = prog["name"]
         params = prog["params"] if "params" in prog else {}
         start_program(name, params, None, False)
-        next_clap_program_idx = (next_clap_program_idx + 1)%len(clap_programs)
+        next_clap_program_idx = (next_clap_program_idx + 1) % len(clap_programs)
         clap.detected = False
-        #exit_application()
+        # exit_application()
     mainLoop.set_alarm_in(0.2, get_info)
 
 
 def choose():
     top = urwid.Overlay(mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),
-        align='center', width=('relative', 60),
-        valign='middle', height=('relative', 60),
-        min_width=20, min_height=9)
+                        align='center', width=('relative', 60),
+                        valign='middle', height=('relative', 60),
+                        min_width=20, min_height=9)
     show_menu()
     mainLoop = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
     mainLoop.set_alarm_in(0, get_info)
@@ -129,4 +136,3 @@ def choose():
 
 listMenu = menu(Program.getPromotedPrograms().keys())
 mainWidget = urwid.Padding(None, left=1, right=1)
-

@@ -21,16 +21,13 @@ def cleanup_exit(*kwargs):
 
 def main():
     signal.signal(signal.SIGINT, cleanup_exit)
+    
     clap.open()
     clap.start_detection()
-
 
     choose()
     cleanup_exit()
 
 
-
-
 if __name__ == "__main__":
     main()
-

@@ -108,6 +108,8 @@ class SlideText(Program):
 ################################################################
 # Fade
 ################################################################
+
+
 class FadeMe(Program):
 
     def __init__(self, writer=None, i=None, j=None):

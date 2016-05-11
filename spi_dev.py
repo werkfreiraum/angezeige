@@ -1,4 +1,5 @@
 class SpiDevWriter:
+
     def __init__(self, spidev_file):
         self.f = open(spidev_file, "wb")
 
