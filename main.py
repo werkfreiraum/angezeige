@@ -21,7 +21,7 @@ def cleanup_exit(*kwargs):
 
 def main():
     signal.signal(signal.SIGINT, cleanup_exit)
-    
+
     clap.open()
     clap.start_detection()
 
