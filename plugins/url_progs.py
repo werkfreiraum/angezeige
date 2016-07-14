@@ -39,7 +39,10 @@ class UrlReader(Program):
             self.wait(self.refresh_duration, show_progress=True)
 
     def getMessage(self):
-        return self.readUri().rstrip()
+        try:
+            return self.readUri().rstrip()
+        except Exception as e:
+            return "ERRO"
 
     def readUri(self):
         try:
