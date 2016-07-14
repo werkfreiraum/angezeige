@@ -65,6 +65,7 @@ class NextBim(JsonReader):
 
     @staticmethod
     def getParams():
+	params = {} 
         params['steig'] = "4619"
         params['color'] = "white"
         return {}
@@ -92,6 +93,19 @@ class Next52Gerst(NextBim):
     def getMessage(self):
         minutes = int(JsonReader.getMessage(self))
         return "52" + str(minutes).rjust(2)
+
+    @staticmethod
+    def getParams():
+        return {}
+
+class U3(NextBim):
+    def __init__(self, writer=None):
+        NextBim.__init__(self, writer, steig=4291, color="red")
+
+    def getMessage(self):
+        #minutes = int(JsonReader.getMessage(self))
+        #return "U3" + str(minutes).rjust(2)
+        return "U300"
 
     @staticmethod
     def getParams():

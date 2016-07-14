@@ -125,3 +125,15 @@ class ViennaTemp(JsonReader):
 
             self.write(unicode(temperature_str) + u"°C", prefered_signs=False)
             self.wait(self.refresh_duration, show_progress=True)
+
+class Foosball(UrlReader):
+
+    def __init__(self, writer=None, uri=None):
+        UrlReader.__init__(self, writer, uri=uri, refresh_duration=0)
+
+    @staticmethod
+    def getParams():
+	params = {}
+	params['uri'] = "http://foosball.local:5000"
+        return params
+
