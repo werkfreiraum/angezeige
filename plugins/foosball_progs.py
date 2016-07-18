@@ -4,7 +4,6 @@ import urllib
 import logging
 from programs import Program
 from url_progs import UrlReader, JsonReader
-from private import api_keys
 import urllib2
 import re
 import logging

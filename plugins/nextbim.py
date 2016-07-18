@@ -3,7 +3,7 @@ import urllib2
 import re
 import logging
 
-from private import api_keys
+from conf.private import api_keys
 from programs import Program
 
 from url_progs import JsonReader

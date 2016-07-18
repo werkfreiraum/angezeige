@@ -5,7 +5,7 @@ import re
 import logging
 from contextlib import closing
 
-from private import api_keys
+from conf.private import api_keys
 from programs import Program
 from url_progs import JsonReader
 

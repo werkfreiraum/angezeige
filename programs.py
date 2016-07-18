@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
 from time import sleep
-from base import *
+from core.base import *
 from spi_dev import SpiDevWriter
-from private import spidev_file
+from conf.private import spidev_file
 from threading import Thread
 import sys
 

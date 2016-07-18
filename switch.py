@@ -6,8 +6,6 @@ from array import array
 from threading import Thread
 
 
-
-
 class Switch(object):
     thread = None
     detected = False
@@ -36,8 +34,8 @@ class ClapSwitch(Switch):
 
     def open():
         import pyaudio
-        from private import audio as audio_settings
-        
+        from settings import audio as audio_settings
+
         self._p = pyaudio.PyAudio()
 
         audio_settings['format'] = pyaudio.paInt16
@@ -46,7 +44,6 @@ class ClapSwitch(Switch):
         audio_settings['frames_per_buffer'] = self.chunk
 
         self._stream = self._p.open(**audio_settings)
-
 
     def _detect(ret_func=None):
         while True:

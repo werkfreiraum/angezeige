@@ -31,7 +31,7 @@ def main():
 
     switch_programs = None
     if switch:
-        with open('./switch_programs.json') as data_file:
+        with open('./conf/switch_programs.json') as data_file:
             switch_programs = json.load(data_file)
         switch.open()
         switch.start_detection()
