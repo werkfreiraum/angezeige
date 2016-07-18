@@ -65,7 +65,7 @@ class NextBim(JsonReader):
 
     @staticmethod
     def getParams():
-	params = {} 
+        params = {}
         params['steig'] = "4619"
         params['color'] = "white"
         return {}
@@ -98,40 +98,18 @@ class Next52Gerst(NextBim):
     def getParams():
         return {}
 
+
 class U3(NextBim):
+
     def __init__(self, writer=None):
         NextBim.__init__(self, writer, steig=4291, color="red")
 
     def getMessage(self):
         #minutes = int(JsonReader.getMessage(self))
-        #return "U3" + str(minutes).rjust(2)
+        # return "U3" + str(minutes).rjust(2)
         return "U300"
 
     @staticmethod
     def getParams():
         return {}
 
-
-################################################################
-# Show when next bim comes
-################################################################
-# class NextBim(Program):
-#     def do(self):
-#         while True:
-#             for cmd, station_id in STATION_IDS.iteritems():
-#                 logging.debug('Retrieving countdown for station={}'.format(
-#                     station_id))
-#                 api_uri = URL.format(station_id, api_key)
-#                 try:
-#                     # need contextlib because no Python 3... :(
-#                     with closing(urllib2.urlopen(api_uri)) as nextbims_json:
-#                         nextbim = json.load(nextbims_json)
-#                 except urllib2.URLError:
-#                     logging.exception("Failed to retrieve nextbim data.")
-#                     self.write('')
-#                 else:
-#                     countdown = _get_val_by_path(nextbim, JSON_PATH)
-#                     logging.info('Countdown={} for station={}'.format(
-#                         countdown, station_id))
-#                     self.write(str(countdown))
-#                 self.wait(CYCLE_PERIOD_S)

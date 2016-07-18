@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 import signal
+import os
 import sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
 from programs import Program
@@ -11,7 +12,7 @@ class DataServer(WebSocket):
         print(" - Connection established!")
         print(" - Start Thread!")
         Program.raiseException = True
-        self.t = Program.getPromotedPrograms()["FadeMe"](writer=self)
+        self.t = Program.getPromotedPrograms()["ShowTime"](writer=self)
         self.t.start()
 
     def handleClose(self):
@@ -30,6 +31,7 @@ def main():
     print("Starting WebSocket ...")
     server = SimpleWebSocketServer('localhost', 8000, DataServer)
     print("WebSocket Ready!")
+    print("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
 
     def close_sig_handler(signal, frame):
         print("\nClosing WebSocket ...")

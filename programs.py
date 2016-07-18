@@ -15,7 +15,7 @@ class MetaProgram(type):
     """Used for auto registering programs. No need for decorator anymore."""
     def __new__(mcs, name, bases, dict):
         new_program = type.__new__(mcs, name, bases, dict)
-        if name not in program_registry:
+        if name not in program_registry and name != "Program":
             program_registry[name] = new_program
         return new_program
 
@@ -35,7 +35,7 @@ class Program(Thread):
         self._stop = False
         self._error = None
         self._last_message = None
-        self._last_string = None
+        #self._last_string = None
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
 
@@ -68,7 +68,7 @@ class Program(Thread):
             kwargs["color"] = self.color
         if "prefered_signs" not in kwargs and self.prefered_signs is not None:
             kwargs["prefered_signs"] = self.prefered_signs
-        self._last_string = string
+        #self._last_string = string
         self._last_message = get_message(string, *args, **kwargs)
         self.writer.write(self._last_message)
 

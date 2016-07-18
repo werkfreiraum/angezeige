@@ -23,13 +23,13 @@ up[5] = None
 up[6] = 0
 
 down = {}
-up[0] = 6
-up[1] = 2
-up[2] = None
-up[3] = None
-up[4] = None
-up[5] = 4
-up[6] = 3
+down[0] = 6
+down[1] = 2
+down[2] = None
+down[3] = None
+down[4] = None
+down[5] = 4
+down[6] = 3
 
 
 digit_signs = {}

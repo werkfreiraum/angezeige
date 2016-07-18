@@ -56,18 +56,18 @@ class UrlReader(Program):
             raise
 
 
-def _get_val_by_path(dct, path):
-    """Returns element from dictionary ``dct`` along path ``path``."""
-    for i, p in re.findall(r'(\d+)|(\w+)', path):
-        dct = dct[p or int(i)]
-    return dct
-
-
 class JsonReader(UrlReader):
 
     def __init__(self, writer=None, color=None, uri=None, refresh_duration=None, path=None):
         UrlReader.__init__(self, writer, color=color, uri=uri, refresh_duration=refresh_duration)
         self.path = self.getParams()["path"] if path is None else path
+
+    @staticmethod
+    def get_val_by_path(dct, path):
+        """Returns element from dictionary ``dct`` along path ``path``."""
+        for i, p in re.findall(r'(\d+)|(\w+)', path):
+            dct = dct[p or int(i)]
+        return dct
 
     @staticmethod
     def getParams():
@@ -84,7 +84,7 @@ class JsonReader(UrlReader):
         if dct is None:
             dct = self.readUri()
         j_dct = json.loads(dct)
-        return _get_val_by_path(j_dct, path)
+        return JsonReader.get_val_by_path(j_dct, path)
 
 
 class ViennaTemp(JsonReader):
@@ -128,15 +128,3 @@ class ViennaTemp(JsonReader):
 
             self.write(unicode(temperature_str) + u"°C", prefered_signs=False)
             self.wait(self.refresh_duration, show_progress=True)
-
-class Foosball(UrlReader):
-
-    def __init__(self, writer=None, uri=None):
-        UrlReader.__init__(self, writer, uri=uri, refresh_duration=0)
-
-    @staticmethod
-    def getParams():
-	params = {}
-	params['uri'] = "http://foosball.local:5000"
-        return params
-

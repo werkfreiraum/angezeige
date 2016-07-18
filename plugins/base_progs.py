@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 from programs import Program
 
-################################################################
-# Iterates the first digit
-################################################################
-
 
 class Counter(Program):
 
@@ -25,10 +21,6 @@ class Counter(Program):
         params = Program.getParams()
         params['duration'] = "1"
         return params
-
-################################################################
-# Blink all leds
-################################################################
 
 
 class BlinkAll(Program):
@@ -62,9 +54,6 @@ class BlinkAll(Program):
         return params
 
 
-################################################################
-# Show Signs
-################################################################
 class ShowSigns(Program):
 
     def __init__(self, writer=None, color=None, signs=None):
@@ -83,9 +72,6 @@ class ShowSigns(Program):
         return params
 
 
-################################################################
-# Show Signs
-################################################################
 class SlideText(Program):
 
     def __init__(self, writer=None, color=None, text=None, slide_speed=None):
@@ -104,10 +90,6 @@ class SlideText(Program):
         params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!.,-\'\""
         params['slide_speed'] = "0.4"
         return params
-
-################################################################
-# Fade
-################################################################
 
 
 class FadeMe(Program):

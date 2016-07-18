@@ -2,10 +2,6 @@ from time import localtime
 from time import strftime
 from programs import Program
 
-################################################################
-# Shows current time
-################################################################
-
 
 class ShowTime(Program):
 

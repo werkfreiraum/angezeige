@@ -2,8 +2,10 @@
 import urwid
 import sys
 from programs import Program
-import clap
 import json
+
+switch = None
+switch_programs = None
 
 
 def get_status():
@@ -20,12 +22,13 @@ def get_status():
     else:
         status += "OFF"
 
-    status += "\nClap: "
+    if switch:
+        status += "\nClap: "
 
-    if clap.detected:
-        status += "YES"
-    else:
-        status += "NO"
+        if switch.detected:
+            status += "YES"
+        else:
+            status += "NO"
 
     return status
 
@@ -102,35 +105,38 @@ def show_menu(button=None):
     mainWidget.original_widget = listMenu
 
 
-next_clap_program_idx = 0
-
-with open('./clap_programs.json') as data_file:
-    clap_programs = json.load(data_file)
+next_switch_program_idx = 0
 
 
 def get_info(mainLoop, data):
-    global next_clap_program_idx
+    global next_switch_program_idx
 
     status.set_text(get_status())
-    if clap.detected:
-        prog = clap_programs[next_clap_program_idx]
+    if switch and switch.detected:
+        prog = switch_programs[next_switch_program_idx]
         name = prog["name"]
         params = prog["params"] if "params" in prog else {}
         start_program(name, params, None, False)
-        next_clap_program_idx = (next_clap_program_idx + 1) % len(clap_programs)
-        clap.detected = False
+        next_switch_program_idx = (next_switch_program_idx + 1) % len(switch_programs)
+        switch.detected = False
         # exit_application()
     mainLoop.set_alarm_in(0.2, get_info)
 
 
-def choose():
+def choose(use_switch=None, use_switch_programs=None):
+
     top = urwid.Overlay(mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),
                         align='center', width=('relative', 60),
                         valign='middle', height=('relative', 60),
                         min_width=20, min_height=9)
     show_menu()
     # start with first program
-    clap.detected = True
+    if use_switch is not None:
+        global switch, switch_programs
+        switch = use_switch
+        switch_programs = use_switch_programs
+        switch.detected = True
+
     mainLoop = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
     mainLoop.set_alarm_in(0, get_info)
     mainLoop.run()
