@@ -9,7 +9,7 @@ from threading import Thread
 class Switch(object):
     thread = None
     detected = False
-    close = False
+    closing = False
 
     def open(self):
         pass
@@ -22,7 +22,7 @@ class Switch(object):
         self.thread.start()
 
     def close(self):
-        self.close = True
+        self.closing = True
         self.thread.join()
 
 
@@ -31,7 +31,7 @@ class SimpleSwitch(Switch):
     default = 1
 
     def open(self):
-	global GPIO
+        global GPIO
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
@@ -39,12 +39,13 @@ class SimpleSwitch(Switch):
     def _detect(self, ret_func=None):
         while True:
             a = GPIO.input(self.pin)
-            if self.close:
+            if self.closing:
                 exit()
             if a != self.default:
                 if ret_func is not None:
                     ret_func()
                 self.detected = True
+            sleep(0.02)
 
 
 class ClapSwitch(Switch):
@@ -71,7 +72,7 @@ class ClapSwitch(Switch):
             data = self.stream.read(self.chunk)
             as_ints = array('h', data)
             max_value = max(as_ints)
-            if self.close:
+            if self.closing:
                 exit()
             if max_value > self.threshold:
                 if ret_func is not None:

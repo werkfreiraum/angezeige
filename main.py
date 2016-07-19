@@ -14,13 +14,14 @@ logging.basicConfig(format=LOG_FORMAT, level='DEBUG', filename="angezeige.log")
 
 
 
-def cleanup_exit(*kwargs):
+def cleanup_exit(**kwargs):
+    print(kwargs)
     print("\nBye!")
     if Program.running:
         Program.running.stop()
         Program.running.join()
-    #if switch:
-    #    switch.close()
+    if "switch" in kwargs:
+        kwargs["switch"].close()
     sys.exit()
 
 
@@ -45,7 +46,7 @@ def main():
         switch.start_detection()
 
     choose(use_switch=switch, use_switch_programs=switch_programs)
-    cleanup_exit()
+    cleanup_exit(switch = switch)
 
 
 if __name__ == "__main__":
