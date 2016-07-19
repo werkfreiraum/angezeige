@@ -6,14 +6,11 @@ from programs import Program
 from chooser import choose
 from switch import *
 
-externSwitch = None
-switch = None
-
-if externSwitch == "clap":
-    switch = ClapSwitch()
-
 LOG_FORMAT = '%(asctime)s - %(levelname)-8s %(message)s'
 logging.basicConfig(format=LOG_FORMAT, level='DEBUG', filename="angezeige.log")
+
+switch = None
+
 
 
 def cleanup_exit(*kwargs):
@@ -27,6 +24,15 @@ def cleanup_exit(*kwargs):
 
 
 def main():
+    global switch
+
+    externSwitch = None
+
+    if externSwitch == "clap":
+        switch = ClapSwitch()
+    elif externSwitch == "simple":
+        switch = SimpleSwitch()
+
     signal.signal(signal.SIGINT, cleanup_exit)
 
     switch_programs = None
