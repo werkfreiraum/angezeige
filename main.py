@@ -10,12 +10,7 @@ from switch import *
 LOG_FORMAT = '%(asctime)s - %(levelname)-8s %(message)s'
 logging.basicConfig(format=LOG_FORMAT, level='DEBUG', filename="angezeige.log")
 
-#switch = None
-
-
-
 def cleanup_exit(**kwargs):
-    print(kwargs)
     print("\nBye!")
     if Program.running:
         Program.running.stop()
@@ -26,10 +21,8 @@ def cleanup_exit(**kwargs):
 
 
 def main():
-    #global switch
-
     externSwitch = None
-    externSwitch = "simple" 
+    externSwitch = "clap" 
 
     if externSwitch == "clap":
         switch = ClapSwitch()

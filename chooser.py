@@ -130,11 +130,11 @@ def choose(use_switch=None, use_switch_programs=None):
                         min_width=20, min_height=9)
     show_menu()
     # start with first program
-    #if use_switch is not None:
-    #    global switch, switch_programs
-    #    switch = use_switch
-    #    switch_programs = use_switch_programs
-    #    switch.detected = True
+    if use_switch is not None:
+        global switch, switch_programs
+        switch = use_switch
+        switch_programs = use_switch_programs
+        switch.detected = True
 
     mainLoop = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
     mainLoop.set_alarm_in(0, get_info)

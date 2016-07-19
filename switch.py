@@ -29,6 +29,8 @@ class Switch(object):
 class SimpleSwitch(Switch):
     pin = 4
     default = 1
+    bounce_time = 400
+    ret_func = None
 
     def open(self):
         global GPIO
@@ -36,16 +38,17 @@ class SimpleSwitch(Switch):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
 
+    def close(self):
+        pass
+
+    def start_detection(self, ret_func=None):
+        self.ret_func = ret_func
+        GPIO.add_event_detect(self.pin, GPIO.FALLING, callback=self._detect, bouncetime=self.bounce_time)
+
     def _detect(self, ret_func=None):
-        while True:
-            a = GPIO.input(self.pin)
-            if self.closing:
-                exit()
-            if a != self.default:
-                if ret_func is not None:
-                    ret_func()
-                self.detected = True
-            sleep(0.02)
+        self.detected = True
+        if self.ret_func:
+            self.ret_func()
 
 
 class ClapSwitch(Switch):
