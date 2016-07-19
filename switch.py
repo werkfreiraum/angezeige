@@ -11,17 +11,17 @@ class Switch(object):
     detected = False
     close = False
 
-    def open():
+    def open(self):
         pass
 
-    def _detect(ret_func=None):
+    def _detect(self, ret_func=None):
         pass
 
-    def start_detection(ret_func=None):
-        self.thread = Thread(target=_detect, args=(ret_func, ))
+    def start_detection(self, ret_func=None):
+        self.thread = Thread(target=self._detect, args=(ret_func, ))
         self.thread.start()
 
-    def close():
+    def close(self):
         self.close = True
         self.thread.join()
 
@@ -30,12 +30,13 @@ class SimpleSwitch(Switch):
     pin = 4
     default = 1
 
-    def open():
+    def open(self):
+	global GPIO
         import RPi.GPIO as GPIO
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
 
-    def _detect(ret_func=None):
+    def _detect(self, ret_func=None):
         while True:
             a = GPIO.input(self.pin)
             if self.close:
@@ -52,9 +53,9 @@ class ClapSwitch(Switch):
     stream = None
     p = None
 
-    def open():
+    def open(self):
         import pyaudio
-        from settings import audio as audio_settings
+        from conf.private import audio as audio_settings
 
         self.p = pyaudio.PyAudio()
 
@@ -65,9 +66,9 @@ class ClapSwitch(Switch):
 
         self.stream = self.p.open(**audio_settings)
 
-    def _detect(ret_func=None):
+    def _detect(self, ret_func=None):
         while True:
-            data = self.stream.read(chunk)
+            data = self.stream.read(self.chunk)
             as_ints = array('h', data)
             max_value = max(as_ints)
             if self.close:
@@ -77,7 +78,7 @@ class ClapSwitch(Switch):
                     ret_func()
                 self.detected = True
 
-    def close():
+    def close(self,):
         Switch.close(self)
         self.stream.stop_stream()
         self.stream.close()
