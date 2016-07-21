@@ -6,40 +6,36 @@ import json
 from programs import Program
 from chooser import choose
 from switch import *
+from switch import *
+
+from conf.private import switches
 
 LOG_FORMAT = '%(asctime)s - %(levelname)-8s %(message)s'
 logging.basicConfig(format=LOG_FORMAT, level='DEBUG', filename="angezeige.log")
+
 
 def cleanup_exit(**kwargs):
     print("\nBye!")
     if Program.running:
         Program.running.stop()
         Program.running.join()
-    if "switch" in kwargs:
-        kwargs["switch"].close()
+    switches.close()
     sys.exit()
 
 
 def main():
-    externSwitch = None
-    externSwitch = "clap" 
+    global switches
+    switches = Switches(switches)
 
-    if externSwitch == "clap":
-        switch = ClapSwitch()
-    elif externSwitch == "simple":
-        switch = SimpleSwitch()
+    with open('./conf/switch_programs.json') as data_file:
+        switch_programs = json.load(data_file)
+
+    switches.start_detection()
 
     signal.signal(signal.SIGINT, cleanup_exit)
 
-    switch_programs = None
-    if switch:
-        with open('./conf/switch_programs.json') as data_file:
-            switch_programs = json.load(data_file)
-        switch.open()
-        switch.start_detection()
-
-    choose(use_switch=switch, use_switch_programs=switch_programs)
-    cleanup_exit(switch = switch)
+    choose(use_switch=switches, use_switch_programs=switch_programs)
+    cleanup_exit(switch=switches)
 
 
 if __name__ == "__main__":

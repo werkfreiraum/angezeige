@@ -10,8 +10,8 @@ import logging
 from contextlib import closing
 
 
-
 URI_FOOSBALL = "http://foosball.local:5000"
+
 
 class SimpleFoosball(UrlReader):
 
@@ -45,8 +45,6 @@ class SimpleFoosball(UrlReader):
 #              = self.getMessage()
 
 
-
-                    
 #             return JsonReader.get_val_by_path(j_dct, path)
 #                 self.write(message)
 #             self.wait(self.refresh_duration, show_progress=False)

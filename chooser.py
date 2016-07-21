@@ -11,10 +11,7 @@ def get_status():
     status = "Status: "
     if Program.running:
         e = Program.running.error()
-        if e:
-            status += "ERROR"
-        else:
-            status += "RUNNING"
+        status += "\nSwitch detected: " + 'ERROR' if e else 'RUNNING'
         status += " (" + Program.running.__class__.__name__ + ") "
         if e:
             status += "\n" + str(e) + " (" + e.__class__.__name__ + ") "
@@ -22,12 +19,7 @@ def get_status():
         status += "OFF"
 
     if switch:
-        status += "\nClap: "
-
-        if switch.detected:
-            status += "YES"
-        else:
-            status += "NO"
+        status += "\nSwitch detected: " + 'YES' if switch.detected else 'NO'
 
     return status
 
@@ -41,6 +33,8 @@ def menu(choices):
         button = urwid.Button(choice)
         urwid.connect_signal(button, 'click', item_chosen, user_args=[choice])
         body.append(urwid.AttrMap(button, None, focus_map='reversed'))
+    body.append(urwid.Divider("-"))
+    body.append(urwid.CheckBox("Clap Switching", state=False))
     body.append(urwid.Divider("-"))
     button = urwid.Button("EXIT")
     urwid.connect_signal(button, 'click', exit_application)
