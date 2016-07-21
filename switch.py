@@ -23,12 +23,12 @@ class Switch(object):
     def close(self):
         pass
 
-    def _detected(self):
+    def _detected(self, *args):
         self.detected = True
         if self.ret_func:
             self.ret_func(self)
-        if forward:
-            forward._detected()
+        if self.forward:
+            self.forward._detected()
 
 
 class Switches(object):
@@ -38,24 +38,24 @@ class Switches(object):
     def __init__(self, switches):
         for uniqueId, info in switches.iteritems():
             switchType = info["type"]
-            params = info["params"] if "params" in prog else {} 
+            params = info["params"] if "params" in info else {} 
             self.add_switch(uniqueId, switchType, params = params)
 
 
     def add_switch(self, uniqueId, switchType, params = {}, active = True):
-        switch = globals()[type](**params)
+        switch = globals()[switchType](**params)
         switch.set_forward(self)
         self.switches[uniqueId] = switch
 
     def start_detection(self):
         for s in self.switches:
-            if self.switches[s]['active']:
-                self.switches[s].start_detection()
+            #if self.switches[s]['active']:
+            self.switches[s].start_detection()
 
     def stop_detection(self):
         for s in self.switches:
-            if self.switches[s]['active']:
-                s.stop_detection()
+            #if self.switches[s]['active']:
+            s.stop_detection()
 
     def close(self):
         for s in self.switches:
@@ -116,7 +116,7 @@ class ClapSwitch(Switch):
 
     def start_detection(self):
         self.closing = False
-        self.thread = Thread(target=self._detect, args=(ret_func, ))
+        self.thread = Thread(target=self._detect)
         self.thread.start()
 
     def _detect(self):
