@@ -1,7 +1,9 @@
-class SpiDevWriter:
+from writer.base import Writer
 
-    def __init__(self, spidev_file):
-        self.f = open(spidev_file, "wb")
+class FileWriter(Writer):
+
+    def __init__(self, file):
+        self.f = open(file, "wb")
 
     def write(self, message):
         self.f.write(message)

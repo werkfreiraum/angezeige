@@ -15,8 +15,8 @@ URI_FOOSBALL = "http://foosball.local:5000"
 
 class SimpleFoosball(UrlReader):
 
-    def __init__(self, writer=None, uri=None):
-        UrlReader.__init__(self, writer, uri=uri, refresh_duration=0)
+    def __init__(self, uri=None):
+        UrlReader.__init__(self, uri=uri, refresh_duration=0)
 
     @staticmethod
     def get_params():
@@ -27,8 +27,8 @@ class SimpleFoosball(UrlReader):
 
 # class ColorFoosball(UrlReader):
 
-#     def __init__(self, writer=None, uri=None):
-#         UrlReader.__init__(self, writer, uri=uri, refresh_duration=0)
+#     def __init__(self, uri=None):
+#         UrlReader.__init__(self, uri=uri, refresh_duration=0)
 
 #     @staticmethod
 #     def get_params():

@@ -16,8 +16,8 @@ from contextlib import closing
 
 class UrlReader(Program):
 
-    def __init__(self, writer=None, color=None, uri=None, refresh_duration=None):
-        Program.__init__(self, writer, color=color)
+    def __init__(self, color=None, uri=None, refresh_duration=None):
+        Program.__init__(self, color=color)
         self.uri = self.get_params()["uri"] if uri is None else uri
         self.refresh_duration = float(self.get_params()["refresh_duration"]
                                       if refresh_duration is None else refresh_duration)
@@ -58,8 +58,8 @@ class UrlReader(Program):
 
 class JsonReader(UrlReader):
 
-    def __init__(self, writer=None, color=None, uri=None, refresh_duration=None, path=None):
-        UrlReader.__init__(self, writer, color=color, uri=uri, refresh_duration=refresh_duration)
+    def __init__(self, color=None, uri=None, refresh_duration=None, path=None):
+        UrlReader.__init__(self, color=color, uri=uri, refresh_duration=refresh_duration)
         self.path = self.get_params()["path"] if path is None else path
 
     @staticmethod
@@ -94,7 +94,7 @@ class ViennaTemp(JsonReader):
         params = {}
         return params
 
-    def __init__(self, writer=None):
+    def __init__(self):
         try:
             api_key = api_keys["OpenWeatherMap"]
         except KeyError:
@@ -104,7 +104,7 @@ class ViennaTemp(JsonReader):
         uri = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
         refresh_duration = 180
         path = "main.temp"
-        JsonReader.__init__(self, writer, uri=uri, refresh_duration=refresh_duration, path=path)
+        JsonReader.__init__(self, uri=uri, refresh_duration=refresh_duration, path=path)
 
     def do(self):
         while True:

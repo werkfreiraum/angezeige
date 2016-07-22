@@ -1,9 +1,9 @@
 #!/usr/bin/env python2
 import signal
 import os
-import sys
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
 from programs import Program
+from writer.base import WriterProxy
 
 
 class DataServer(WebSocket):
@@ -12,7 +12,8 @@ class DataServer(WebSocket):
         print(" - Connection established!")
         print(" - Start Thread!")
         Program.raiseException = True
-        self.t = Program.get_promoted_programs()["ShowTime"](writer=self)
+        WriterProxy.instance = self
+        self.t = Program.get_promoted_programs()["ShowTime"]()
         self.t.start()
 
     def handleClose(self):
@@ -37,7 +38,7 @@ def main():
         print("\nClosing WebSocket ...")
         server.close()
         print("Bye!")
-        sys.exit()
+        exit()
 
     signal.signal(signal.SIGINT, close_sig_handler)
     server.serveforever()

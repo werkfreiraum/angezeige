@@ -16,7 +16,7 @@ var sendTrigger = ""
 
 function onOpen(evt) {
     console.log("Connected!")
-    sendTrigger = setInterval(send, 20)
+    sendTrigger = setInterval(sendAlive, 20)
 }
 
 function onClose(evt) {
@@ -24,7 +24,7 @@ function onClose(evt) {
     clearInterval(sendTrigger)
 }
 
-function send() {
+function sendAlive() {
     websocket.send("a")
 }
 

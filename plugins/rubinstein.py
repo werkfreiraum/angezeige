@@ -21,11 +21,11 @@ URL = "http://rubinstein.local/api/"
 
 class RubinsteinProgress(JsonReader):
 
-    def __init__(self, writer=None, color=None):
+    def __init__(self, color=None):
         uri = "{}{}?apikey={}".format(URL, "job", api_keys['rubinstein'])
         refresh_duration = 5
         path = "progress.completion"
-        JsonReader.__init__(self, writer, color=color, uri=uri, refresh_duration=refresh_duration, path=path)
+        JsonReader.__init__(self, color=color, uri=uri, refresh_duration=refresh_duration, path=path)
 
     def getMessage(self):
         message = int(round(JsonReader.getMessage(self)))

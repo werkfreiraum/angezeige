@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
+import sys
 from time import sleep
 from core.base import *
-from spi_dev import SpiDevWriter
-from conf.private import spidev_file
+from writer.base import WriterProxy
 from threading import Thread
-import sys
 
 
 program_registry = {}
@@ -26,18 +25,19 @@ class Program(Thread):
     raiseException = False
     color = "white"
     prefered_signs = True
+    closing = False
 
     __metaclass__ = MetaProgram
 
-    def __init__(self, writer=None, color=None):
+    def __init__(self, color=None):
         Thread.__init__(self)
         self.daemon = True
-        self._stop = False
+        self.closing = False
         self._error = None
         self._last_message = None
         #self._last_string = None
 
-        self.writer = SpiDevWriter(spidev_file) if writer is None else writer
+        self.writer = WriterProxy.instance
 
         if "color" in self.get_params() or color is not None:
             self.color = self.get_params()["color"] if color is None else color
@@ -50,16 +50,15 @@ class Program(Thread):
             self._error = e
             if Program.raiseException:
                 raise
-        self.exit()
+        sys.exit()
 
     def stop(self):
-        self._stop = True
+        self.closing = True
 
     def error(self):
         return self._error
 
     def start(self):
-        #sys.stderr.write(self.get_program_name() + " started\n")
         Program.running = self
         Thread.start(self)
 
@@ -85,8 +84,8 @@ class Program(Thread):
     def wait(self, interval, show_progress=False):
         still_to_wait = interval
         while True:
-            if self._stop:
-                self.exit()
+            if self.closing:
+                sys.exit()
             if still_to_wait <= Program.checkInterval:
                 break
             else:
@@ -98,11 +97,7 @@ class Program(Thread):
                     self.writer.write(self._last_message)
 
         sleep(still_to_wait)
-
-    def exit(self):
-        self.writer.close()
-        #sys.stderr.write(self.get_program_name() + " exit\n")
-        sys.exit()
+        
 
     @staticmethod
     def get_params():

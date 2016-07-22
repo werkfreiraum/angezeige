@@ -1,12 +1,12 @@
 #!/usr/bin/env python2
-import sys
 import signal
 import logging
 from programs import Program
 from chooser import choose
 from switches.base import *
+from writer.base import *
 
-from conf.private import switches, switch_programs_file
+from conf.private import writer, switches, switch_programs_file
 
 LOG_FORMAT = '%(asctime)s - %(levelname)-8s %(message)s'
 logging.basicConfig(format=LOG_FORMAT, level='DEBUG', filename="angezeige.log")
@@ -19,13 +19,16 @@ def main():
         if Program.running:
             Program.running.stop()
             Program.running.join()
-        switch.close()
-        sys.exit()
+        s.close()
+        w.close()
+        exit()
 
     signal.signal(signal.SIGINT, cleanup_exit)
 
-    switch = Switches(switches=switches, switch_programs_file=switch_programs_file)
-    switch.start_detection()
+    w = WriterProxy(writer=writer)
+
+    s = SwitchProxy(switches=switches, switch_programs_file=switch_programs_file)
+    s.start_detection()
 
     choose()
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import urwid
 from programs import Program
-from switches.base import Switches
+from switches.base import SwitchProxy
 
 
 def get_status():
@@ -15,8 +15,8 @@ def get_status():
     else:
         status += "OFF"
 
-    if Switches.instance:
-        status += "\nSwitch detected: " + ('YES' if Switches.instance.detected else 'NO')
+    if SwitchProxy.instance:
+        status += "\nSwitch detected: " + ('YES' if SwitchProxy.instance.detected else 'NO')
 
     return status
 

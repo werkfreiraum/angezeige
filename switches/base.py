@@ -22,7 +22,7 @@ class Switch(object):
             self.forward._detected()
 
 
-class Switches(object):
+class SwitchProxy(Switch):
     detected = False
     switches = {}
     switch_programs = []
@@ -40,9 +40,9 @@ class Switches(object):
             with open(switch_programs_file) as data_file:
                 self.switch_programs = json.load(data_file)
 
-        Switches.instance = self
+        SwitchProxy.instance = self
 
-    def add_switch(self, uniqueId, switchType, params={}, active=True):
+    def add_switch(self, uniqueId, switchType, params={}):
         switch = globals()[switchType](**params)
         switch.set_forward(self)
         self.switches[uniqueId] = switch

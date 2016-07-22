@@ -4,8 +4,8 @@ from programs import Program
 
 class Counter(Program):
 
-    def __init__(self, writer=None, color=None, duration=None):
-        Program.__init__(self, writer, color=color)
+    def __init__(self, color=None, duration=None):
+        Program.__init__(self, color=color)
         self.duration = float(self.get_params()["duration"] if duration is None else duration)
 
     def do(self):
@@ -25,8 +25,8 @@ class Counter(Program):
 
 class BlinkAll(Program):
 
-    def __init__(self, writer=None, color=None, duration=None):
-        Program.__init__(self, writer, color=color)
+    def __init__(self, color=None, duration=None):
+        Program.__init__(self, color=color)
         self.duration = float(self.get_params()["duration"] if duration is None else duration)
 
     def do(self):
@@ -56,8 +56,8 @@ class BlinkAll(Program):
 
 class ShowSigns(Program):
 
-    def __init__(self, writer=None, color=None, signs=None):
-        Program.__init__(self, writer, color=color)
+    def __init__(self, color=None, signs=None):
+        Program.__init__(self, color=color)
         self.signs = self.get_params()["signs"] if signs is None else signs
 
     def do(self):
@@ -74,8 +74,8 @@ class ShowSigns(Program):
 
 class SlideText(Program):
 
-    def __init__(self, writer=None, color=None, text=None, slide_speed=None):
-        Program.__init__(self, writer, color=color)
+    def __init__(self, color=None, text=None, slide_speed=None):
+        Program.__init__(self, color=color)
         self.text = self.get_params()["text"] if text is None else unicode(text)
         self.slide_speed = float(self.get_params()["slide_speed"] if slide_speed is None else slide_speed)
 
@@ -94,8 +94,8 @@ class SlideText(Program):
 
 class FadeMe(Program):
 
-    def __init__(self, writer=None, i=None, j=None):
-        Program.__init__(self, writer, color=None)
+    def __init__(self, i=None, j=None):
+        Program.__init__(self, color=None)
         self.j = float(self.get_params()["j"] if j is None else j)
         self.i = float(self.get_params()["i"] if i is None else i)
 

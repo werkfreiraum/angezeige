@@ -52,12 +52,12 @@ URL = "http://www.wienerlinien.at/ogd_realtime/monitor"
 
 class NextBim(JsonReader):
 
-    def __init__(self, writer=None, steig=None, color=None):
+    def __init__(self, steig=None, color=None):
         uri = "{}?rbl={}&sender={}".format(URL, steig, api_keys['wienerlinien_ogd_realtime'])
         refresh_duration = 10
         path = 'data.monitors[0].lines[0].departures.departure[0].departureTime.countdown'
         self.prefered_signs = False
-        JsonReader.__init__(self, writer, color=color, uri=uri, refresh_duration=refresh_duration, path=path)
+        JsonReader.__init__(self, color=color, uri=uri, refresh_duration=refresh_duration, path=path)
 
     def getMessage(self):
         minutes = int(JsonReader.getMessage(self))
@@ -73,8 +73,8 @@ class NextBim(JsonReader):
 
 class NextU6Wbhf(NextBim):
 
-    def __init__(self, writer=None):
-        NextBim.__init__(self, writer, steig=4619, color="brown")
+    def __init__(self):
+        NextBim.__init__(self, steig=4619, color="brown")
 
     def getMessage(self):
         minutes = int(JsonReader.getMessage(self))
@@ -87,8 +87,8 @@ class NextU6Wbhf(NextBim):
 
 class Next52Gerst(NextBim):
 
-    def __init__(self, writer=None):
-        NextBim.__init__(self, writer, steig=1548, color="white")
+    def __init__(self):
+        NextBim.__init__(self, steig=1548, color="white")
 
     def getMessage(self):
         minutes = int(JsonReader.getMessage(self))
@@ -101,8 +101,8 @@ class Next52Gerst(NextBim):
 
 class U3(NextBim):
 
-    def __init__(self, writer=None):
-        NextBim.__init__(self, writer, steig=4291, color="red")
+    def __init__(self):
+        NextBim.__init__(self, steig=4291, color="red")
 
     def getMessage(self):
         #minutes = int(JsonReader.getMessage(self))
