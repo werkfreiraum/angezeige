@@ -39,8 +39,8 @@ class Program(Thread):
 
         self.writer = SpiDevWriter(spidev_file) if writer is None else writer
 
-        if "color" in self.getParams() or color is not None:
-            self.color = self.getParams()["color"] if color is None else color
+        if "color" in self.get_params() or color is not None:
+            self.color = self.get_params()["color"] if color is None else color
 
     def run(self):
         try:
@@ -105,7 +105,7 @@ class Program(Thread):
         sys.exit()
 
     @staticmethod
-    def getParams():
+    def get_params():
         params = {}
         params['color'] = "white"
         return params
@@ -115,8 +115,17 @@ class Program(Thread):
         return cls.__name__
 
     @staticmethod
-    def getPromotedPrograms():
+    def get_promoted_programs():
         return program_registry
+
+    @classmethod
+    def start_program(cls, info):
+        if cls.running:
+            cls.running.stop()
+            cls.running.join()
+
+        p = cls.get_promoted_programs()[info['name']](**info['params'])
+        p.start()
 
 
 # import will register all Programs

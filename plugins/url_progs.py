@@ -18,13 +18,13 @@ class UrlReader(Program):
 
     def __init__(self, writer=None, color=None, uri=None, refresh_duration=None):
         Program.__init__(self, writer, color=color)
-        self.uri = self.getParams()["uri"] if uri is None else uri
-        self.refresh_duration = float(self.getParams()["refresh_duration"]
+        self.uri = self.get_params()["uri"] if uri is None else uri
+        self.refresh_duration = float(self.get_params()["refresh_duration"]
                                       if refresh_duration is None else refresh_duration)
 
     @staticmethod
-    def getParams():
-        params = Program.getParams()
+    def get_params():
+        params = Program.get_params()
         params['uri'] = "http://spartan.ac.brocku.ca/~tmulligan/3p82inv_hand.html"
         params['refresh_duration'] = "20"
         return params
@@ -60,7 +60,7 @@ class JsonReader(UrlReader):
 
     def __init__(self, writer=None, color=None, uri=None, refresh_duration=None, path=None):
         UrlReader.__init__(self, writer, color=color, uri=uri, refresh_duration=refresh_duration)
-        self.path = self.getParams()["path"] if path is None else path
+        self.path = self.get_params()["path"] if path is None else path
 
     @staticmethod
     def get_val_by_path(dct, path):
@@ -70,8 +70,8 @@ class JsonReader(UrlReader):
         return dct
 
     @staticmethod
-    def getParams():
-        params = UrlReader.getParams()
+    def get_params():
+        params = UrlReader.get_params()
         params['path'] = "a.b"
         return params
 
@@ -90,7 +90,7 @@ class JsonReader(UrlReader):
 class ViennaTemp(JsonReader):
 
     @staticmethod
-    def getParams():
+    def get_params():
         params = {}
         return params
 

@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 import urwid
-import sys
 from programs import Program
-
-switch = None
-switch_programs = None
+from switches.base import Switches
 
 
 def get_status():
@@ -18,8 +15,8 @@ def get_status():
     else:
         status += "OFF"
 
-    if switch:
-        status += "\nSwitch detected: " + 'YES' if switch.detected else 'NO'
+    if Switches.instance:
+        status += "\nSwitch detected: " + ('YES' if Switches.instance.detected else 'NO')
 
     return status
 
@@ -46,11 +43,11 @@ def menu(choices):
 def item_chosen(choice, button):
     body = [urwid.Divider("-"), urwid.Text(choice, align='center')]
 
-    if len(Program.getPromotedPrograms()[choice].getParams()) > 0:
+    if len(Program.get_promoted_programs()[choice].get_params()) > 0:
         body.extend([urwid.Divider("-"), urwid.Text("Parameters:")])
 
     params = {}
-    for p, v in Program.getPromotedPrograms()[choice].getParams().items():
+    for p, v in Program.get_promoted_programs()[choice].get_params().items():
         # body.append(urwid.Text())
         edit = urwid.Edit(caption=u"▸ " + p.replace('_', ' ').title() + ": ", edit_text=v)
         body.append(urwid.AttrMap(edit, None, focus_map='reversed'))
@@ -73,20 +70,12 @@ def item_chosen(choice, button):
     mainWidget.original_widget = urwid.Filler(urwid.Pile(body, focus_item=tOk))
 
 
-def start_program(choice, params, button=None, params_from_edit=True):
+def start_program(name, params, button=None, params_from_edit=True):
     cParams = {}
-    if params_from_edit:
-        for p in params:
-            cParams[p] = params[p].get_edit_text()
-    else:
-        cParams = params
+    for p in params:
+        cParams[p] = params[p].get_edit_text()
 
-    if Program.running:
-        Program.running.stop()
-        Program.running.join()
-
-    p = Program.getPromotedPrograms()[choice](**cParams)
-    p.start()
+    Program.start_program(info = {'name': name, 'params': cParams})
     show_menu()
 
 
@@ -98,42 +87,23 @@ def show_menu(button=None):
     mainWidget.original_widget = listMenu
 
 
-next_switch_program_idx = 0
-
-
 def get_info(mainLoop, data):
-    global next_switch_program_idx
-
     status.set_text(get_status())
-    if switch and switch.detected:
-        prog = switch_programs[next_switch_program_idx]
-        name = prog["name"]
-        params = prog["params"] if "params" in prog else {}
-        start_program(name, params, None, False)
-        next_switch_program_idx = (next_switch_program_idx + 1) % len(switch_programs)
-        switch.detected = False
-        # exit_application()
+
     mainLoop.set_alarm_in(0.2, get_info)
 
 
-def choose(use_switch=None, use_switch_programs=None):
-
+def choose():
     top = urwid.Overlay(mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),
                         align='center', width=('relative', 60),
                         valign='middle', height=('relative', 60),
                         min_width=20, min_height=9)
-    show_menu()
-    # start with first program
-    if use_switch is not None:
-        global switch, switch_programs
-        switch = use_switch
-        switch_programs = use_switch_programs
-        switch.detected = True
 
+    show_menu()
     mainLoop = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
     mainLoop.set_alarm_in(0, get_info)
     mainLoop.run()
 
 
-listMenu = menu(Program.getPromotedPrograms().keys())
+listMenu = menu(Program.get_promoted_programs().keys())
 mainWidget = urwid.Padding(None, left=1, right=1)

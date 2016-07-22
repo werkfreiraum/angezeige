@@ -35,5 +35,5 @@ class RubinsteinProgress(JsonReader):
             return str(message).rjust(2) + u"°o"
 
     @staticmethod
-    def getParams():
-        return Program.getParams()
+    def get_params():
+        return Program.get_params()

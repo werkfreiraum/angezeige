@@ -6,7 +6,7 @@ class Counter(Program):
 
     def __init__(self, writer=None, color=None, duration=None):
         Program.__init__(self, writer, color=color)
-        self.duration = float(self.getParams()["duration"] if duration is None else duration)
+        self.duration = float(self.get_params()["duration"] if duration is None else duration)
 
     def do(self):
         i = 0
@@ -17,8 +17,8 @@ class Counter(Program):
             i += 1
 
     @staticmethod
-    def getParams():
-        params = Program.getParams()
+    def get_params():
+        params = Program.get_params()
         params['duration'] = "1"
         return params
 
@@ -27,7 +27,7 @@ class BlinkAll(Program):
 
     def __init__(self, writer=None, color=None, duration=None):
         Program.__init__(self, writer, color=color)
-        self.duration = float(self.getParams()["duration"] if duration is None else duration)
+        self.duration = float(self.get_params()["duration"] if duration is None else duration)
 
     def do(self):
         show = True
@@ -48,8 +48,8 @@ class BlinkAll(Program):
             self.wait(self.duration)
 
     @staticmethod
-    def getParams():
-        params = Program.getParams()
+    def get_params():
+        params = Program.get_params()
         params['duration'] = "1"
         return params
 
@@ -58,7 +58,7 @@ class ShowSigns(Program):
 
     def __init__(self, writer=None, color=None, signs=None):
         Program.__init__(self, writer, color=color)
-        self.signs = self.getParams()["signs"] if signs is None else signs
+        self.signs = self.get_params()["signs"] if signs is None else signs
 
     def do(self):
         while True:
@@ -66,8 +66,8 @@ class ShowSigns(Program):
             self.wait(10)
 
     @staticmethod
-    def getParams():
-        params = Program.getParams()
+    def get_params():
+        params = Program.get_params()
         params['signs'] = "1234"
         return params
 
@@ -76,8 +76,8 @@ class SlideText(Program):
 
     def __init__(self, writer=None, color=None, text=None, slide_speed=None):
         Program.__init__(self, writer, color=color)
-        self.text = self.getParams()["text"] if text is None else unicode(text)
-        self.slide_speed = float(self.getParams()["slide_speed"] if slide_speed is None else slide_speed)
+        self.text = self.get_params()["text"] if text is None else unicode(text)
+        self.slide_speed = float(self.get_params()["slide_speed"] if slide_speed is None else slide_speed)
 
     def do(self):
 
@@ -85,8 +85,8 @@ class SlideText(Program):
             self.slide(self.text, speed=self.slide_speed)
 
     @staticmethod
-    def getParams():
-        params = Program.getParams()
+    def get_params():
+        params = Program.get_params()
         params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!.,-\'\""
         params['slide_speed'] = "0.4"
         return params
@@ -96,8 +96,8 @@ class FadeMe(Program):
 
     def __init__(self, writer=None, i=None, j=None):
         Program.__init__(self, writer, color=None)
-        self.j = float(self.getParams()["j"] if j is None else j)
-        self.i = float(self.getParams()["i"] if i is None else i)
+        self.j = float(self.get_params()["j"] if j is None else j)
+        self.i = float(self.get_params()["i"] if i is None else i)
 
     def do(self):
         j = self.j
@@ -122,7 +122,7 @@ class FadeMe(Program):
             self.write('   ')
 
     @staticmethod
-    def getParams():
+    def get_params():
         params = {}
         params['j'] = "1"
         params['i'] = "1"

@@ -64,7 +64,7 @@ class NextBim(JsonReader):
         return "??" + str(minutes).rjust(2)
 
     @staticmethod
-    def getParams():
+    def get_params():
         params = {}
         params['steig'] = "4619"
         params['color'] = "white"
@@ -81,7 +81,7 @@ class NextU6Wbhf(NextBim):
         return "U6" + str(minutes).rjust(2)
 
     @staticmethod
-    def getParams():
+    def get_params():
         return {}
 
 
@@ -95,7 +95,7 @@ class Next52Gerst(NextBim):
         return "52" + str(minutes).rjust(2)
 
     @staticmethod
-    def getParams():
+    def get_params():
         return {}
 
 
@@ -110,6 +110,6 @@ class U3(NextBim):
         return "U300"
 
     @staticmethod
-    def getParams():
+    def get_params():
         return {}
 

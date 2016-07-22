@@ -19,7 +19,7 @@ class SimpleFoosball(UrlReader):
         UrlReader.__init__(self, writer, uri=uri, refresh_duration=0)
 
     @staticmethod
-    def getParams():
+    def get_params():
         params = {}
         params['uri'] = URI_FOOSBALL
         return params
@@ -31,7 +31,7 @@ class SimpleFoosball(UrlReader):
 #         UrlReader.__init__(self, writer, uri=uri, refresh_duration=0)
 
 #     @staticmethod
-#     def getParams():
+#     def get_params():
 #         params = {}
 #         params['uri'] = URI_FOOSBALL + "/color"
 #         return params
