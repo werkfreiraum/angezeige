@@ -25,3 +25,12 @@ digit_leds[0] = [26, 25, 30, 29, 28, 27, 31]
 separator_leds = [14, 15, 16, 17]
 
 led_count = 32
+
+leds_digit = {}
+for d, la in digit_leds.iteritems():
+    for l in la:
+        leds_digit[l] = d
+
+leds_separator = {}
+for i, s in enumerate(separator_leds):
+    leds_separator[s] = i

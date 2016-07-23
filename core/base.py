@@ -1,6 +1,6 @@
 import webcolors as wc
 from signs import digit_signs, separator_types, pref_char_rep
-from settings import digit_leds, separator_leds, led_count
+from settings import digit_leds, leds_digit, separator_leds, leds_separator, led_count
 import colorsys
 
 
@@ -41,27 +41,49 @@ def _get_leds(ascii, position, prefered_signs=True, strict=False):
             return [digit_leds[position][l] for l in digit_signs["_"]]
 
 
-def get_message(string="", separator="NONE", color="white", off_color="black", prefered_signs=True, strict=False):
+def get_message(string="", separator="NONE", color="white", off_color="black", seperator_color=None, seperator_off_color=None, prefered_signs=True, strict=False):
     if len(string) > 4:
         raise Exception("Only 4 signs allowed, got '" + string[:8] + "' (max 8 signs shown)")
 
-    leds = [t for i, c in enumerate(string) for t in _get_leds(c, i, prefered_signs=prefered_signs, strict=strict)]
+    leds = [t for i, char in enumerate(string) for t in _get_leds(char, i, prefered_signs=prefered_signs, strict=strict)]
     leds += [separator_leds[i] for i in separator_types[separator]]
 
-    color_bytes = _get_color(color)
-    off_color_bytes = _get_color(off_color)
+    return _colorize_message(leds, color=color, off_color=off_color, seperator_color=seperator_color, seperator_off_color=seperator_off_color)
+
+
+def _colorize_message(leds, color="white", off_color="black", seperator_color=None, seperator_off_color=None):
+    if not isinstance(color, list):
+        color_bytes = [_get_color(color)]*4
+    else:
+        color_bytes = [_get_color(c) for c in color ]
+
+    if not isinstance(off_color, list):
+        off_color_bytes = [_get_color(off_color)]*4
+    else:
+        off_color_bytes = [_get_color(c) for c in off_color ]
+
+    if seperator_color is None:
+        seperator_color_bytes = color_bytes
+    if seperator_off_color is None:
+        seperator_off_color_bytes = off_color_bytes
 
     message = ''
     for i in range(led_count):
         if i in leds:
-            message += color_bytes
+            if i in leds_digit:
+                message += color_bytes[leds_digit[i]]
+            else:
+                message += seperator_color_bytes[leds_separator[i]]
         else:
-            message += off_color_bytes
+            if i in leds_digit:
+                message += off_color_bytes[leds_digit[i]]
+            else:
+                message += seperator_off_color_bytes[leds_separator[i]]
 
     return message
 
 
-def modify_separator(oldMessage, separator="NONE", color="white", off_color="black", lightness=0.2):
+def modify_separator(message, separator="NONE", color="white", off_color="black", lightness=0.2):
     leds = [separator_leds[i] for i in separator_types[separator]]
 
     color_bytes = _get_color(color, lightness=lightness)
@@ -69,8 +91,8 @@ def modify_separator(oldMessage, separator="NONE", color="white", off_color="bla
 
     for i in separator_leds:
         if i in leds:
-            oldMessage = oldMessage[:i * 3] + color_bytes + oldMessage[(i + 1) * 3:]
+            message = message[:i * 3] + color_bytes + message[(i + 1) * 3:]
         else:
-            oldMessage = oldMessage[:i * 3] + off_color_bytes + oldMessage[(i + 1) * 3:]
+            message = message[:i * 3] + off_color_bytes + message[(i + 1) * 3:]
 
-    return oldMessage
+    return message

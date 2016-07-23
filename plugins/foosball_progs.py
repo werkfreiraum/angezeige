@@ -19,6 +19,22 @@ class SimpleFoosball(UrlReader):
         return params
 
 
+class TestSimpleFoosball(Program):
+
+    def __init__(self, uri=None):
+        Program.__init__(self)
+
+    def do(self):
+        while True:
+            self.write("1234", color=["blue", "white", "green", "orange"])
+            self.wait(1)
+
+    @staticmethod
+    def get_params():
+        params = {}
+        params['uri'] = URI_FOOSBALL
+        return params
+
 # class ColorFoosball(UrlReader):
 
 #     def __init__(self, uri=None):
