@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
-import urllib
 import logging
 from programs import Program
 from url_progs import UrlReader, JsonReader
-import urllib2
-import re
-import logging
-from contextlib import closing
-
 
 URI_FOOSBALL = "http://foosball.local:5000"
 

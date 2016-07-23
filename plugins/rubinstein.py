@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
-import urllib2
-import re
 import logging
-from contextlib import closing
 
 from conf.private import api_keys
 from programs import Program

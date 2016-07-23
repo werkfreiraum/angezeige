@@ -6,19 +6,20 @@ from threading import Thread
 import time
 import sys
 
+
 class WebSocketWriter(Writer):
     server = None
     thread = None
     instances = []
+
     class WebSocketWriterSocket(WebSocket):
-        #
-        #def __init__(self, server, sock, address):
+
+        # def __init__(self, server, sock, address):
         #    WebSocket.__init__(self, server, sock, address)
 
         def handleConnected(self):
             logging.debug(" - Connection established!")
             WebSocketWriter.instances.append(self)
-            
 
         def handleClose(self):
             logging.debug(" - Connection Closed!")
@@ -27,28 +28,29 @@ class WebSocketWriter(Writer):
         def write(self, message):
             self.sendMessage(message)
 
-        #def close(self):
+        # def close(self):
         #    pass
-            
-    def __init__(self):
+
+    def __init__(self, port=8000):
+        self.port = port
         self.thread = Thread(name="WebSocketServer", target=self._serve)
         self.thread.start()
 
     def _serve(self):
         logging.debug("Starting WebSocket ...")
-        self.server = SimpleWebSocketServer('localhost', 8000, self.WebSocketWriterSocket, selectInterval = 0)
+        self.server = SimpleWebSocketServer('localhost', self.port, self.WebSocketWriterSocket, selectInterval=0.1)
         logging.debug("WebSocket Ready!")
         logging.debug("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
-        self.server.serveforever()
+        try:
+            self.server.serveforever()
+        except Exception as e:
+            logging.exception(e)
+
         logging.debug("WebSocket Closed!")
         sys.exit()
 
-
     def write(self, message):
-        #pass
-        logging.debug('---')
         for i in self.instances:
-            logging.debug(i)
             i.write(message)
 
     def close(self):
@@ -60,4 +62,3 @@ class WebSocketWriter(Writer):
             #self.server.listeners = None
             #logging.debug("WAITING FOR THREAD!")
             self.thread.join()
-        
