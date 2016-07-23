@@ -31,14 +31,15 @@ class WebSocketWriter(Writer):
         # def close(self):
         #    pass
 
-    def __init__(self, port=8000):
+    def __init__(self, port=8000, bind_address='localhost'):
         self.port = port
+        self.bind_address = bind_address
         self.thread = Thread(name="WebSocketServer", target=self._serve)
         self.thread.start()
 
     def _serve(self):
         logging.debug("Starting WebSocket ...")
-        self.server = SimpleWebSocketServer('0.0.0.0', self.port, self.WebSocketWriterSocket, selectInterval=0.1)
+        self.server = SimpleWebSocketServer(self.bind_address, self.port, self.WebSocketWriterSocket, selectInterval=0.1)
         logging.debug("WebSocket Ready!")
         logging.debug("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
         try:
