@@ -1,3 +1,5 @@
+import json
+
 class Switch(object):
     detected = False
     forward = None
