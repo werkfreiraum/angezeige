@@ -68,7 +68,7 @@ class SwitchProxy(Switch):
         self.active_switch_program = (self.active_switch_program + 1)%len(self.switch_programs)
         return self.switch_programs[self.active_switch_program]
 
-    def _detected(self):
+    def _detected(self, *args):
         self.detected = True
         #if switch and switch.detected:
         Program.start_program(self.next())
