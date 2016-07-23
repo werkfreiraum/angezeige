@@ -19,23 +19,6 @@ class WebServerFoosball(UrlReader):
         return params
 
 
-class TestSimpleFoosball(Program):
-
-    def __init__(self, uri=None):
-        Program.__init__(self)
-
-    def do(self):
-        while True:
-            self.write("1234", color=["blue", "white", "green", "orange"])
-            self.wait(1)
-
-    @staticmethod
-    def get_params():
-        params = {}
-        params['uri'] = URI_FOOSBALL
-        return params
-
-
 class DirectFoosball(Program):
 
     pins = [14, 15]
@@ -75,11 +58,10 @@ class DirectFoosball(Program):
                     team = self.pins.index(self.update['team'])
                     self.score[team] += 1
                     for i in range(3):
-                        self.write("GOAL", color = self.team_colors[team])
+                        self.write("GOAL", color=self.team_colors[team], prefered_signs=False)
                         self.wait(0.3)
                         self.write("")
                         self.wait(0.3)
-
                 elif self.update['type'] == 'reset':
                     self.score = [0, 0]
                     self.slide('RESET')

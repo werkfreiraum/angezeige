@@ -29,6 +29,7 @@ def main():
 
     s = SwitchProxy(switches=switches, switch_programs_file=switch_programs_file)
     s.start_detection()
+    s._detected()
 
     choose()
 

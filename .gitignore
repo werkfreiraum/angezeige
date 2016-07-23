@@ -1,4 +1,5 @@
 *.pyc
 log.txt
 conf/private.py
+conf/switch_programs.json
 angezeige.log

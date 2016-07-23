@@ -1,4 +1,5 @@
 import json
+from programs import Program
 
 class Switch(object):
     detected = False
@@ -38,9 +39,9 @@ class SwitchProxy(Switch):
             params = info["params"] if "params" in info else {}
             self.add_switch(uniqueId, switchType, params=params)
 
-        if len(switches) > 0:
-            with open(switch_programs_file) as data_file:
-                self.switch_programs = json.load(data_file)
+        #if len(switches) > 0:
+        with open(switch_programs_file) as data_file:
+            self.switch_programs = json.load(data_file)
 
         SwitchProxy.instance = self
 
@@ -70,8 +71,8 @@ class SwitchProxy(Switch):
     def _detected(self):
         self.detected = True
         #if switch and switch.detected:
-        Program.start_program(switch.next())
-        switch.detected = False
+        Program.start_program(self.next())
+        self.detected = False
 
 
 from switches.clapSwitch import ClapSwitch

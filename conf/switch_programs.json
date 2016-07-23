@@ -1,22 +1,5 @@
 [
     {
-        "name": "ShowTime",
-        "params": {
-            "color": "red"
-        }
-    },{
-        "name": "SimpleFoosball"
-    },
-    {
-        "name": "RubinsteinProgress",
-        "params": {
-            "color": "blue"
-        }
-    },
-    {
-        "name": "ViennaTemp"
-    },
-    {
-        "name": "NextU6Wbhf"
+        "name": "TestSimpleFoosball"
     }
 ]

@@ -1,3 +1,6 @@
+//websocketAddress = "ws://foosball.local:5005/"
+websocketAddress = "ws://localhost:8000/"
+
 function doColoring(data) {
     var a = new Uint8Array(data)
     for (i = 0; i < a.length/3; ++i) {
@@ -30,7 +33,7 @@ function sendAlive() {
 
 $(document).ready(function() {
     console.log("Connecting ...")
-    websocket = new WebSocket("ws://localhost:8000/")
+    websocket = new WebSocket(websocketAddress)
     websocket.binaryType = 'arraybuffer';
     websocket.onopen = onOpen
     websocket.onclose = onClose

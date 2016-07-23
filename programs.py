@@ -71,10 +71,10 @@ class Program(Thread):
         self._last_message = get_message(string, *args, **kwargs)
         self.writer.write(self._last_message)
 
-    def slide(self, message, speed=0.4, color=None):
+    def slide(self, message, speed=0.4, color=None, prefered_signs=None):
         with_spaces = ' ' * 4 + message + ' ' * 4
         for i in range(len(with_spaces) - 3):
-            self.write(with_spaces[i:(i + 4)])
+            self.write(with_spaces[i:(i + 4)], prefered_signs=prefered_signs)
             self.wait(speed)
 
     def transition(self, message, speed=0.3):
@@ -119,7 +119,9 @@ class Program(Thread):
             cls.running.stop()
             cls.running.join()
 
-        p = cls.get_promoted_programs()[info['name']](**info['params'])
+        params = info["params"] if "params" in info else {}
+
+        p = cls.get_promoted_programs()[info['name']](**params)
         p.start()
 
 
