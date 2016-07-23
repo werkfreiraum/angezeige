@@ -41,7 +41,7 @@ class DirectFoosball(Program):
     pins = [14, 15]
     team_colors = ['red', 'blue']
 
-    update = None
+    update = {'type': 'reset'}
     pin_reset = 18
     bounce_time = 2000
 
@@ -52,12 +52,12 @@ class DirectFoosball(Program):
         global GPIO
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.pin_red, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.pin_blue, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pins[0], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pins[1], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.pin_reset, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-        GPIO.add_event_detect(self.pin_red, GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
-        GPIO.add_event_detect(self.pin_blue, GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
+        GPIO.add_event_detect(self.pins[0], GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
+        GPIO.add_event_detect(self.pins[1], GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
 
         GPIO.add_event_detect(self.pin_reset, GPIO.FALLING, callback=self.resetGoals, bouncetime=self.bounce_time)
 
@@ -75,7 +75,7 @@ class DirectFoosball(Program):
                     team = self.pins.index(self.update['team'])
                     self.score[team] += 1
                     for i in range(3):
-                        self.write("GOAL", color = self.team_color[team])
+                        self.write("GOAL", color = self.team_colors[team])
                         self.wait(0.3)
                         self.write("")
                         self.wait(0.3)
@@ -84,6 +84,7 @@ class DirectFoosball(Program):
                     self.score = [0, 0]
                     self.slide('RESET')
                     self.wait(0.5)
+                self.update = None
 
                 self.write('{:2}{:2}'.format(*self.score), color=['red'] * 2 + ['blue'] * 2)
             self.wait(0.1)
