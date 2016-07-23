@@ -3,7 +3,7 @@ import logging
 from programs import Program
 import logging
 
-URI_WEBSOCKET = "ws://localhost:8001"
+URI_WEBSOCKET = "ws://foosball.local:5005"
 
 
 class ExternAngezeige(Program):
