@@ -38,7 +38,7 @@ class WebSocketWriter(Writer):
 
     def _serve(self):
         logging.debug("Starting WebSocket ...")
-        self.server = SimpleWebSocketServer('localhost', self.port, self.WebSocketWriterSocket, selectInterval=0.1)
+        self.server = SimpleWebSocketServer('0.0.0.0', self.port, self.WebSocketWriterSocket, selectInterval=0.1)
         logging.debug("WebSocket Ready!")
         logging.debug("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
         try:
