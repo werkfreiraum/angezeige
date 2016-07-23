@@ -38,11 +38,11 @@ class TestSimpleFoosball(Program):
 
 class DirectFoosball(Program):
 
-    pin_red = 14
-    pin_blue = 15
+    pins = [14, 15]
+    team_colors = ['red', 'blue']
 
+    update = None
     pin_reset = 18
-
     bounce_time = 2000
 
     score = [0, 0]
@@ -63,19 +63,35 @@ class DirectFoosball(Program):
 
     def goal(self, channel):
         logging.debug("GOAL" + str(channel))
-        self.update = True
-        if channel == self.pin_red:
-            self.score[0] += 1
-        if channel == self.pin_blue:
-            self.score[1] += 1
+        self.update = {
+            'type': 'goal',
+            'team': channel
+        }
 
     def do(self):
         while True:
-            self.write('{:2}{:2}'.format(*self.score), color=['red','red','blue','blue'], seperator_color=['white']*4)
+            if self.update is not None:
+                if self.update['type'] == 'goal':
+                    team = self.pins.index(self.update['team'])
+                    self.score[team] += 1
+                    for i in range(3):
+                        self.write("GOAL", color = self.team_color[team])
+                        self.wait(0.3)
+                        self.write("")
+                        self.wait(0.3)
+
+                elif self.update['type'] == 'reset':
+                    self.score = [0, 0]
+                    self.slide('RESET')
+                    self.wait(0.5)
+
+                self.write('{:2}{:2}'.format(*self.score), color=['red'] * 2 + ['blue'] * 2)
             self.wait(0.1)
 
     def resetGoals(channel):
-        self.score = [0, 0]
+        self.update = {
+            'type': 'reset'
+        }
 
     @staticmethod
     def get_params():
