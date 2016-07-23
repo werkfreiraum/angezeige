@@ -52,14 +52,14 @@ class DirectFoosball(Program):
         global GPIO
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pin_red, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(pin_blue, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(pin_reset, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pin_red, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pin_blue, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pin_reset, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-        GPIO.add_event_detect(pin_red, GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
-        GPIO.add_event_detect(pin_blue, GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
+        GPIO.add_event_detect(self.pin_red, GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
+        GPIO.add_event_detect(self.pin_blue, GPIO.FALLING, callback=self.goal, bouncetime=self.bounce_time)
 
-        GPIO.add_event_detect(pin_reset, GPIO.FALLING, callback=self.reset, bouncetime=self.bounce_time)
+        GPIO.add_event_detect(self.pin_reset, GPIO.FALLING, callback=self.resetGoals, bouncetime=self.bounce_time)
 
     def goal(self, channel):
         logging.debug("GOAL" + str(channel))
@@ -71,8 +71,8 @@ class DirectFoosball(Program):
 
     def do(self):
         while True:
-            self.write('{:2}{:2}'.format(*score))
-            self.wait(0)
+            self.write('{:2}{:2}'.format(*self.score), color=['red','red','blue','blue'], seperator_color=['white']*4)
+            self.wait(0.1)
 
     def resetGoals(channel):
         self.score = [0, 0]
