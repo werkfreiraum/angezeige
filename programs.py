@@ -118,11 +118,14 @@ class Program(Thread):
         if cls.running:
             cls.running.stop()
             cls.running.join()
-
+        
         params = info["params"] if "params" in info else {}
-
+        logging.debug("Creating Programm " + info['name'] + "...")
         p = cls.get_promoted_programs()[info['name']](**params)
+        logging.debug("Done")
+        logging.debug("Starting Programm " + info['name'] + "...")
         p.start()
+        logging.debug("Done")
 
 
 # import will register all Programs
