@@ -120,10 +120,10 @@ class Program(Thread):
             cls.running.join()
         
         params = info["params"] if "params" in info else {}
-        logging.debug("Creating Programm " + info['name'] + "...")
+        logging.debug("Creating program " + info['name'] + "...")
         p = cls.get_promoted_programs()[info['name']](**params)
         logging.debug("Done")
-        logging.debug("Starting Programm " + info['name'] + "...")
+        logging.debug("Starting program " + info['name'] + "...")
         p.start()
         logging.debug("Done")
 
