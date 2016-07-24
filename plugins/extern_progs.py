@@ -15,6 +15,7 @@ class ExternAngezeige(Program):
 
     def do(self):
         while True:
+            # TODO: THIS ONE IS BLOCKING
             message = self.websocket.recv()
             self.writer.write(message)
             self.wait(0)
