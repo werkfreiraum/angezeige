@@ -14,18 +14,20 @@ class WebSocketWriter(Writer):
     last_message = ''
 
     class WebSocketWriterSocket(WebSocket):
+        webSocketWriter = None
 
-        # def __init__(self, server, sock, address):
-        #    WebSocket.__init__(self, server, sock, address)
+        def __init__(self, server, sock, address):
+            WebSocket.__init__(self, server, sock, address)
 
         def handleConnected(self):
             logging.debug(" - Connection established!")
             WebSocketWriter.instances.append(self)
-            self.write(self.server.last_message)
+            self.write(WebSocketWriter.last_message)
 
         def handleClose(self):
             logging.debug(" - Connection Closed!")
-            WebSocketWriter.instances.remove(self)
+            if self in WebSocketWriter.instances:
+                WebSocketWriter.instances.remove(self)
 
         def write(self, message):
             self.sendMessage(message)
@@ -43,7 +45,7 @@ class WebSocketWriter(Writer):
         logging.debug("Starting WebSocket (Port: " + str(self.port) + ", Bind Address: " + self.bind_address + ")...")
         self.server = SimpleWebSocketServer(self.bind_address, self.port, self.WebSocketWriterSocket, selectInterval=0.1)
         logging.debug("WebSocket Ready!")
-        logging.debug("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
+        #logging.debug("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
         try:
             self.server.serveforever()
         except Exception as e:
@@ -53,7 +55,7 @@ class WebSocketWriter(Writer):
         sys.exit()
 
     def write(self, message):
-        self.last_message = message
+        WebSocketWriter.last_message = message
         for i in self.instances:
             i.write(message)
 

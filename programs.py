@@ -44,9 +44,6 @@ class Program(Thread):
     def open(self):
         pass
 
-    def close(self):
-        pass
-
     def run(self):
         try:
             self.open()
@@ -57,6 +54,9 @@ class Program(Thread):
             if Program.raiseException:
                 raise
         sys.exit()
+
+    def close(self):
+        pass
 
     def error(self):
         return self._error
@@ -126,7 +126,6 @@ class Program(Thread):
         params = info["params"] if "params" in info else {}
 
         try:
-
             logging.debug("Creating program " + info['name'] + "...")
             p = cls.get_promoted_programs()[info['name']](**params)
             logging.debug("Done")
@@ -134,7 +133,7 @@ class Program(Thread):
             cls.running = p
         except Exception as e:
             logging.exception("Exception in plugin {}".format(info['name']))
-            #self._error = e
+            self._error = e
             # if Program.raiseException:
             #    raise
 

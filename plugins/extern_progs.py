@@ -24,6 +24,7 @@ class ExternAngezeige(Program):
             self.wait(0)
 
     def close(self):
+        logging.debug('ExternAngezeige.close')
         if self.websocket:
             self.websocket.close()
 
