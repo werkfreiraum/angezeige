@@ -22,6 +22,7 @@ class WebSocketWriter(Writer):
         def handleConnected(self):
             logging.debug(" - Connection established!")
             WebSocketWriter.instances.append(self)
+            #TODO NOT USING CLASS VARIABLE
             self.write(WebSocketWriter.last_message)
 
         def handleClose(self):
