@@ -133,7 +133,7 @@ class Program(Thread):
             cls.running = p
         except Exception as e:
             logging.exception("Exception in plugin {}".format(info['name']))
-            self._error = e
+            Program._error = e
             # if Program.raiseException:
             #    raise
 
