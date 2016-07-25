@@ -70,7 +70,7 @@ class SwitchProxy(Switch):
 
     def _detected(self, *args):
         self.detected = True
-        Program.start_program(self.next())
+        Program.start(self.next())
         self.detected = False
 
 

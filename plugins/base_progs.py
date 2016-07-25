@@ -80,7 +80,6 @@ class SlideText(Program):
         self.slide_speed = float(self.get_params()["slide_speed"] if slide_speed is None else slide_speed)
 
     def do(self):
-
         while True:
             self.slide(self.text, speed=self.slide_speed)
 
@@ -104,17 +103,6 @@ class FadeMe(Program):
         i = self.i
         d = False
         while True:
-
-            # if d:
-            #     j-=1;
-            # else:
-            #     j+=1;
-
-            # if j >= 100:
-            #     d = True
-            # if j <= 0:
-            #     d = False
-
             self.wait(j * i)
             self.write('8888', separator="BOTH")
 

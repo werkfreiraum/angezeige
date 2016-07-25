@@ -21,7 +21,7 @@ class WebSocketWriter(Writer):
         def handleConnected(self):
             logging.debug(" - Connection established!")
             WebSocketWriter.instances.append(self)
-            self.write(WebSocketWriter.last_message)
+            self.write(self.server.last_message)
 
         def handleClose(self):
             logging.debug(" - Connection Closed!")
@@ -53,7 +53,7 @@ class WebSocketWriter(Writer):
         sys.exit()
 
     def write(self, message):
-        WebSocketWriter.last_message = message
+        self.last_message = message
         for i in self.instances:
             i.write(message)
 

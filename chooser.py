@@ -75,7 +75,7 @@ def start_program(name, params, button=None, params_from_edit=True):
     for p in params:
         cParams[p] = params[p].get_edit_text()
 
-    Program.start_program(info = {'name': name, 'params': cParams})
+    Program.start(info = {'name': name, 'params': cParams})
     show_menu()
 
 

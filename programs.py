@@ -25,25 +25,31 @@ class Program(Thread):
     raiseException = False
     color = "white"
     prefered_signs = True
-    closing = False
+    _closing = False
 
     __metaclass__ = MetaProgram
 
     def __init__(self, color=None):
         Thread.__init__(self)
         self.daemon = True
-        self.closing = False
+        self._closing = False
         self._error = None
         self._last_message = None
-        #self._last_string = None
 
         self.writer = WriterProxy.instance
 
         if "color" in self.get_params() or color is not None:
             self.color = self.get_params()["color"] if color is None else color
 
+    def open(self):
+        pass
+
+    def close(self):
+        pass
+
     def run(self):
         try:
+            self.open()
             self.do()
         except Exception as e:
             logging.exception("Exception in plugin {}".format(self.__class__))
@@ -52,22 +58,15 @@ class Program(Thread):
                 raise
         sys.exit()
 
-    def stop(self):
-        self.closing = True
-
     def error(self):
         return self._error
-
-    def start(self):
-        Program.running = self
-        Thread.start(self)
 
     def write(self, string, *args, **kwargs):
         if "color" not in kwargs and self.color is not None:
             kwargs["color"] = self.color
         if "prefered_signs" not in kwargs and self.prefered_signs is not None:
             kwargs["prefered_signs"] = self.prefered_signs
-        #self._last_string = string
+
         self._last_message = get_message(string, *args, **kwargs)
         self.writer.write(self._last_message)
 
@@ -77,14 +76,14 @@ class Program(Thread):
             self.write(with_spaces[i:(i + 4)], prefered_signs=prefered_signs)
             self.wait(speed)
 
-    def transition(self, message, speed=0.3):
-        for i in range(3):
-            pass
+    # def transition(self, message, speed=0.3):
+    #     for i in range(3):
+    #         pass
 
     def wait(self, interval, show_progress=False):
         still_to_wait = interval
         while True:
-            if self.closing:
+            if self._closing:
                 sys.exit()
             if still_to_wait <= Program.checkInterval:
                 break
@@ -97,7 +96,6 @@ class Program(Thread):
                     self.writer.write(self._last_message)
 
         sleep(still_to_wait)
-        
 
     @staticmethod
     def get_params():
@@ -114,18 +112,31 @@ class Program(Thread):
         return program_registry
 
     @classmethod
-    def start_program(cls, info):
+    def stop(cls):
         if cls.running:
-            cls.running.stop()
+            cls.running._closing = True
             cls.running.join()
-        
+            cls.running.close()
+            cls.running = None
+
+    @classmethod
+    def start(cls, info):
+        cls.stop()
+
         params = info["params"] if "params" in info else {}
-        logging.debug("Creating program " + info['name'] + "...")
-        p = cls.get_promoted_programs()[info['name']](**params)
-        logging.debug("Done")
-        logging.debug("Starting program " + info['name'] + "...")
-        p.start()
-        logging.debug("Done")
+
+        try:
+
+            logging.debug("Creating program " + info['name'] + "...")
+            p = cls.get_promoted_programs()[info['name']](**params)
+            logging.debug("Done")
+            Thread.start(p)
+            cls.running = p
+        except Exception as e:
+            logging.exception("Exception in plugin {}".format(info['name']))
+            #self._error = e
+            # if Program.raiseException:
+            #    raise
 
 
 # import will register all Programs

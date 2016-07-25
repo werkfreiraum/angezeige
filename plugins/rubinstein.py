@@ -24,7 +24,7 @@ class RubinsteinProgress(JsonReader):
         JsonReader.__init__(self, color=color, uri=uri, refresh_duration=refresh_duration, path=path)
 
     def getMessage(self):
-        message = int(round(JsonReader.getMessage(self)))
+        message = int(round(self.getMessage()))
         if message == 100:
             return "finished!"
         else:

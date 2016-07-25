@@ -9,10 +9,6 @@ import re
 import logging
 from contextlib import closing
 
-################################################################
-# Shows text from URL
-################################################################
-
 
 class UrlReader(Program):
 
@@ -55,6 +51,9 @@ class UrlReader(Program):
             self.write('Error')
             raise
 
+    def setUri(self, uri):
+        self.uri = uri
+
 
 class JsonReader(UrlReader):
 
@@ -83,8 +82,7 @@ class JsonReader(UrlReader):
             path = self.path
         if dct is None:
             dct = self.readUri()
-        j_dct = json.loads(dct)
-        return JsonReader.get_val_by_path(j_dct, path)
+        return JsonReader.get_val_by_path(json.loads(dct), path)
 
 
 class ViennaTemp(JsonReader):
@@ -95,6 +93,12 @@ class ViennaTemp(JsonReader):
         return params
 
     def __init__(self):
+        refresh_duration = 180
+        path = "main.temp"
+        JsonReader.__init__(self, uri="pospone", refresh_duration=refresh_duration, path=path)
+
+
+    def open(self):
         try:
             api_key = api_keys["OpenWeatherMap"]
         except KeyError:
@@ -102,9 +106,8 @@ class ViennaTemp(JsonReader):
             raise ValueError("No openweathermap API key provided!")
 
         uri = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
-        refresh_duration = 180
-        path = "main.temp"
-        JsonReader.__init__(self, uri=uri, refresh_duration=refresh_duration, path=path)
+        self.setUri(uri)
+
 
     def do(self):
         while True:

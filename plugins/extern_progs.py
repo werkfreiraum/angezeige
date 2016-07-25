@@ -3,15 +3,18 @@ import logging
 from programs import Program
 import logging
 
-URI_WEBSOCKET = "ws://foosball.local:5005"
-
 
 class ExternAngezeige(Program):
+    websocket = None
+    timeout =2
 
-    def __init__(self, websocket=None):
+    def __init__(self, uri_websocket):
         Program.__init__(self)
+        self.uri_websocket = uri_websocket
+
+    def open(self):
         from websocket import create_connection
-        self.websocket = create_connection(websocket)
+        self.websocket = create_connection(self.uri_websocket, timeout=self.timeout)
 
     def do(self):
         while True:
@@ -20,8 +23,12 @@ class ExternAngezeige(Program):
             self.writer.write(message)
             self.wait(0)
 
+    def close(self):
+        if self.websocket:
+            self.websocket.close()
+
     @staticmethod
     def get_params():
         params = {}
-        params['websocket'] = URI_WEBSOCKET
+        params['uri_websocket'] = "ws://foosball.local:5005"
         return params
