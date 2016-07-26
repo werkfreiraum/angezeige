@@ -26,10 +26,22 @@ class ClapSwitch(Switch):
 
         self.stream = self.pas.open(**audio_settings)
 
-    def start_detection(self):
+    def enable(self):
         self.closing = False
         self.thread = Thread(name="ClapSwitch Detector", target=self._detect)
         self.thread.start()
+
+    def disable(self):
+        if self.thread.is_alive():
+            self.closing = True
+            self.thread.join()
+
+    def close(self):
+        self.disable()
+
+        self.stream.stop_stream()
+        self.stream.close()
+        self.pas.terminate()
 
     def _detect(self):
         while True:
@@ -40,15 +52,3 @@ class ClapSwitch(Switch):
                 sys.exit()
             if max_value > self.threshold:
                 self._detected()
-
-    def stop_detection(self):
-        if self.thread.is_alive():
-            self.closing = True
-            self.thread.join()
-
-    def close(self):
-        self.stop_detection()
-
-        self.stream.stop_stream()
-        self.stream.close()
-        self.pas.terminate()

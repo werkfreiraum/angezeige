@@ -16,12 +16,12 @@ def get_status():
     else:
         status += "OFF"
 
-    if SwitchProxy.instance:
-        status += "\nSwitch detected: " + ('YES' if SwitchProxy.instance.detected else 'NO')
+    if SwitchProxy.get_instance():
+        status += "\nSwitch detected: " + ('YES' if SwitchProxy.get_instance().detected else 'NO')
 
     return status
 
-status = urwid.Text(get_status())
+status = None 
 
 
 def menu(choices):
@@ -32,15 +32,14 @@ def menu(choices):
         urwid.connect_signal(button, 'click', item_chosen, user_args=[choice])
         body.append(urwid.AttrMap(button, None, focus_map='reversed'))
 
-    # if len(SwitchProxy.instance.switches) > 0:
-    #     body.append(urwid.Divider("-"))
-    #     for switch in switchProxy.instance.switches:
-    #         body.append(urwid.CheckBox(switch, state=False))
+    if len(SwitchProxy.get_instance().items) > 0:
+        body.extend([urwid.Divider("-"), urwid.Text("Switches:")])
+        for switch in SwitchProxy.get_instance().items:
+            body.append(urwid.CheckBox(switch, state=False))
 
-    #logging.debug(WriterProxy.writer)
-    if len(WriterProxy.instance.writer) > 0:
-        body.append(urwid.Divider("-"))
-        for writer in WriterProxy.instance.writer:
+    if len(WriterProxy.get_instance().items) > 0:
+        body.extend([urwid.Divider("-"), urwid.Text("Writer:")])
+        for writer in WriterProxy.get_instance().items:
             body.append(urwid.CheckBox(writer, state=False))
     body.append(urwid.Divider("-"))
     button = urwid.Button("EXIT")
@@ -107,6 +106,8 @@ def get_info(mainLoop, data):
 
 
 def choose():
+    global status
+    status = urwid.Text(get_status())
     top = urwid.Overlay(mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),
                         align='center', width=('relative', 60),
                         valign='middle', height=('relative', 60),

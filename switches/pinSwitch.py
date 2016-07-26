@@ -17,11 +17,11 @@ class PinSwitch(Switch):
         GPIO.setup(self.pin, GPIO.IN)
 
     def close(self):
-        pass
+        self.disable()
 
-    def start_detection(self):
+    def enable(self):
         GPIO.add_event_detect(self.pin, GPIO.FALLING, callback=self._detected, bouncetime=self.bounce_time)
 
-    def stop_detection(self):
+    def disable(self):
         GPIO.remove_event_detect(self.pin)
 

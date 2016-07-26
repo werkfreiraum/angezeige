@@ -21,6 +21,7 @@ class MetaProgram(type):
 
 
 class Program(Thread):
+    name = None
     checkInterval = 0.2
     running = None
     raiseException = False
@@ -37,7 +38,7 @@ class Program(Thread):
         self._error = None
         self._last_message = None
 
-        self.writer = WriterProxy.instance
+        self.writer = WriterProxy.get_instance()
 
         if "color" in self.get_params() or color is not None:
             self.color = self.get_params()["color"] if color is None else color
@@ -48,10 +49,8 @@ class Program(Thread):
     def run(self):
         try:
             name = self.get_program_name()
-            # STRANGE NOT WORKING
-            logging.debug("2: " + self.get_program_name())
             if len(name) > 4:
-                self.slide(name, speed=0.2, color="green", prefered_signs=True)
+                self.slide(name, speed=0.2, color="green", prefered_signs=False)
             else:
                 self.write(name, color="green", prefered_signs=True)
                 self.wait(1)
@@ -119,7 +118,6 @@ class Program(Thread):
     def get_program_name(cls, beauty = True):
         if cls.name and beauty:
             return cls.name
-        logging.debug("1: " + cls.__name__)
         return cls.__name__
 
     @staticmethod

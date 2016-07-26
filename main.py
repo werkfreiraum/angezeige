@@ -23,11 +23,13 @@ def main():
 
     signal.signal(signal.SIGINT, cleanup_exit)
 
-    w = WriterProxy(writer=writer)
+    w = WriterProxy(items=writer)
+    s = SwitchProxy(items=switches, switch_programs_file=switch_programs_file)
 
-    s = SwitchProxy(switches=switches, switch_programs_file=switch_programs_file)
-    s.start_detection()
-    s._detected()
+    w.enable()
+    s.enable()
+
+    Program.start(s.next())
 
     choose()
 

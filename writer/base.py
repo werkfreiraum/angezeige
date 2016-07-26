@@ -1,3 +1,6 @@
+from proxy import Proxy
+
+
 class Writer(object):
 
     def __init__(self):
@@ -6,34 +9,35 @@ class Writer(object):
     def write(self, message):
         pass
 
+    def enable(self):
+        pass
+
+    def disable(self):
+        pass
+
     def close(self):
         pass
 
 
-class WriterProxy(Writer):
-    writer = {}
+class WriterProxy(Proxy, Writer):
     instance = None
 
-    def __init__(self, writer):
-        for uniqueId, info in writer.iteritems():
-            writerType = info["type"]
-            params = info["params"] if "params" in info else {}
-            self.add(uniqueId, writerType, params=params)
-
+    def __init__(self, items):
+        Proxy.__init__(self, items)
+        Writer.__init__(self)
         WriterProxy.instance = self
 
-    def add(self, uniqueId, writerType, params={}):
-        writer = globals()[writerType](**params)
-        self.writer[uniqueId] = writer
-
-    def close(self):
-        for s in self.writer:
-            self.writer[s].close()
-
     def write(self, message):
-        for s in self.writer:
-            self.writer[s].write(message)
+        for uniqueId in self.enabled_items:
+            self.items[uniqueId].write(message)
 
+    @staticmethod
+    def get_class(name):
+        return globals()[name]
+
+    @classmethod
+    def get_instance(cls):
+        return cls.instance
 
 from writer.fileWriter import FileWriter
 from writer.webSocketWriter import WebSocketWriter

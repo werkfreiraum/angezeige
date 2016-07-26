@@ -79,6 +79,7 @@ class JsonReader(UrlReader):
 
 
 class ViennaTemp(JsonReader):
+    name = "tEMP"
 
     @staticmethod
     def get_params():
@@ -91,7 +92,7 @@ class ViennaTemp(JsonReader):
         JsonReader.__init__(self, uri="pospone", refresh_duration=refresh_duration, path=path)
 
     def open(self):
-        api_key = self.get_api_key['OpenWeatherMap']
+        api_key = self.get_api_key('OpenWeatherMap')
         uri = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
         self.setUri(uri)
 
