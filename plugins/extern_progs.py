@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 from programs import Program
-import logging
 
 
 class ExternAngezeige(Program):
@@ -24,7 +23,7 @@ class ExternAngezeige(Program):
                 self.writer.write(message)
             except WebSocketTimeoutException as e:
                 pass
-            
+
             self.wait(0)
 
     def close(self):

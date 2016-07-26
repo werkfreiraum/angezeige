@@ -4,7 +4,7 @@ from programs import Program
 
 
 class ShowTime(Program):
-
+    name = "TIME"
     def do(self):
         separator = ["INNER", "NONE"]
         while True:

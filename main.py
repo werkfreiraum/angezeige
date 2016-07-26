@@ -16,9 +16,7 @@ def main():
 
     def cleanup_exit(*args, **kwargs):
         print("\nBye!")
-        if Program.running:
-            Program.running.stop()
-            Program.running.join()
+        Program.stop();
         s.close()
         w.close()
         exit()

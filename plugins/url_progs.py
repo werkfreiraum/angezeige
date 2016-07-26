@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
-import urllib
 import logging
 from programs import Program
-from conf.private import api_keys
 import urllib2
 import re
-import logging
 from contextlib import closing
 
 
 class UrlReader(Program):
+    timeout = 1
 
     def __init__(self, color=None, uri=None, refresh_duration=None):
         Program.__init__(self, color=color)
@@ -35,21 +33,16 @@ class UrlReader(Program):
             self.wait(self.refresh_duration, show_progress=True)
 
     def getMessage(self):
-        try:
-            return self.readUri().rstrip()
-        except Exception as e:
-            return "ERRO"
+        return self.readUri().rstrip()
 
     def readUri(self):
-        try:
+        # try:
             # need contextlib because no Python 3... :(
-            with closing(urllib2.urlopen(self.uri)) as f:
-                return f.read()
-        except urllib2.URLError:
-            logging.exception("Failed to retrieve rubinstein"
-                              "data.")
-            self.write('Error')
-            raise
+        with closing(urllib2.urlopen(self.uri, timeout=self.timeout)) as f:
+            return f.read()
+        # except urllib2.URLError as e:
+        #    logging.exception("Failed to retrieve data from url.")
+        #    raise e
 
     def setUri(self, uri):
         self.uri = uri
@@ -97,17 +90,10 @@ class ViennaTemp(JsonReader):
         path = "main.temp"
         JsonReader.__init__(self, uri="pospone", refresh_duration=refresh_duration, path=path)
 
-
     def open(self):
-        try:
-            api_key = api_keys["OpenWeatherMap"]
-        except KeyError:
-            logging.exception("Failed to start OpenWeatherMap.")
-            raise ValueError("No openweathermap API key provided!")
-
+        api_key = self.get_api_key['OpenWeatherMap']
         uri = "http://api.openweathermap.org/data/2.5/weather?id=2761369&units=metric&APPID=" + api_key
         self.setUri(uri)
-
 
     def do(self):
         while True:

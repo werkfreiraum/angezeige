@@ -8,7 +8,7 @@ def get_status():
     status = "Status: "
     if Program.running:
         e = Program.running.error()
-        status += "\nSwitch detected: " + 'ERROR' if e else 'RUNNING'
+        status += 'ERROR' if e else 'RUNNING'
         status += " (" + Program.running.__class__.__name__ + ") "
         if e:
             status += "\n" + str(e) + " (" + e.__class__.__name__ + ") "

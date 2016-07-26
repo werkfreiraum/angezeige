@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from conf.private import api_keys
 from programs import Program
 from url_progs import JsonReader
 
@@ -18,13 +17,18 @@ URL = "http://rubinstein.local/api/"
 class RubinsteinProgress(JsonReader):
 
     def __init__(self, color=None):
-        uri = "{}{}?apikey={}".format(URL, "job", api_keys['rubinstein'])
         refresh_duration = 5
         path = "progress.completion"
-        JsonReader.__init__(self, color=color, uri=uri, refresh_duration=refresh_duration, path=path)
+        JsonReader.__init__(self, color=color, uri="pospone", refresh_duration=refresh_duration, path=path)
+
+    def open(self):
+        uri = "{}{}?apikey={}".format(URL, "job", self.get_api_key['rubinstein'])
+        self.setUri(uri)
 
     def getMessage(self):
-        message = int(round(self.getMessage()))
+        rawMessage = JsonReader.getMessage(self)
+        logging.debug("RubinsteinProgress: " + rawMessage)
+        message = int(round(rawMessage))
         if message == 100:
             return "finished!"
         else:
