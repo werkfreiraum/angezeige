@@ -48,6 +48,8 @@ class Program(Thread):
     def run(self):
         try:
             name = self.get_program_name()
+            # STRANGE NOT WORKING
+            logging.debug("2: " + self.get_program_name())
             if len(name) > 4:
                 self.slide(name, speed=0.2, color="green", prefered_signs=True)
             else:
@@ -56,7 +58,7 @@ class Program(Thread):
             self.open()
             self.do()
         except Exception as e:
-            logging.exception("Exception in plugin {}".format(self.__class__))
+            logging.exception("Exception in plugin {}".format(self.get_program_name(beauty = False)))
             self.write("ERRO", color="red", prefered_signs=True)
             #self.slide("Error", speed=0.2, color="red", prefered_signs=True)
             self._error = e
@@ -117,8 +119,8 @@ class Program(Thread):
     def get_program_name(cls, beauty = True):
         if cls.name and beauty:
             return cls.name
-        else:
-            return cls.__name__
+        logging.debug("1: " + cls.__name__)
+        return cls.__name__
 
     @staticmethod
     def get_promoted_programs():
@@ -140,7 +142,7 @@ class Program(Thread):
             try:
                 cls.running.close()
             except Exception as e:
-                logging.exception("Exception while closing plugin {}".format(cls.get_promoted_programs(beauty = False)))
+                logging.exception("Exception while closing plugin {}".format(cls.get_program_name(beauty = False)))
             cls.running = None
 
     @classmethod

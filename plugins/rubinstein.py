@@ -15,7 +15,8 @@ URL = "http://rubinstein.local/api/"
 
 
 class RubinsteinProgress(JsonReader):
-
+    name = "RUPR"
+    
     def __init__(self, color=None):
         refresh_duration = 5
         path = "progress.completion"

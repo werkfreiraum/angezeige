@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import urwid
+import logging
 from programs import Program
 from switches.base import SwitchProxy
-
+from writer.base import WriterProxy
 
 def get_status():
     status = "Status: "
@@ -30,8 +31,17 @@ def menu(choices):
         button = urwid.Button(choice)
         urwid.connect_signal(button, 'click', item_chosen, user_args=[choice])
         body.append(urwid.AttrMap(button, None, focus_map='reversed'))
-    body.append(urwid.Divider("-"))
-    body.append(urwid.CheckBox("Clap Switching", state=False))
+
+    # if len(SwitchProxy.instance.switches) > 0:
+    #     body.append(urwid.Divider("-"))
+    #     for switch in switchProxy.instance.switches:
+    #         body.append(urwid.CheckBox(switch, state=False))
+
+    #logging.debug(WriterProxy.writer)
+    if len(WriterProxy.instance.writer) > 0:
+        body.append(urwid.Divider("-"))
+        for writer in WriterProxy.instance.writer:
+            body.append(urwid.CheckBox(writer, state=False))
     body.append(urwid.Divider("-"))
     button = urwid.Button("EXIT")
     urwid.connect_signal(button, 'click', exit_application)
@@ -84,6 +94,7 @@ def exit_application(button=None):
 
 
 def show_menu(button=None):
+    listMenu = menu(Program.get_promoted_programs().keys())
     mainWidget.original_widget = listMenu
 
 
@@ -91,6 +102,8 @@ def get_info(mainLoop, data):
     status.set_text(get_status())
 
     mainLoop.set_alarm_in(0.2, get_info)
+
+
 
 
 def choose():
@@ -105,5 +118,5 @@ def choose():
     mainLoop.run()
 
 
-listMenu = menu(Program.get_promoted_programs().keys())
+
 mainWidget = urwid.Padding(None, left=1, right=1)
