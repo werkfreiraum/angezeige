@@ -20,7 +20,7 @@ class Proxy(object):
     def enable(self, uniqueId=None):
         if uniqueId:
             if uniqueId not in self.enabled_items:
-                self.items[uniqueId].start_detection()
+                self.items[uniqueId].enable()
                 self.enabled_items.append(uniqueId)
         else:
             for uniqueId in self.enabled_items:
@@ -31,7 +31,7 @@ class Proxy(object):
 
     def disable(self, uniqueId=None):
         if uniqueId in self.enabled_items:
-            self.switches[uniqueId].stop_detection()
+            self.switches[uniqueId].disable()
             self.enabled_items.remove(uniqueId)
         else:
             for uniqueId in self.enabled_items:
