@@ -38,7 +38,7 @@ class Program(Thread):
         self._error = None
         self._last_message = None
 
-        self.writer = WriterProxy.get_instance()
+        self.writer = WriterProxy.instance
 
         if "color" in self.get_params() or color is not None:
             self.color = self.get_params()["color"] if color is None else color

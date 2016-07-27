@@ -2,7 +2,7 @@
 import signal
 import logging
 from programs import Program
-from chooser import choose
+from chooser import UrwidChooser
 from switches.base import *
 from writer.base import *
 
@@ -17,8 +17,8 @@ def main():
     def cleanup_exit(*args, **kwargs):
         print("\nBye!")
         Program.stop();
-        s.close()
-        w.close()
+        s.disable()
+        w.disable()
         exit()
 
     signal.signal(signal.SIGINT, cleanup_exit)
@@ -31,7 +31,8 @@ def main():
 
     Program.start(s.next())
 
-    choose()
+    c = UrwidChooser()
+    c.start()
 
     cleanup_exit()
 

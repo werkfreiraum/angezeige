@@ -14,6 +14,9 @@ class ClapSwitch(Switch):
         self.chunk = chunk
         self.threshold = threshold
 
+    def enable(self):
+        self.closing = False
+
         import pyaudio
         from conf.private import audio as audio_settings
 
@@ -26,8 +29,6 @@ class ClapSwitch(Switch):
 
         self.stream = self.pas.open(**audio_settings)
 
-    def enable(self):
-        self.closing = False
         self.thread = Thread(name="ClapSwitch Detector", target=self._detect)
         self.thread.start()
 
@@ -35,10 +36,6 @@ class ClapSwitch(Switch):
         if self.thread.is_alive():
             self.closing = True
             self.thread.join()
-
-    def close(self):
-        self.disable()
-
         self.stream.stop_stream()
         self.stream.close()
         self.pas.terminate()

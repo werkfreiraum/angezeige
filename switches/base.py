@@ -19,9 +19,6 @@ class Switch(object):
     def disable(self):
         pass
 
-    def close(self):
-        pass
-
     def _detected(self, *args):
         self.detected = True
         if self.ret_func:
@@ -32,7 +29,6 @@ class Switch(object):
 
 class SwitchProxy(Proxy, Switch):
     detected = False
-    instance = None
     switch_programs = []
     active_switch_program = -1
 
@@ -42,8 +38,6 @@ class SwitchProxy(Proxy, Switch):
 
         with open(switch_programs_file) as data_file:
             self.switch_programs = json.load(data_file)
-
-        SwitchProxy.instance = self
 
     def add_item(self, uniqueId, itemType, enabled, params={}):
         Proxy.add_item(self, uniqueId, itemType, enabled, params)
@@ -59,12 +53,9 @@ class SwitchProxy(Proxy, Switch):
         self.detected = False
 
     @staticmethod
-    def get_class(name):
+    def get_imp_class(name):
         return globals()[name]
 
-    @classmethod
-    def get_instance(cls):
-        return cls.instance
 
 from switches.clapSwitch import ClapSwitch
 from switches.pinSwitch import PinSwitch

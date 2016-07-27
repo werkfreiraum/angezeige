@@ -9,8 +9,10 @@ class Proxy(object):
             enabled = info["enabled"] if "enabled" in info else True
             self.add_item(uniqueId, itemType, enabled, params=params)
 
+        type(self).instance = self
+
     def add_item(self, uniqueId, itemType, enabled, params={}):
-        item = self.get_class(itemType)(**params)
+        item = self.get_imp_class(itemType)(**params)
         self.items[uniqueId] = item
         if enabled:
             self.enabled_items.append(uniqueId)
@@ -21,17 +23,17 @@ class Proxy(object):
                 self.items[uniqueId].start_detection()
                 self.enabled_items.append(uniqueId)
         else:
-            for uniqueId in list(self.enabled_items):
-                self.enable(uniqueId)
+            for uniqueId in self.enabled_items:
+                self.items[uniqueId].enable()
+
+    def is_enabled(self, uniqueId):
+        return (uniqueId in self.enabled_items)
 
     def disable(self, uniqueId=None):
         if uniqueId in self.enabled_items:
             self.switches[uniqueId].stop_detection()
             self.enabled_items.remove(uniqueId)
         else:
-            for uniqueId in list(self.enabled_items):
-                self.disable(uniqueId)
-
-    def close(self):
-        for uniqueId in self.items:
-            self.items[uniqueId].close()
+            for uniqueId in self.enabled_items:
+                self.items[uniqueId].disable()
+            self.enabled_items = []

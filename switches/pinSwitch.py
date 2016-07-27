@@ -11,17 +11,15 @@ class PinSwitch(Switch):
         self.bounce_time = 400
         self.ret_func = None
 
+    def enable(self):
         global GPIO
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
 
-    def close(self):
-        self.disable()
-
-    def enable(self):
         GPIO.add_event_detect(self.pin, GPIO.FALLING, callback=self._detected, bouncetime=self.bounce_time)
 
     def disable(self):
         GPIO.remove_event_detect(self.pin)
+        GPIO.cleanup()
 

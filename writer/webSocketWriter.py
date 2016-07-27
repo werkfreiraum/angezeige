@@ -22,7 +22,7 @@ class WebSocketWriter(Writer):
         def handleConnected(self):
             logging.debug(" - Connection established!")
             WebSocketWriter.instances.append(self)
-            #TODO NOT USING CLASS VARIABLE
+            # TODO NOT USING CLASS VARIABLE
             self.write(WebSocketWriter.last_message)
 
         def handleClose(self):
@@ -33,18 +33,19 @@ class WebSocketWriter(Writer):
         def write(self, message):
             self.sendMessage(message)
 
-        # def close(self):
-        #    pass
-
     def __init__(self, port=8000, bind_address='localhost'):
         self.port = port
         self.bind_address = bind_address
+
+    def enable(self):
+        #logging.debug("Enabling Websocket!")
         self.thread = Thread(name="WebSocketServer", target=self._serve)
         self.thread.start()
 
     def _serve(self):
-        logging.debug("Starting WebSocket (Port: " + str(self.port) + ", Bind Address: " + self.bind_address + ")...")
-        self.server = SimpleWebSocketServer(self.bind_address, self.port, self.WebSocketWriterSocket, selectInterval=0.1)
+        logging.debug("Starting WebSocket (Port: " + str(self.port) + ", Bind Address: '" + self.bind_address + "')...")
+        self.server = SimpleWebSocketServer(self.bind_address, self.port,
+                                            self.WebSocketWriterSocket, selectInterval=0.1)
         logging.debug("WebSocket Ready!")
         #logging.debug("Open " + os.path.dirname(os.path.realpath(__file__)) + "/simulation/index.html in you brower.")
         try:
@@ -60,7 +61,7 @@ class WebSocketWriter(Writer):
         for i in self.instances:
             i.write(message)
 
-    def close(self):
+    def disable(self):
         logging.debug("Closing WebSocket ...")
         self.server.close()
         logging.debug("Bye!")
