@@ -1,5 +1,6 @@
 //websocketAddress = "ws://foosball.local:5005/"
-websocketAddress = "ws://localhost:8000/"
+//websocketAddress = 
+connected = false
 
 function doColoring(data) {
     var a = new Uint8Array(data)
@@ -15,15 +16,19 @@ function onMessage(evt) {
     doColoring(evt.data)
 }
 
-var sendTrigger = ""
+var sendTrigger;
 
 function onOpen(evt) {
     console.log("Connected!")
+    connected = true
+    $("#status").html("Connected!");
     sendTrigger = setInterval(sendAlive, 20)
 }
 
 function onClose(evt) {
-    console.log("Disonnected!")
+    console.log("Disconnected!")
+    $("#status").html("Disconnected!");
+    connected = false
     clearInterval(sendTrigger)
 }
 
@@ -31,11 +36,22 @@ function sendAlive() {
     websocket.send("a")
 }
 
-$(document).ready(function() {
+function connect(websocketAddress) {
+    if (connected) {
+        console.log("Disconnecting ...")
+        websocket.close()
+    }
+
     console.log("Connecting ...")
     websocket = new WebSocket(websocketAddress)
     websocket.binaryType = 'arraybuffer';
     websocket.onopen = onOpen
     websocket.onclose = onClose
-    websocket.onmessage = onMessage
+    websocket.onmessage = onMessage}
+
+$(document).ready(function() {
+    $("#serverName").val("ws://localhost:8000/")
+    $("#connectButton").click(function() {
+        connect($("#serverName").val())
+    })
 });

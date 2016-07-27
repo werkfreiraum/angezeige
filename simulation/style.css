@@ -8,6 +8,22 @@ html, body {
     min-width:900px;
 }
 
+.control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+#serverName {
+    width: 200px;
+}
+
+#status {
+    width: 200px;
+    background-color: white;
+}
+
+
 .angezeige {
     height:200px;
     position:absolute;
