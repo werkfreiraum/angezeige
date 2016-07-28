@@ -31,7 +31,7 @@ class Proxy(object):
 
     def disable(self, uniqueId=None):
         if uniqueId in self.enabled_items:
-            self.switches[uniqueId].disable()
+            self.items[uniqueId].disable()
             self.enabled_items.remove(uniqueId)
         else:
             for uniqueId in self.enabled_items:

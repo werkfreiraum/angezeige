@@ -9,7 +9,6 @@ from writer.base import WriterProxy
 from manager.base import ManagerProxy, Manager
 
 
-
 class UrwidManager(Manager):
 
     def __init__(self):
@@ -32,7 +31,6 @@ class UrwidManager(Manager):
 
         return status
 
-
     def menu(self, choices):
         body = [urwid.Divider("-"), urwid.Text("ANGEZEIGE", align='center'), urwid.Divider("-"),
                 self.status, urwid.Divider("-"), urwid.Text("Choose Program:")]
@@ -51,15 +49,21 @@ class UrwidManager(Manager):
             if len(proxy_class.instance.items) > 0:
                 body.extend([urwid.Divider("-"), urwid.Text(proxy_name + ":")])
                 for item in proxy_class.instance.items:
-                    body.append(urwid.CheckBox(item, state=proxy_class.instance.is_enabled(item)))
+                    body.append(urwid.CheckBox(item, state=proxy_class.instance.is_enabled(item),
+                                               on_state_change=self.checkbox, user_data={"proxy": proxy_class, "item": item}))
 
         body.append(urwid.Divider("-"))
         button = urwid.Button("EXIT")
-        urwid.connect_signal(button, 'click', self.exit_application)
+        urwid.connect_signal(button, 'click', self.disable)
         body.append(urwid.AttrMap(button, None, focus_map='reversed'))
 
         return urwid.ListBox(urwid.SimpleFocusListWalker(body))
 
+    def checkbox(self, checkbox, state, user_data):
+        if state:
+            user_data['proxy'].instance.enable(user_data['item'])
+        else:
+            user_data['proxy'].instance.disable(user_data['item'])
 
     def item_chosen(self, choice, button):
         body = [urwid.Divider("-"), urwid.Text(choice, align='center')]
@@ -90,34 +94,32 @@ class UrwidManager(Manager):
 
         self.mainWidget.original_widget = urwid.Filler(urwid.Pile(body, focus_item=tOk))
 
-
     def start_program(self, name, params, button=None, params_from_edit=True):
         cParams = {}
         for p in params:
             cParams[p] = params[p].get_edit_text()
 
-        Program.start(info = {'name': name, 'params': cParams})
+        Program.start(info={'name': name, 'params': cParams})
         self.show_menu()
-
 
     def exit_application(self, button=None):
         raise urwid.ExitMainLoop()
-
 
     def show_menu(self, button=None):
         listMenu = self.menu(Program.get_promoted_programs().keys())
         self.mainWidget.original_widget = listMenu
 
-
     def get_info(self, mainLoop, data):
         self.status.set_text(self.get_status())
         mainLoop.set_alarm_in(0.2, self.get_info)
 
-
     def enable(self):
         #self.thread = Thread(name="Urwid", target=self.start)
-        #self.thread.start()
+        # self.thread.start()
         self.start()
+
+    def disable(self, *argv):
+        raise urwid.ExitMainLoop()
 
     def start(self):
         top = urwid.Overlay(self.mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),
