@@ -24,6 +24,8 @@ class ExternFoosball(ExternAngezeige):
     name = "FBEX"
 
     def __init__(self, uri_websocket=None):
+        if uri_websocket is None:
+            uri_websocket = ExternFoosball.get_params()['uri_websocket']
         ExternAngezeige.__init__(self, uri_websocket=uri_websocket)
 
     @staticmethod
