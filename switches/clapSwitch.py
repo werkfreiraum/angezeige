@@ -4,10 +4,6 @@ import sys
 from switches.base import Switch
 
 class ClapSwitch(Switch):
-    thread = None
-    stream = None
-    pas = None
-    closing = False
 
     def __init__(self, ret_func=None, threshold=32760, chunk=1024 * 10):
         Switch.__init__(self, ret_func=None)
@@ -25,7 +21,7 @@ class ClapSwitch(Switch):
         audio_settings['format'] = pyaudio.paInt16
         audio_settings['input'] = True
         audio_settings['output'] = False
-        audio_settings['frames_per_buffer'] = chunk
+        audio_settings['frames_per_buffer'] = self.chunk
 
         self.stream = self.pas.open(**audio_settings)
 
