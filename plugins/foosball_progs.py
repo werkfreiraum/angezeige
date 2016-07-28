@@ -91,7 +91,7 @@ class DirectFoosball(Program):
                         self.wait(0.3)
                 elif self.update['type'] == 'reset':
                     self.score = [0, 0]
-                    self.slide('RESET')
+                    self.slide('RESET', color="green")
                     self.wait(0.5)
                 self.update = None
 
