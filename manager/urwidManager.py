@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import urwid
 import logging
+from threading import Thread
 from programs import Program
 from switches.base import SwitchProxy
 from writer.base import WriterProxy
 
-
-class Chooser(object):
-    def start(self):
-        pass
+from manager.base import ManagerProxy, Manager
 
 
-class UrwidChooser(Chooser):
+
+class UrwidManager(Manager):
 
     def __init__(self):
         self.status = urwid.Text(self.get_status())
@@ -44,8 +43,8 @@ class UrwidChooser(Chooser):
 
         proxyClasses = {
             "Switches": SwitchProxy,
-            "Writer": WriterProxy
-            #"Chooser": ChooseProxy
+            "Writer": WriterProxy,
+            "Manager": ManagerProxy
         }
 
         for proxy_name, proxy_class in proxyClasses.iteritems():
@@ -114,6 +113,11 @@ class UrwidChooser(Chooser):
         self.status.set_text(self.get_status())
         mainLoop.set_alarm_in(0.2, self.get_info)
 
+
+    def enable(self):
+        #self.thread = Thread(name="Urwid", target=self.start)
+        #self.thread.start()
+        self.start()
 
     def start(self):
         top = urwid.Overlay(self.mainWidget, urwid.SolidFill(u'\N{MEDIUM SHADE}'),

@@ -39,9 +39,8 @@ class SwitchProxy(Proxy, Switch):
         with open(switch_programs_file) as data_file:
             self.switch_programs = json.load(data_file)
 
-    def add_item(self, uniqueId, itemType, enabled, params={}):
-        Proxy.add_item(self, uniqueId, itemType, enabled, params)
-        self.items[uniqueId].set_forward(self)
+        for switch in self.items:
+            self.items[switch].set_forward(self)
 
     def next(self):
         self.active_switch_program = (self.active_switch_program + 1) % len(self.switch_programs)
