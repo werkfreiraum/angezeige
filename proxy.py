@@ -4,10 +4,9 @@ class Proxy(object):
         self.items = {}
         self.enabled_items = []
         for uniqueId, info in items.iteritems():
-            itemType = info["type"]
             params = info["params"] if "params" in info else {}
             enabled = info["enabled"] if "enabled" in info else True
-            self.add_item(uniqueId, itemType, enabled, params=params)
+            self.add_item(uniqueId, info["type"], enabled, params=params)
 
         type(self).instance = self
 
@@ -31,8 +30,8 @@ class Proxy(object):
 
     def disable(self, uniqueId=None):
         if uniqueId in self.enabled_items:
-            self.items[uniqueId].disable()
             self.enabled_items.remove(uniqueId)
+            self.items[uniqueId].disable()
         else:
             for uniqueId in self.enabled_items:
                 self.items[uniqueId].disable()

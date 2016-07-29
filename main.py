@@ -19,6 +19,7 @@ def main():
         Program.stop()
         s.disable()
         w.disable()
+        m.disable()
         exit()
 
     signal.signal(signal.SIGINT, cleanup_exit)

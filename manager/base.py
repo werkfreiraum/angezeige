@@ -7,7 +7,12 @@ from writer.base import WriterProxy
 from proxy import Proxy
 
 class Manager(object):
-    pass
+    def do(self, command):
+        if command['code'] == "switch":
+            if command['subcode'] == "next":
+                SwitchProxy.instance.next()
+
+        
 
 class ManagerProxy(Proxy, Manager):
     @staticmethod
@@ -22,3 +27,4 @@ class ManagerProxy(Proxy, Manager):
 
 
 from manager.urwidManager import UrwidManager
+from manager.webSocketManager import WebSocketManager

@@ -47,7 +47,8 @@ function connect(websocketAddress) {
     websocket.binaryType = 'arraybuffer';
     websocket.onopen = onOpen
     websocket.onclose = onClose
-    websocket.onmessage = onMessage}
+    websocket.onmessage = onMessage
+}
 
 $(document).ready(function() {
     $("#serverName").val("ws://localhost:8000/")
