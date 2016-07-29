@@ -14,8 +14,9 @@ class WebSocketManagerSocket(WebSocketBaseSocket):
 
     def handleMessage(self):
         command = json.loads(self.data)
-        logging.debug(command)
+        #logging.debug(command)
         self.server.base.do(command)
+        self.sendMessage(unicode(json.dumps(['Done'])))
 
 
 class WebSocketManager(WebSocketBase, Manager):

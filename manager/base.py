@@ -8,8 +8,8 @@ from proxy import Proxy
 
 class Manager(object):
     def do(self, command):
-        if command['code'] == "switch":
-            if command['subcode'] == "next":
+        if command[u'code'] == u'switch':
+            if command[u'subcode'] == u'next':
                 SwitchProxy.instance.next()
 
         

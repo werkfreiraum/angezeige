@@ -26,6 +26,7 @@ class WebSocketBase(object):
     def __init__(self, port, bind_address):
         self.port = port
         self.bind_address = bind_address
+        self.instances = []
 
     def enable(self):
         self.thread = Thread(name=type(self).__name__, target=self._serve)

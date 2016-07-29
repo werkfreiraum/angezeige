@@ -16,7 +16,6 @@ class WebSocketWriter(WebSocketBase, Writer):
     socket_imp_class = WebSocketWriterSocket
 
     def __init__(self, port=8000, bind_address='localhost'):
-        self.instances = []
         Writer.__init__(self)
         WebSocketBase.__init__(self, port, bind_address)
 
