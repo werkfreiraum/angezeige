@@ -1,7 +1,6 @@
 #!/usr/bin/env python2
 import signal
 import logging
-from programs import Program
 from switches.base import SwitchProxy
 from writer.base import WriterProxy
 from manager.base import ManagerProxy
@@ -29,7 +28,7 @@ def main():
     m = ManagerProxy(items=manager)
 
     # Start first program in circle
-    Program.start(s.next())
+    s.next()
 
     w.enable()
     s.enable()

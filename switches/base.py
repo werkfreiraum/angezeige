@@ -44,11 +44,11 @@ class SwitchProxy(Proxy, Switch):
 
     def next(self):
         self.active_switch_program = (self.active_switch_program + 1) % len(self.switch_programs)
-        return self.switch_programs[self.active_switch_program]
+        Program.start(self.switch_programs[self.active_switch_program])
 
     def _detected(self, *args):
         self.detected = True
-        Program.start(self.next())
+        self.next()
         self.detected = False
 
     @staticmethod
