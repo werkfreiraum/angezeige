@@ -1,0 +1,20 @@
+{
+  "name": "angezeige",
+  "homepage": "https://github.com/werkfreiraum/angezeige",
+  "authors": [
+    "petres <peter.reschenhofer@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
+}
