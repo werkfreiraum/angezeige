@@ -45,4 +45,7 @@ $(document).ready(function() {
     $("#nextButton").click(function() {
         sendCommand({"code": "switch", "subcode": "next"})
     })
+    $("#programsButton").click(function() {
+        sendCommand({"code": "info", "subcode": "programs"})
+    })
 });

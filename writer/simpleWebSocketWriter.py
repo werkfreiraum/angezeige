@@ -1,19 +1,23 @@
-from SimpleWebSocketServer import WebSocket
-from webSocketBase import WebSocketBase, WebSocketBaseSocket
+from misc.simpleWebSocketBase import WebSocketBase, WebSocketBaseSocket
 from writer.base import Writer
 import logging
 from threading import Thread
+import binascii
 
-
-class WebSocketWriterSocket(WebSocketBaseSocket):
+class SimpleWebSocketWriterSocket(WebSocketBaseSocket):
 
     def handleConnected(self):
         WebSocketBaseSocket.handleConnected(self)
         self.sendMessage(self.server.base.last_message)
 
+    def sendMessage(self, message):
+        #print("sendMessage")
+        WebSocketBaseSocket.sendMessage(self, unicode(binascii.hexlify(message)))
+        print("sendMessage" + str(binascii.hexlify(message)))
 
-class WebSocketWriter(WebSocketBase, Writer):
-    socket_imp_class = WebSocketWriterSocket
+
+class SimpleWebSocketWriter(WebSocketBase, Writer):
+    socket_imp_class = SimpleWebSocketWriterSocket
 
     def __init__(self, port=8000, bind_address='localhost'):
         Writer.__init__(self)

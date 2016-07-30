@@ -1,4 +1,4 @@
-from proxy import Proxy
+from misc.proxy import Proxy
 
 
 class Writer(object):
@@ -35,4 +35,5 @@ class WriterProxy(Proxy, Writer):
 
 
 from writer.fileWriter import FileWriter
-from writer.webSocketWriter import WebSocketWriter
+from writer.simpleWebSocketWriter import SimpleWebSocketWriter
+from writer.autobahnWebSocketWriter import AutobahnWebSocketWriter

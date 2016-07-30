@@ -29,10 +29,10 @@ def main():
     m = ManagerProxy(items=manager)
 
     # Start first program in circle
-    s.next()
-
     w.enable()
     s.enable()
+
+    s.next()
 
     # is blocking if urwid enabled
     # urwid has to be run in the main thread

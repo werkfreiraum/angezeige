@@ -1,6 +1,6 @@
 import json
 from programs import Program
-from proxy import Proxy
+from misc.proxy import Proxy
 
 
 class Switch(object):

@@ -13,7 +13,9 @@ function doColoring(data) {
 }
 
 function onMessage(evt) {
-    doColoring(evt.data)
+    for (var bytes = [], c = 0; c < evt.data.length; c += 2)
+        bytes.push(parseInt(evt.data.substr(c, 2), 16));
+    doColoring(bytes)
 }
 
 var sendTrigger;
@@ -22,7 +24,7 @@ function onOpen(evt) {
     console.log("Connected!")
     connected = true
     $("#status").html("Connected!");
-    sendTrigger = setInterval(sendAlive, 20)
+    sendTrigger = setInterval(sendAlive, 1000)
 }
 
 function onClose(evt) {
@@ -44,7 +46,8 @@ function connect(websocketAddress) {
 
     console.log("Connecting ...")
     websocket = new WebSocket(websocketAddress)
-    websocket.binaryType = 'arraybuffer';
+    //websocket.binaryType = 'arraybuffer';
+    //websocket.binaryType = 'blob';
     websocket.onopen = onOpen
     websocket.onclose = onClose
     websocket.onmessage = onMessage

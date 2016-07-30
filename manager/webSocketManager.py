@@ -1,5 +1,4 @@
-from SimpleWebSocketServer import WebSocket
-from else.webSocketBase import WebSocketBase, WebSocketBaseSocket
+from misc.simpleWebSocketBase import WebSocketBase, WebSocketBaseSocket
 from manager.base import Manager
 import logging
 from threading import Thread
@@ -15,8 +14,8 @@ class WebSocketManagerSocket(WebSocketBaseSocket):
     def handleMessage(self):
         command = json.loads(self.data)
         #logging.debug(command)
-        self.server.base.do(command)
-        self.sendMessage(unicode(json.dumps(['Done'])))
+        back = self.server.base.do(command)
+        self.sendMessage(unicode(back))
 
 
 class WebSocketManager(WebSocketBase, Manager):
