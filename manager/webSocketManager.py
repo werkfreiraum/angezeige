@@ -1,5 +1,5 @@
 from SimpleWebSocketServer import WebSocket
-from webSocketBase import WebSocketBase, WebSocketBaseSocket
+from else.webSocketBase import WebSocketBase, WebSocketBaseSocket
 from manager.base import Manager
 import logging
 from threading import Thread

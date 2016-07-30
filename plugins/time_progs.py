@@ -7,9 +7,12 @@ class ShowTime(Program):
     name = "TIME"
     def do(self):
         separator = ["INNER", "NONE"]
+        oldSec = -1
         while True:
             signs = strftime("%H%M", localtime())
             sec = int(strftime("%S", localtime()))
-            self.write(signs, separator=separator[sec % len(separator)])
+            if oldSec != sec:
+                self.write(signs, separator=separator[sec % len(separator)])
+            oldSec = sec
             # FIXME displayed clock will be wrong by design (up to 100ms)
-            self.wait(0.1)
+            self.wait(0.05)
