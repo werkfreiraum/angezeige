@@ -23,9 +23,9 @@ class Manager(object):
     def success(self, info = None):
         ret = {}
         if info:
-            ret[info] = info
-        info['valid'] = True
-        return info
+            ret['info'] = info
+        ret['valid'] = True
+        return ret
 
 
 class ManagerProxy(Proxy, Manager):
@@ -42,4 +42,4 @@ class ManagerProxy(Proxy, Manager):
 
 
 from manager.urwidManager import UrwidManager
-from manager.webSocketManager import WebSocketManager
+from manager.simpleWebSocketManager import SimpleWebSocketManager

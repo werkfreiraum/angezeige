@@ -11,9 +11,7 @@ class SimpleWebSocketWriterSocket(WebSocketBaseSocket):
         self.sendMessage(self.server.base.last_message)
 
     def sendMessage(self, message):
-        #print("sendMessage")
         WebSocketBaseSocket.sendMessage(self, unicode(binascii.hexlify(message)))
-        print("sendMessage" + str(binascii.hexlify(message)))
 
 
 class SimpleWebSocketWriter(WebSocketBase, Writer):

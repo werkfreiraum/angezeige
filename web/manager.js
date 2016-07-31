@@ -13,7 +13,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-    console.log(evt.data)
+    //console.log(evt.data)
     console.log(JSON.parse(evt.data))
 }
 
