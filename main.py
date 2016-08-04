@@ -5,6 +5,7 @@ from programs import Program
 from switches.base import SwitchProxy
 from writer.base import WriterProxy
 from manager.base import ManagerProxy
+from misc.autobahnWebSocketBase import WebSocketBase
 
 from conf.private import writer, switches, manager, switch_programs_file
 
@@ -20,6 +21,7 @@ def main():
         s.disable()
         w.disable()
         m.disable()
+        WebSocketBase.stop_reactor()
         exit()
 
     signal.signal(signal.SIGINT, cleanup_exit)
@@ -31,6 +33,8 @@ def main():
     # Start first program in circle
     w.enable()
     s.enable()
+
+    WebSocketBase.start_reactor()
 
     s.next()
 

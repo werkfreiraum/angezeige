@@ -43,3 +43,4 @@ class ManagerProxy(Proxy, Manager):
 
 from manager.urwidManager import UrwidManager
 from manager.simpleWebSocketManager import SimpleWebSocketManager
+from manager.autobahnWebSocketManager import AutobahnWebSocketManager

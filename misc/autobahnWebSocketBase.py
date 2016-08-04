@@ -4,8 +4,6 @@ from threading import Thread
 import sys
 from twisted.internet import reactor
 
-
-
 class WebSocketBaseSocket(WebSocketServerProtocol):
 
     def onOpen(self):
@@ -25,8 +23,9 @@ class WebSocketBaseSocket(WebSocketServerProtocol):
 
 class WebSocketBaseServer(WebSocketServerFactory):
 
-    def __init__(self, url):
+    def __init__(self, base, url):
         WebSocketServerFactory.__init__(self, url)
+        self.base = base
         self.clients = []
 
     def register(self, client):
@@ -43,40 +42,46 @@ class WebSocketBaseServer(WebSocketServerFactory):
 
 
 class WebSocketBase(object):
+
     def __init__(self, port, bind_address):
         self.port = port
         self.bind_address = bind_address
         self.instances = []
 
     def enable(self):
-        self.thread = Thread(name=type(self).__name__, target=self._serve)
-        self.thread.start()
-
-    def _serve(self):
-        logging.debug("Starting " + type(self).__name__ + " (Port: " +
+        logging.debug("Create " + type(self).__name__ + " (Port: " +
                       str(self.port) + ", Bind Address: '" + self.bind_address + "')...")
 
-        self.factory = WebSocketBaseServer(unicode("ws://" + self.bind_address + ":" + str(self.port)))
+        self.factory = WebSocketBaseServer(self, unicode("ws://" + self.bind_address + ":" + str(self.port)))
         self.factory.protocol = self.socket_imp_class
 
-        reactor.listenTCP(self.port, self.factory)
+        self.reactorPort = reactor.listenTCP(self.port, self.factory)
+        logging.debug("Listening " + type(self).__name__)
 
+    def disable(self):
+        logging.debug("Closing " + type(self).__name__ + " ...")
+        self.reactorPort.stopListening()
+
+
+
+    @classmethod
+    def start_reactor(cls):
+        if not reactor.running:
+            cls.thread = Thread(name=cls.__name__, target=cls._serve)
+            cls.thread.start()
+
+    @classmethod
+    def _serve(cls):
+        logging.debug("Start Reactor")
         try:
             reactor.run(installSignalHandlers=False)
         except Exception as e:
             logging.exception(e)
 
-        logging.debug("Closed " + type(self).__name__)
+        logging.debug("Closed Reactor")
         sys.exit()
 
-    def disable(self):
-        logging.debug("Closing " + type(self).__name__ + " ...")
-        reactor.callFromThread(lambda: reactor.stop())
-        #reactor.stop()
-        #self.server.close()
-        #logging.debug("Closed " + type(self).__name__)
-        if self.thread.is_alive():
-            #logging.debug("DO SOMETHING STUPID")
-            #self.server.listeners = None
-            #logging.debug("WAITING FOR THREAD!")
-            self.thread.join()
+    @classmethod
+    def stop_reactor(cls):
+        if reactor.running:
+            reactor.callFromThread(lambda: reactor.stop())

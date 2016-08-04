@@ -18,7 +18,7 @@ class AutobahnWebSocketWriterSocket(WebSocketBaseSocket):
 class AutobahnWebSocketWriter(WebSocketBase, Writer):
     socket_imp_class = AutobahnWebSocketWriterSocket
 
-    def __init__(self, port=8000, bind_address='localhost'):
+    def __init__(self, port=8002, bind_address='localhost'):
         Writer.__init__(self)
         WebSocketBase.__init__(self, port, bind_address)
 
