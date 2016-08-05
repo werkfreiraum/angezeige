@@ -68,11 +68,13 @@ class UrwidManager(Manager):
     def item_chosen(self, choice, button):
         body = [urwid.Divider("-"), urwid.Text(choice, align='center')]
 
-        if len(Program.get_promoted_programs()[choice].get_params()) > 0:
+        program_params = self.get_programs()[choice]
+
+        if len(program_params) > 0:
             body.extend([urwid.Divider("-"), urwid.Text("Parameters:")])
 
         params = {}
-        for p, v in Program.get_promoted_programs()[choice].get_params().items():
+        for p, v in program_params.items():
             # body.append(urwid.Text())
             edit = urwid.Edit(caption=u"▸ " + p.replace('_', ' ').title() + ": ", edit_text=v)
             body.append(urwid.AttrMap(edit, None, focus_map='reversed'))
@@ -99,14 +101,14 @@ class UrwidManager(Manager):
         for p in params:
             cParams[p] = params[p].get_edit_text()
 
-        Program.start(info={'name': name, 'params': cParams})
+        Manager.start_program(self, name=name, params=cParams)
         self.show_menu()
 
     def exit_application(self, button=None):
         raise urwid.ExitMainLoop()
 
     def show_menu(self, button=None):
-        listMenu = self.menu(Program.get_promoted_programs().keys())
+        listMenu = self.menu(self.get_programs().keys())
         self.mainWidget.original_widget = listMenu
 
     def get_info(self, mainLoop, data):

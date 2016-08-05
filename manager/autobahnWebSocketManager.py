@@ -10,12 +10,7 @@ class AutobahnWebSocketManagerSocket(WebSocketBaseSocket):
         pass
 
     def onMessage(self, message, isBinary):
-        command = json.loads(message)
-        #logging.debug(command)
-        #print("do: " + str(command))
-        back = self.factory.base.do(command)
-        #print("done: " + str(back))
-        self.sendMessage(json.dumps(back))
+        self.sendMessage(json.dumps(self.factory.base.do(json.loads(message))))
 
 
 class AutobahnWebSocketManager(WebSocketBase, Manager):

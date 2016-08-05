@@ -22,7 +22,6 @@ function connect(websocketAddress) {
         console.log("Disconnecting ...")
         websocket.close()
     }
-
     console.log("Connecting ...")
     websocket = new WebSocket(websocketAddress)
     websocket.binaryType = "blob";
@@ -32,8 +31,10 @@ function connect(websocketAddress) {
 }
 
 function sendCommand(command) {
-    if (connected) {
-        websocket.send(JSON.stringify(command))
+    commandWS = new WebSocket(websocket.url)
+    commandWS.onmessage = onMessage
+    commandWS.onopen = function() {
+        commandWS.send(JSON.stringify(command))
     }
 }
 
@@ -43,9 +44,9 @@ $(document).ready(function() {
         connect($("#serverName").val())
     })
     $("#nextButton").click(function() {
-        sendCommand({"code": "switch", "subcode": "next"})
+        sendCommand({"name": "switch"})
     })
     $("#programsButton").click(function() {
-        sendCommand({"code": "info", "subcode": "programs"})
+        sendCommand({"name": "get_programs"})
     })
 });

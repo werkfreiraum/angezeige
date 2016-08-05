@@ -144,17 +144,16 @@ class Program(Thread):
             cls.running = None
 
     @classmethod
-    def start(cls, info):
+    def start(cls, name, params = {}):
         cls.stop()
-        params = info["params"] if "params" in info else {}
         try:
-            logging.debug("Creating program " + info['name'] + "...")
-            p = cls.get_promoted_programs()[info['name']](**params)
+            logging.debug("Creating program " + name + "...")
+            p = cls.get_promoted_programs()[name](**params)
             logging.debug("Done")
             Thread.start(p)
             cls.running = p
         except Exception as e:
-            logging.exception("Exception in plugin {}".format(info['name']))
+            logging.exception("Exception in plugin {}".format(name))
             Program._error = e
             # if Program.raiseException:
             #    raise
