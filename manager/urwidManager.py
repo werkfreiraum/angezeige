@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import urwid
 import logging
-from threading import Thread
 from programs import Program
 from switches.base import SwitchProxy
 from writer.base import WriterProxy
-
 from manager.base import ManagerProxy, Manager
 
 

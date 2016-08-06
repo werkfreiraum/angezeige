@@ -72,23 +72,23 @@ from programs import Program
 #         return params
 
 
-# class SlideText(Program):
+class SlideText(Program):
 
-#     def __init__(self, color=None, text=None, slide_speed=None):
-#         Program.__init__(self, color=color)
-#         self.text = self.get_params()["text"] if text is None else unicode(text)
-#         self.slide_speed = float(self.get_params()["slide_speed"] if slide_speed is None else slide_speed)
+    def __init__(self, color=None, text=None, slide_speed=None):
+        Program.__init__(self, color=color)
+        self.text = self.get_params()["text"] if text is None else unicode(text)
+        self.slide_speed = float(self.get_params()["slide_speed"] if slide_speed is None else slide_speed)
 
-#     def do(self):
-#         while True:
-#             self.slide(self.text, speed=self.slide_speed)
+    def do(self):
+        while True:
+            self.slide(self.text, speed=self.slide_speed, color=self.color)
 
-#     @staticmethod
-#     def get_params():
-#         params = Program.get_params()
-#         params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!.,-\'\""
-#         params['slide_speed'] = "0.4"
-#         return params
+    @staticmethod
+    def get_params():
+        params = Program.get_params()
+        params['text'] = u"0123456789abcdefghijklmnopqrstuvwxyzäöüß?!.,-\'\""
+        params['slide_speed'] = "0.4"
+        return params
 
 
 # class FadeMe(Program):

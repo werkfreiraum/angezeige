@@ -1,0 +1,7 @@
+.paramsLine label:first-letter {
+    text-transform:capitalize;
+}
+
+form.params :last-child {
+    margin-bottom: 0 
+}

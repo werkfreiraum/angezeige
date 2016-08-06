@@ -7,8 +7,6 @@ import json
 class SimpleWebSocketManagerSocket(WebSocketBaseSocket):
 
     def handleConnected(self):
-        #self.sendMessage(unicode(json.dumps(['hallo'])))
-        #self.sendMessage(u'hallo')
         pass
 
     def handleMessage(self):
