@@ -26,7 +26,7 @@ function updateConnectionStatus() {
         
     }
 
-    $("#status").html(statusText);
+    $("#statusConnection").html(statusText);
 
     $("#serverName").attr('disabled', connected);
     if (connected) { 
@@ -44,6 +44,42 @@ function updateConnectionStatus() {
 function getBaseInfo() {
     sendCommand({"name": "get_programs"}, function(data) {
         programs = data
+    })
+    sendCommand({"name": "get_environment"}, function(data) {
+        //environment = data
+        $('.envPanel').remove()
+        $.each(data, function(proxyName, text) {
+            var panel = $('#envPanels .envPanelTemplate').clone()
+            panel.removeClass('hidden envPanelTemplate')
+            panel.addClass('envPanel')
+            panel.find('.panel-title').html(proxyName)
+
+            if(Object.keys(data[proxyName]).length > 0) {
+                panel.find('.panel-body').empty()    
+                $.each(data[proxyName], function(val, props) {
+                    //console.log(props)
+                    var checkbox = $('#envPanels .envPanelTemplate .checkbox').clone()
+                    checkbox.removeClass('hidden')
+                    checkbox.find('label span').html(props['name'])
+                    checkbox.find('input').prop('checked', props['enabled']);
+                    checkbox.find('input').change(function (evt) {
+                        sendCommand({
+                                'name': 'set_environment', 
+                                'params': {
+                                    'proxy': proxyName,
+                                    'name': props['name'],
+                                    'state': this.checked
+                                }})
+                    })
+                    panel.find('.panel-body').append(checkbox)
+                });
+            }
+            // line.find('input').attr('name', 'p_' + val)
+            // line.find('input').val(text)
+            // line.find('label').attr('for', 'p_' + val)
+            // line.find('label').html(val.replace(/_/g , " ") + ":")
+            $('#envPanels').append(panel)
+        });
     })
 }
 
@@ -156,4 +192,5 @@ $(document).ready(function() {
     })
 
     updateConnectionStatus()
+    connect($("#serverName").val())
 });

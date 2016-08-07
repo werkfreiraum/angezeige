@@ -5,7 +5,10 @@ from switches.base import SwitchProxy
 from writer.base import WriterProxy
 from misc.proxy import Proxy
 
+
 api_methods = {}
+
+
 class Manager(object):
 
     @staticmethod
@@ -37,12 +40,55 @@ class Manager(object):
         return func
 
     @api_method
+    def get_status(self):
+        info = {}
+        info['program'] = {}
+        info['program']['status'] = 'stopped'
+        if Program.running:
+            info['program']['status'] = 'running'
+            info['program']['name'] = type(Program.running).__name__
+
+            e = Program.running.error()
+            if e:
+                info['program']['status'] = 'error'
+                info['program']['error'] = {
+                    'class': type(e).__name__,
+                    'text': str(e)
+                }
+
+        info['switch'] = SwitchProxy.instance.detected
+
+        return info
+
+    @api_method
     def get_programs(self):
         programs = Program.get_promoted_programs()
         info = {}
         for p in programs:
             info[p] = programs[p].get_params()
         return info
+
+    @api_method
+    def get_environment(self):
+        info = {}
+
+        for proxy_name, proxy_class in proxyClasses.iteritems():
+            info[proxy_name] = []
+            for item in proxy_class.instance.items:
+                info[proxy_name].append({
+                    'name': item,
+                    'enabled': proxy_class.instance.is_enabled(item),
+                    'params': proxy_class.instance.params[item]
+                })
+
+        return info
+
+    @api_method
+    def set_environment(self, proxy, name, state):
+        if state:
+            proxyClasses[proxy].instance.enable(name)
+        else:
+            proxyClasses[proxy].instance.disable(name)
 
     @api_method
     def switch(self):
@@ -69,3 +115,9 @@ class ManagerProxy(Proxy, Manager):
 from manager.urwidManager import UrwidManager
 from manager.simpleWebSocketManager import SimpleWebSocketManager
 from manager.autobahnWebSocketManager import AutobahnWebSocketManager
+
+proxyClasses = {
+    "Switches": SwitchProxy,
+    "Writer": WriterProxy,
+    "Manager": ManagerProxy
+}

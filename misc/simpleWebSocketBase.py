@@ -48,6 +48,10 @@ class WebSocketBase(object):
 
     def disable(self):
         logging.debug("Closing " + type(self).__name__ + " ...")
+        
+        for c in self.server.base.instances:
+            c.close()
+
         self.server.close()
         logging.debug("Closed " + type(self).__name__)
         if self.thread.is_alive():

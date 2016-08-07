@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 import urwid
 import logging
-from programs import Program
-from switches.base import SwitchProxy
-from writer.base import WriterProxy
-from manager.base import ManagerProxy, Manager
+from manager.base import Manager
 
 
 class UrwidManager(Manager):
@@ -14,18 +11,14 @@ class UrwidManager(Manager):
         self.mainWidget = urwid.Padding(None, left=1, right=1)
 
     def get_status(self):
-        status = "Status: "
-        if Program.running:
-            e = Program.running.error()
-            status += 'ERROR' if e else 'RUNNING'
-            status += " (" + type(Program.running).__name__ + ") "
-            if e:
-                status += "\n" + str(e) + " (" + type(e).__name__ + ") "
-        else:
-            status += "OFF"
+        info = Manager.get_status(self)
+        status = "Status: " + info['program']['status']
+        if info['program']['status'] != 'stopped':
+            status += ' (' + info['program']['name'] + ") "
+        if info['program']['status'] == 'error':
+            status += '\n' + str(e) + " (" + type(e).__name__ + ") "
 
-        if SwitchProxy.instance:
-            status += "\nSwitch detected: " + ('YES' if SwitchProxy.instance.detected else 'NO')
+        status += "\nSwitch detected: " + ('YES' if info['switch'] else 'NO')
 
         return status
 
@@ -37,18 +30,13 @@ class UrwidManager(Manager):
             urwid.connect_signal(button, 'click', self.item_chosen, user_args=[choice])
             body.append(urwid.AttrMap(button, None, focus_map='reversed'))
 
-        proxyClasses = {
-            "Switches": SwitchProxy,
-            "Writer": WriterProxy,
-            "Manager": ManagerProxy
-        }
-
-        for proxy_name, proxy_class in proxyClasses.iteritems():
-            if len(proxy_class.instance.items) > 0:
+        env = self.get_environment()
+        for proxy_name, proxy_items in env.iteritems():
+            if len(proxy_items) > 0:
                 body.extend([urwid.Divider("-"), urwid.Text(proxy_name + ":")])
-                for item in proxy_class.instance.items:
-                    body.append(urwid.CheckBox(item, state=proxy_class.instance.is_enabled(item),
-                                               on_state_change=self.checkbox, user_data={"proxy": proxy_class, "item": item}))
+                for item in proxy_items:
+                    body.append(urwid.CheckBox(item['name'], state=item['enabled'],
+                                               on_state_change=self.checkbox, user_data={"proxy": proxy_name, "name": item['name']}))
 
         body.append(urwid.Divider("-"))
         button = urwid.Button("EXIT")
@@ -58,10 +46,7 @@ class UrwidManager(Manager):
         return urwid.ListBox(urwid.SimpleFocusListWalker(body))
 
     def checkbox(self, checkbox, state, user_data):
-        if state:
-            user_data['proxy'].instance.enable(user_data['item'])
-        else:
-            user_data['proxy'].instance.disable(user_data['item'])
+        self.set_environment(state=state, **user_data)
 
     def item_chosen(self, choice, button):
         body = [urwid.Divider("-"), urwid.Text(choice, align='center')]

@@ -4,6 +4,7 @@ from threading import Thread
 import sys
 from twisted.internet import reactor
 
+
 class WebSocketBaseSocket(WebSocketServerProtocol):
 
     def onOpen(self):
@@ -60,9 +61,7 @@ class WebSocketBase(object):
 
     def disable(self):
         logging.debug("Closing " + type(self).__name__ + " ...")
-        self.reactorPort.stopListening()
-
-
+        reactor.callFromThread(lambda: self.reactorPort.stopListening())
 
     @classmethod
     def start_reactor(cls):

@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Connection (<span id="status"></span>)</h3>
+                        <h3 class="panel-title">Connection (<span id="statusConnection"></span>)</h3>
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal">
@@ -29,7 +29,7 @@
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="server" id="serverName">
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-md-3">
                                     <button type="button" class="form-control btn btn-primary" id="connectButton">Connect</button>
                                     <button type="button" class="form-control btn btn-warning hidden" id="disconnectButton">Disconnect</button>
                                 </div>
@@ -43,8 +43,30 @@
                     </div>
                     
                     <div class="panel-body">
-                        <button type="button" class="btn btn-default" id="nextButton">Next</button>
-                        <button type="button" data-toggle="modal" data-target="#startProgramModal" class="btn btn-default">Start Program ...</button>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-default" id="nextButton">Next</button>
+                                <button type="button" data-toggle="modal" data-target="#startProgramModal" class="btn btn-default">Start Program ...</button>
+                            </div>
+                        </div>
+                        <div id="envPanels" class="row" style="margin-top: 20px">
+                            <div class="col-md-4 envPanelTemplate hidden">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">name</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        None specified
+                                        <div class="checkbox hidden">
+                                            <label>
+                                                <input type="checkbox" value="">
+                                                <span>name</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

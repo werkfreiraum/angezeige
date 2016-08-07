@@ -2,6 +2,7 @@ class Proxy(object):
 
     def __init__(self, items):
         self.items = {}
+        self.params = {}
         self.enabled_items = []
         for uniqueId, info in items.iteritems():
             params = info["params"] if "params" in info else {}
@@ -13,6 +14,7 @@ class Proxy(object):
     def add_item(self, uniqueId, itemType, enabled, params={}):
         item = self.get_imp_class(itemType)(**params)
         self.items[uniqueId] = item
+        self.params[uniqueId] = params
         if enabled:
             self.enabled_items.append(uniqueId)
 
