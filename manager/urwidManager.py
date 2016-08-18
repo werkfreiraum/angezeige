@@ -16,7 +16,7 @@ class UrwidManager(Manager):
         if info['program']['status'] != 'stopped':
             status += ' (' + info['program']['name'] + ") "
         if info['program']['status'] == 'error':
-            status += '\n' + str(e) + " (" + type(e).__name__ + ") "
+            status += '\n' + info['program']['error']['text'] + " (" + info['program']['error']['class'] + ") "
 
         status += "\nSwitch detected: " + ('YES' if info['switch'] else 'NO')
 
