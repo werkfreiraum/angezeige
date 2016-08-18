@@ -54,8 +54,10 @@ function connect(websocketAddress) {
 }
 
 $(document).ready(function() {
-    $("#serverName").val("ws://localhost:8000/")
+    $("#serverName").val(config.reader.addresses[0])
     $("#connectButton").click(function() {
         connect($("#serverName").val())
     })
+    if (config.reader.connect)
+        connect($("#serverName").val())
 });

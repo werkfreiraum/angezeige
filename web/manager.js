@@ -133,7 +133,7 @@ function sendCommand(command, success, error) {
 }
 
 $(document).ready(function() {
-    $("#serverName").val("ws://localhost:8003/")
+    $("#serverName").val(config.manager.addresses[0])
     $("#connectButton").click(function() {
         connect($("#serverName").val())
     })
@@ -192,5 +192,6 @@ $(document).ready(function() {
     })
 
     updateConnectionStatus()
-    connect($("#serverName").val())
+    if (config.manager.connect)
+        connect($("#serverName").val())
 });
