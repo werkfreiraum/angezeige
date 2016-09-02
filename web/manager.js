@@ -126,6 +126,7 @@ function sendCommand(command, success, error) {
         } else {
             error(data['error'])
         }
+        commandWS.close()
     }
     commandWS.onopen = function() {
         commandWS.send(JSON.stringify(command))

@@ -12,7 +12,6 @@ app = Flask(__name__, static_folder='web', static_url_path='')
 def manager():
     return app.send_static_file('manager.html')
 
-
 @app.route("/")
 @app.route("/reader")
 def reader():

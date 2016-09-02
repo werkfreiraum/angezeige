@@ -6,9 +6,6 @@ import json
 
 class AutobahnWebSocketManagerSocket(WebSocketBaseSocket):
 
-    def onConnected(self, request):
-        pass
-
     def onMessage(self, message, isBinary):
         self.sendMessage(json.dumps(self.factory.base.do(json.loads(message))))
 
@@ -19,3 +16,9 @@ class AutobahnWebSocketManager(WebSocketBase, Manager):
     def __init__(self, port=8003, bind_address='localhost'):
         Manager.__init__(self)
         WebSocketBase.__init__(self, port, bind_address)
+
+    #def broadcast(self, message):
+    #    self.factory.broadcast(json.dumps(message))
+
+    def update(self, info):
+        self.factory.broadcast(json.dumps(info))

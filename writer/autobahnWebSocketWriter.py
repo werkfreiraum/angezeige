@@ -7,8 +7,8 @@ import binascii
 
 class AutobahnWebSocketWriterSocket(WebSocketBaseSocket):
 
-    def onConnected(self, request):
-        WebSocketBaseSocket.onConnected(self, request)
+    def onOpen(self):
+        WebSocketBaseSocket.onOpen(self)
         self.sendMessage(self.factory._last_message)
 
     def sendMessage(self, message):

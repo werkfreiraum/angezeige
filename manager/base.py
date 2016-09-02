@@ -10,6 +10,8 @@ api_methods = {}
 
 
 class Manager(object):
+    def update(self, info):
+        pass
 
     @staticmethod
     def error(message):
@@ -89,6 +91,19 @@ class Manager(object):
             proxyClasses[proxy].instance.enable(name)
         else:
             proxyClasses[proxy].instance.disable(name)
+
+        info = {
+                'type': 'update',
+                'class': 'environment',
+                'info': {
+                    'proxy': proxy,
+                    'name': name,
+                    'enabled': state
+                }
+            }
+
+        for m in ManagerProxy.instance.items.values():
+            m.update(info)
 
     @api_method
     def switch(self):

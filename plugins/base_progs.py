@@ -54,22 +54,22 @@ from programs import Program
 #         return params
 
 
-# class ShowSigns(Program):
+class ShowSigns(Program):
 
-#     def __init__(self, color=None, signs=None):
-#         Program.__init__(self, color=color)
-#         self.signs = self.get_params()["signs"] if signs is None else signs
+    def __init__(self, color=None, signs=None):
+        Program.__init__(self, color=color)
+        self.signs = self.get_params()["signs"] if signs is None else signs
 
-#     def do(self):
-#         while True:
-#             self.write(self.signs)
-#             self.wait(10)
+    def do(self):
+        while True:
+            self.write(self.signs)
+            self.wait(20)
 
-#     @staticmethod
-#     def get_params():
-#         params = Program.get_params()
-#         params['signs'] = "1234"
-#         return params
+    @staticmethod
+    def get_params():
+        params = Program.get_params()
+        params['signs'] = "1234"
+        return params
 
 
 class SlideText(Program):
