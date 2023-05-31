@@ -2,7 +2,7 @@
 import logging
 
 from programs import Program
-from url_progs import JsonReader
+from .url_progs import JsonReader
 
 
 URL = "http://rubinstein.local/api/"

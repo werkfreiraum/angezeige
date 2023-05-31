@@ -74,7 +74,7 @@ class Manager(object):
     def get_environment(self):
         info = {}
 
-        for proxy_name, proxy_class in proxyClasses.iteritems():
+        for proxy_name, proxy_class in proxyClasses.items():
             info[proxy_name] = []
             for item in proxy_class.instance.items:
                 info[proxy_name].append({

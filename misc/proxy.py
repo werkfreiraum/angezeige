@@ -4,7 +4,7 @@ class Proxy(object):
         self.items = {}
         self.params = {}
         self.enabled_items = []
-        for uniqueId, info in items.iteritems():
+        for uniqueId, info in items.items():
             params = info["params"] if "params" in info else {}
             enabled = info["enabled"] if "enabled" in info else True
             self.add_item(uniqueId, info["type"], enabled, params=params)

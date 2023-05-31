@@ -1,6 +1,6 @@
 import webcolors as wc
-from signs import digit_signs, separator_types, pref_char_rep
-from settings import digit_leds, leds_digit, separator_leds, leds_separator, led_count
+from .signs import digit_signs, separator_types, pref_char_rep
+from .settings import digit_leds, leds_digit, separator_leds, leds_separator, led_count
 import colorsys
 
 

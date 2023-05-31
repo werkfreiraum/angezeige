@@ -27,7 +27,7 @@ separator_leds = [14, 15, 16, 17]
 led_count = 32
 
 leds_digit = {}
-for d, la in digit_leds.iteritems():
+for d, la in digit_leds.items():
     for l in la:
         leds_digit[l] = d
 

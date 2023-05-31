@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 from programs import Program
-from url_progs import UrlReader
-from extern_progs import ExternAngezeige
+from .url_progs import UrlReader
+from .extern_progs import ExternAngezeige
 
 URI_FOOSBALL = "http://foosball.local:5000"
 

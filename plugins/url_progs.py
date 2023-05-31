@@ -2,7 +2,7 @@
 import json
 import logging
 from programs import Program
-import urllib2
+from urllib.request import urlopen
 import re
 from contextlib import closing
 
@@ -38,7 +38,7 @@ class UrlReader(Program):
     def readUri(self):
         # try:
             # need contextlib because no Python 3... :(
-        with closing(urllib2.urlopen(self.uri, timeout=self.timeout)) as f:
+        with closing(urlopen(self.uri, timeout=self.timeout)) as f:
             return f.read()
         # except urllib2.URLError as e:
         #    logging.exception("Failed to retrieve data from url.")
