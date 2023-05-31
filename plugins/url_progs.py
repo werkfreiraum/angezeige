@@ -116,5 +116,5 @@ class ViennaTemp(JsonReader):
 
             self.color = color
 
-            self.write(unicode(temperature_str) + u"°C", prefered_signs=False)
+            self.write(f"{temperature_str}°C", prefered_signs=False)
             self.wait(self.refresh_duration, show_progress=True)

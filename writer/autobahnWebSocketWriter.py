@@ -1,12 +1,9 @@
 from misc.autobahnWebSocketBase import WebSocketBase, WebSocketBaseSocket
 from writer.base import Writer
-import logging
-from threading import Thread
 import binascii
 
 
 class AutobahnWebSocketWriterSocket(WebSocketBaseSocket):
-
     def onOpen(self):
         WebSocketBaseSocket.onOpen(self)
         self.sendMessage(self.factory._last_message)

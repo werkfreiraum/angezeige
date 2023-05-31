@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 from flask import Flask
 from conf.private import web_server_options
 import json

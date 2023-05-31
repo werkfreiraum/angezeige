@@ -20,7 +20,7 @@ class MetaProgram(type):
         return new_program
 
 
-class Program(Thread):
+class Program(Thread, metaclass = MetaProgram):
     name = None
     checkInterval = 0.2
     running = None
@@ -28,8 +28,6 @@ class Program(Thread):
     color = "white"
     prefered_signs = True
     _closing = False
-
-    __metaclass__ = MetaProgram
 
     def __init__(self, color=None):
         Thread.__init__(self)

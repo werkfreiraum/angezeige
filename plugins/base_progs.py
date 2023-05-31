@@ -76,7 +76,7 @@ class SlideText(Program):
 
     def __init__(self, color=None, text=None, slide_speed=None):
         Program.__init__(self, color=color)
-        self.text = self.get_params()["text"] if text is None else unicode(text)
+        self.text = self.get_params()["text"] if text is None else text
         self.slide_speed = float(self.get_params()["slide_speed"] if slide_speed is None else slide_speed)
 
     def do(self):

@@ -6,7 +6,6 @@ from twisted.internet import reactor
 
 
 class WebSocketBaseSocket(WebSocketServerProtocol):
-
     def onOpen(self):
         self.factory.register(self)
 
@@ -23,7 +22,6 @@ class WebSocketBaseSocket(WebSocketServerProtocol):
 
 
 class WebSocketBaseServer(WebSocketServerFactory):
-
     def __init__(self, base, url):
         WebSocketServerFactory.__init__(self, url)
         self.base = base
@@ -43,7 +41,6 @@ class WebSocketBaseServer(WebSocketServerFactory):
 
 
 class WebSocketBase(object):
-
     def __init__(self, port, bind_address):
         self.port = port
         self.bind_address = bind_address
@@ -53,7 +50,7 @@ class WebSocketBase(object):
         logging.debug("Create " + type(self).__name__ + " (Port: " +
                       str(self.port) + ", Bind Address: '" + self.bind_address + "')...")
 
-        self.factory = WebSocketBaseServer(self, unicode("ws://" + self.bind_address + ":" + str(self.port)))
+        self.factory = WebSocketBaseServer(self, f"ws://{self.bind_address}:{self.port}")
         self.factory.protocol = self.socket_imp_class
 
         self.reactorPort = reactor.listenTCP(self.port, self.factory)

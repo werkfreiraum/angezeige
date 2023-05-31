@@ -5,12 +5,11 @@ import json
 
 
 class SimpleWebSocketManagerSocket(WebSocketBaseSocket):
-
     def handleConnected(self):
         pass
 
     def handleMessage(self):
-        self.sendMessage(unicode(json.dumps(self.server.base.do(json.loads(self.data)))))
+        self.sendMessage(json.dumps(self.server.base.do(json.loads(self.data))))
 
 
 class SimpleWebSocketManager(WebSocketBase, Manager):

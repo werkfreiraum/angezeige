@@ -7,7 +7,7 @@ import json
 class AutobahnWebSocketManagerSocket(WebSocketBaseSocket):
 
     def onMessage(self, message, isBinary):
-        self.sendMessage(json.dumps(self.factory.base.do(json.loads(message))))
+        self.sendMessage(bytes(json.dumps(self.factory.base.do(json.loads(message))), 'ascii'))
 
 
 class AutobahnWebSocketManager(WebSocketBase, Manager):

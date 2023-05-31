@@ -31,7 +31,7 @@ class UrwidManager(Manager):
             body.append(urwid.AttrMap(button, None, focus_map='reversed'))
 
         env = self.get_environment()
-        for proxy_name, proxy_items in env.iteritems():
+        for proxy_name, proxy_items in env.items():
             if len(proxy_items) > 0:
                 body.extend([urwid.Divider("-"), urwid.Text(proxy_name + ":")])
                 for item in proxy_items:

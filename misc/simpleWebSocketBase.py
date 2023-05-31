@@ -4,7 +4,6 @@ from threading import Thread
 import sys
 
 class WebSocketBaseSocket(WebSocket):
-
     def handleConnected(self):
         logging.debug(type(self).__name__ + " - Connection established!")
         self.server.base.instances.append(self)
@@ -16,7 +15,6 @@ class WebSocketBaseSocket(WebSocket):
 
 
 class WebSocketBaseServer(SimpleWebSocketServer):
-
     def __init__(self, base):
         SimpleWebSocketServer.__init__(self, base.bind_address, base.port, base.socket_imp_class, selectInterval=0.1)
         self.base = base

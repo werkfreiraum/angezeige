@@ -1,17 +1,15 @@
 from misc.simpleWebSocketBase import WebSocketBase, WebSocketBaseSocket
 from writer.base import Writer
-import logging
-from threading import Thread
 import binascii
 
-class SimpleWebSocketWriterSocket(WebSocketBaseSocket):
 
+class SimpleWebSocketWriterSocket(WebSocketBaseSocket):
     def handleConnected(self):
         WebSocketBaseSocket.handleConnected(self)
         self.sendMessage(self.server.base.last_message)
 
     def sendMessage(self, message):
-        WebSocketBaseSocket.sendMessage(self, unicode(binascii.hexlify(message)))
+        WebSocketBaseSocket.sendMessage(self, binascii.hexlify(message))
 
 
 class SimpleWebSocketWriter(WebSocketBase, Writer):

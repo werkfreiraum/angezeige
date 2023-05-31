@@ -5,7 +5,7 @@ import colorsys
 
 
 def _get_color(color, output_format="byte", lightness=1):
-    if isinstance(color, basestring):
+    if isinstance(color, str):
         if color.startswith("#"):
             if len(color) == 4:
                 a = (int(color[1] * 2, 16), int(color[2] * 2, 16), int(color[3] * 2, 16))
@@ -22,7 +22,8 @@ def _get_color(color, output_format="byte", lightness=1):
         a = map(lambda x: int(round(x * 255)), colorsys.hls_to_rgb(*b))
 
     if output_format == "byte":
-        return bytearray(chr(a[2]) + chr(a[1]) + chr(a[0]))
+        # return bytearray(chr(a[2]) + chr(a[1]) + chr(a[0]))
+        return bytearray(reversed(a))
     elif output_format == "hex":
         return "#%02X%02X%02X" % (a[0], a[1], a[2])
     else:
@@ -36,7 +37,7 @@ def _get_leds(ascii, position, prefered_signs=True, strict=False):
         return [digit_leds[position][l] for l in digit_signs[ascii]]
     else:
         if strict:
-            raise Exception("Sign '" + unicode(ascii) + "' is not implemented")
+            raise Exception("Sign '" + ascii + "' is not implemented")
         else:
             return [digit_leds[position][l] for l in digit_signs["_"]]
 
@@ -67,7 +68,7 @@ def _colorize_message(leds, color="white", off_color="black", seperator_color=No
     if seperator_off_color is None:
         seperator_off_color_bytes = off_color_bytes
 
-    message = ''
+    message = b''
     for i in range(led_count):
         if i in leds:
             if i in leds_digit:
