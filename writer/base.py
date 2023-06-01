@@ -37,3 +37,4 @@ class WriterProxy(Proxy, Writer):
 from writer.fileWriter import FileWriter
 from writer.simpleWebSocketWriter import SimpleWebSocketWriter
 from writer.autobahnWebSocketWriter import AutobahnWebSocketWriter
+from writer.spiDevWriter import SpiDevWriter
